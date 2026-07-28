@@ -8,10 +8,14 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "sync:data": "node scripts/sync-pro-league.mjs",
+    "sync:data:offline": "node scripts/sync-pro-league.mjs --offline",
     "build:profiles": "node scripts/build-bot-profiles.mjs",
+    "build:profiles:offline": "node scripts/build-bot-profiles.mjs --offline",
     "check:roster": "node scripts/check-roster.mjs",
+    "test": "node --test scripts/lib/*.test.mjs",
+    "test:data": "npm run test && npm run sync:data:offline && npm run build:profiles:offline && npm run check:roster",
     "dev:api": "node server/index.mjs",
-    "dev:full": "node server/index.mjs & vite"
+    "dev:full": "vite"
   },
   "dependencies": {
     "phaser": "^3.87.0"

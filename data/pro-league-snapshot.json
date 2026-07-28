@@ -1,0 +1,157 @@
+{
+  "fetchedAt": "2026-07-28T18:54:58.095Z",
+  "sources": [
+    "https://battlebots.fandom.com/wiki/BattleBots_Pro_League",
+    "https://battlebots.com/proleague/"
+  ],
+  "fetchMeta": {
+    "via": "fixture",
+    "zone": null
+  },
+  "groups": {
+    "A": [
+      "manta",
+      "terrortops",
+      "valkyrie",
+      "skorpios"
+    ],
+    "B": [
+      "madcatter",
+      "magnitude",
+      "disarray",
+      "tombstone"
+    ],
+    "C": [
+      "copperhead",
+      "thetwins",
+      "cobalt",
+      "jackpot"
+    ],
+    "D": [
+      "malice",
+      "goldenfury",
+      "deathroll",
+      "endgame"
+    ],
+    "E": [
+      "huge",
+      "minotaur",
+      "bloodsport",
+      "hypershock"
+    ],
+    "F": [
+      "witchdoctor",
+      "switchback",
+      "ribbot",
+      "orbitron"
+    ]
+  },
+  "standings": {
+    "manta": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "terrortops": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "skorpios": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "valkyrie": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "disarray": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "madcatter": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "magnitude": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "tombstone": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "copperhead": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "thetwins": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "cobalt": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "jackpot": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "deathroll": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "endgame": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "malice": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "goldenfury": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "bloodsport": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "huge": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "hypershock": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "minotaur": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "witchdoctor": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "switchback": {
+      "record": "1-0",
+      "winRate": 1
+    },
+    "ribbot": {
+      "record": "0-1",
+      "winRate": 0
+    },
+    "orbitron": {
+      "record": "0-1",
+      "winRate": 0
+    }
+  },
+  "coverage": {
+    "found": 24,
+    "total": 24,
+    "complete": true
+  },
+  "pages": {
+    "https://battlebots.fandom.com/wiki/BattleBots_Pro_League": "### Group A\n\n| Position | Robot | Win/Loss Record |\n| --- | --- | --- |\n| 1st | Manta | 1-0 |\n| 2nd | Terrortops | 1-0 |\n| 3rd | Valkyrie | 0-1 |\n| 4th | Skorpios | 0-1 |\n\n### Group B\n\n| Position | Robot | Win/Loss Record |\n| --- | --- | --- |\n| 1st | MadCatter | 1-0 |\n| 2nd | Magnitude | 1-0 |\n| 3rd | Disarray | 0-1 |\n| 4th | Tombstone | 0-1 |\n\n### Group C\n\n| Position | Robot | Win/Loss Record |\n| --- | --- | --- |\n| 1st | Copperhead | 1-0 |\n| 2nd | The Twins | 1-0 |\n| 3rd | Cobalt | 0-1 |\n| 4th | JackPot | 0-1 |\n\n### Group D\n\n| Position | Robot | Win/Loss Record |\n| --- | --- | --- |\n| 1st | Malice | 1-0 |\n| 2nd | Golden Fury | 1-0 |\n| 3rd | Death Roll | 0-1 |\n| 4th | End Game | 0-1 |\n\n### Group E\n\n| Position | Robot | Win/Loss Record |\n| --- | --- | --- |\n| 1st | HUGE | 1-0 |\n| 2nd | Minotaur | 1-0 |\n| 3rd | Bloodsport | 0-1 |\n| 4th | HyperShock | 0-1 |\n\n### Group F\n\n| Position | Robot | Win/Loss Record |\n| --- | --- | --- |\n| 1st | Witch Doctor | 1-0 |\n| 2nd | Switchback | 1-0 |\n| 3rd | Ribbot | 0-1 |\n| 4th | Orbitron | 0-1 |\n",
+    "https://battlebots.com/proleague/": ""
+  },
+  "botCount": 24
+}

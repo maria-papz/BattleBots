@@ -3,110 +3,97 @@
  * Pull Pro League standings / fight data via Bright Data Web Unlocker.
  *
  * Usage:
- *   1. Fill BRIGHTDATA_API_TOKEN in .env
- *   2. npm run sync:data
+ *   npm run sync:data
+ *   npm run sync:data -- --offline   # use cached snapshot only (for CI)
  *
  * Output: data/pro-league-snapshot.json
  */
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { fetchPage } from './lib/brightData.mjs';
+import { loadEnv } from './lib/env.mjs';
+import { buildFixtureSnapshot } from './lib/fixtureSnapshot.mjs';
+import { loadProLeagueBots } from './lib/proLeagueBots.mjs';
+import {
+  mergeStandings,
+  parseProLeaguePage,
+  standingsCoverage,
+} from './lib/proLeagueParser.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
+const offline = process.argv.includes('--offline');
 
-async function loadEnv() {
-  try {
-    const text = await import('node:fs/promises').then((fs) =>
-      fs.readFile(join(root, '.env'), 'utf8'),
-    );
-    for (const line of text.split('\n')) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-      const eq = trimmed.indexOf('=');
-      if (eq === -1) continue;
-      const key = trimmed.slice(0, eq).trim();
-      const val = trimmed.slice(eq + 1).trim();
-      if (!process.env[key]) process.env[key] = val;
-    }
-  } catch {
-    // .env optional if vars already exported
-  }
-}
-
-async function brightDataFetch(url) {
-  const token = process.env.BRIGHTDATA_API_TOKEN;
-  const zone = process.env.BRIGHTDATA_WEB_UNLOCKER_ZONE || 'mcp_unlocker';
-
-  if (!token) {
-    throw new Error(
-      'Set BRIGHTDATA_API_TOKEN in .env — get it from https://brightdata.com/cp/setting/users',
-    );
-  }
-
-  const res = await fetch('https://api.brightdata.com/request', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      zone,
-      url,
-      format: 'raw',
-    }),
-  });
-
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Bright Data ${res.status}: ${body.slice(0, 400)}`);
-  }
-
-  return res.text();
-}
-
-function extractStandings(html) {
-  const groups = {};
-  const groupRe = /Group ([A-F])[\s\S]*?(?=Group [A-F]|$)/gi;
-  let m;
-  while ((m = groupRe.exec(html)) !== null) {
-    const label = m[1];
-    const block = m[0];
-    const bots = [...block.matchAll(/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)*)\b/g)]
-      .map((x) => x[1])
-      .filter((name) =>
-        ['Manta', 'Terrortops', 'Skorpios', 'Valkyrie', 'Disarray', 'MadCatter', 'Magnitude', 'Tombstone',
-          'Copperhead', 'The Twins', 'Cobalt', 'Jackpot', 'Death Roll', 'End Game', 'Malice', 'Golden Fury',
-          'Bloodsport', 'HUGE', 'HyperShock', 'Minotaur', 'Witch Doctor', 'Switchback', 'Ribbot', 'Orbitron',
-        ].some((known) => known.toLowerCase() === name.toLowerCase()),
-      );
-    if (bots.length) groups[label] = [...new Set(bots)];
-  }
-  return groups;
-}
+const DEFAULT_SOURCES = {
+  proLeague:
+    process.env.BATTLEBOTS_PRO_LEAGUE_URL || 'https://battlebots.com/proleague/',
+  wiki:
+    process.env.BATTLEBOTS_WIKI_URL ||
+    'https://battlebots.fandom.com/wiki/BattleBots_Pro_League',
+};
 
 async function main() {
-  await loadEnv();
+  await loadEnv(root);
+  const bots = loadProLeagueBots(root);
+  const sources = [DEFAULT_SOURCES.wiki, DEFAULT_SOURCES.proLeague];
 
-  const sources = [
-    process.env.BATTLEBOTS_PRO_LEAGUE_URL || 'https://battlebots.com/proleague/',
-    process.env.BATTLEBOTS_WIKI_URL ||
-      'https://battlebots.fandom.com/wiki/BattleBots_Pro_League',
-  ];
+  let wikiHtml = '';
+  let proLeagueHtml = '';
+  let fetchMeta = { via: 'offline', zone: null };
 
-  const pages = {};
-  for (const url of sources) {
-    console.log(`Fetching via Bright Data: ${url}`);
-    pages[url] = await brightDataFetch(url);
+  if (offline) {
+    const snapPath = join(root, 'data/pro-league-snapshot.json');
+    try {
+      const snap = JSON.parse(await readFile(snapPath, 'utf8'));
+      wikiHtml = snap.pages?.[DEFAULT_SOURCES.wiki] ?? '';
+      proLeagueHtml = snap.pages?.[DEFAULT_SOURCES.proLeague] ?? '';
+      console.log('Using cached snapshot (--offline)');
+    } catch {
+      throw new Error(`No cached snapshot at ${snapPath}. Run sync:data without --offline first.`);
+    }
+  } else {
+    try {
+      console.log(`Fetching wiki: ${DEFAULT_SOURCES.wiki}`);
+      const wiki = await fetchPage(DEFAULT_SOURCES.wiki);
+      wikiHtml = wiki.html;
+      fetchMeta = { via: wiki.via, zone: wiki.zone ?? null };
+      console.log(
+        `  via ${wiki.via}${wiki.zone ? ` (zone: ${wiki.zone})` : ''} — ${wikiHtml.length} bytes`,
+      );
+
+      try {
+        console.log(`Fetching pro league site: ${DEFAULT_SOURCES.proLeague}`);
+        const site = await fetchPage(DEFAULT_SOURCES.proLeague);
+        proLeagueHtml = site.html;
+        console.log(`  via ${site.via} — ${proLeagueHtml.length} bytes`);
+      } catch (err) {
+        console.warn(`  Pro league site skipped: ${err.message}`);
+      }
+    } catch (err) {
+      console.warn(`Live fetch failed (${err.message}) — using wiki standings fixture.`);
+      const fixture = buildFixtureSnapshot();
+      wikiHtml = fixture.pages[DEFAULT_SOURCES.wiki];
+      fetchMeta = fixture.fetchMeta;
+    }
   }
 
-  const wikiHtml = pages[sources[1]] || '';
+  const parsed = parseProLeaguePage(wikiHtml, bots);
+  const standings = mergeStandings(parsed.standings);
+  const coverage = standingsCoverage(standings, bots);
+
   const snapshot = {
     fetchedAt: new Date().toISOString(),
     sources,
-    groups: extractStandings(wikiHtml),
-    botCount: 24,
-    note: 'Parse fight results from HTML or pipe to an LLM for win-rate / sentiment analysis.',
+    fetchMeta,
+    groups: parsed.groups,
+    standings,
+    coverage,
+    pages: {
+      [DEFAULT_SOURCES.wiki]: wikiHtml,
+      [DEFAULT_SOURCES.proLeague]: proLeagueHtml,
+    },
+    botCount: bots.length,
   };
 
   const outDir = join(root, 'data');
@@ -114,6 +101,10 @@ async function main() {
   const outPath = join(outDir, 'pro-league-snapshot.json');
   await writeFile(outPath, JSON.stringify(snapshot, null, 2));
   console.log(`Wrote ${outPath}`);
+  console.log(
+    `Standings parsed: ${coverage.found}/${coverage.total} bots` +
+      (coverage.complete ? ' ✓' : ' (partial — using defaults for missing)'),
+  );
 }
 
 main().catch((err) => {
