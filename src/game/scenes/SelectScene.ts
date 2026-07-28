@@ -26,6 +26,9 @@ import {
   LOCKED_SLOTS,
   type FighterDef,
 } from '../data/roster';
+import {
+  getProLeagueBot,
+} from '../data/proLeague';
 import type { BotProfile } from '../data/botProfile';
 import type { LoadedFighter } from '../data/loadBotProfiles';
 import {
@@ -38,6 +41,36 @@ import {
 const SVG_ART_VERSION = 36;
 
 type SelectStep = 'player' | 'opponent';
+
+/** Fixed layout zones — keeps portrait, stats table, and roster from overlapping. */
+const LAYOUT = {
+  thumbW: 56,
+  thumbH: 42,
+  contentTop: 84,
+  contentBottom: 352,
+  rosterRow1Y: 388,
+  rosterRow2Y: 438,
+  footerY: 512,
+  leftX: 20,
+  leftW: 272,
+  rightX: 308,
+  rightW: 632,
+  portraitX: 156,
+  portraitY: 198,
+} as const;
+
+interface StatRow {
+  label: string;
+  value: string;
+  valueColor?: string;
+}
+
+interface ParsedRecord {
+  wins: number;
+  losses: number;
+  winRate: number;
+  form: 'winning' | 'losing' | 'even' | 'unknown';
+}
 
 /**
  * Choose-your-fighter lobby — selectable roster from FIGHTERS.
@@ -252,9 +285,9 @@ export class SelectScene extends Phaser.Scene {
 
   private rosterGap(count: number, thumbW: number): number {
     if (count <= 1) return thumbW;
-    const maxSpan = GAME_WIDTH - 56;
+    const maxSpan = GAME_WIDTH - 48;
     const fitGap = maxSpan / (count - 1);
-    return Math.max(thumbW + 6, Math.min(thumbW + 14, fitGap));
+    return Math.max(thumbW + 4, Math.min(thumbW + 10, fitGap));
   }
 
   private rosterRows(): Array<{
@@ -269,12 +302,12 @@ export class SelectScene extends Phaser.Scene {
       ...this.selectable.map((f) => ({ kind: 'fighter' as const, fighter: f })),
       ...LOCKED_SLOTS.map((s) => ({ kind: 'locked' as const, slot: s })),
     ];
-    const thumbW = 64;
-    const useTwoRows = items.length > 13;
+    const thumbW = LAYOUT.thumbW;
+    const useTwoRows = items.length > 14;
     if (!useTwoRows) {
       return [
         {
-          y: GAME_HEIGHT - 108,
+          y: LAYOUT.rosterRow1Y,
           gap: this.rosterGap(items.length, thumbW),
           items,
         },
@@ -285,9 +318,322 @@ export class SelectScene extends Phaser.Scene {
     const row1 = items.slice(0, split);
     const row2 = items.slice(split);
     return [
-      { y: GAME_HEIGHT - 152, gap: this.rosterGap(row1.length, thumbW), items: row1 },
-      { y: GAME_HEIGHT - 88, gap: this.rosterGap(row2.length, thumbW), items: row2 },
+      { y: LAYOUT.rosterRow1Y, gap: this.rosterGap(row1.length, thumbW), items: row1 },
+      { y: LAYOUT.rosterRow2Y, gap: this.rosterGap(row2.length, thumbW), items: row2 },
     ];
+  }
+
+  private formatStrategy(strategy: string): string {
+    return strategy.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+
+  private formatWeaponClass(weaponClass: string): string {
+    return weaponClass.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+
+  private parseRecord(f: LoadedFighter): ParsedRecord {
+    if (!f.record) {
+      return { wins: 0, losses: 0, winRate: 0.5, form: 'unknown' };
+    }
+    const m = f.record.match(/(\d+)-(\d+)/);
+    if (!m) {
+      return { wins: 0, losses: 0, winRate: 0.5, form: 'unknown' };
+    }
+    const wins = Number(m[1]);
+    const losses = Number(m[2]);
+    const total = wins + losses;
+    const winRate = total > 0 ? wins / total : f.winRate ?? 0.5;
+    const form =
+      wins > losses ? 'winning' : losses > wins ? 'losing' : total > 0 ? 'even' : 'unknown';
+    return { wins, losses, winRate, form };
+  }
+
+  private recordFormLabel(parsed: ParsedRecord): string {
+    switch (parsed.form) {
+      case 'winning':
+        return parsed.losses === 0 ? 'UNDEFEATED' : 'WINNING FORM';
+      case 'losing':
+        return parsed.wins === 0 ? 'WINLESS' : 'LOSING FORM';
+      case 'even':
+        return 'EVEN RECORD';
+      default:
+        return 'NO LEAGUE DATA';
+    }
+  }
+
+  private recordValueColor(parsed: ParsedRecord): string {
+    switch (parsed.form) {
+      case 'winning':
+        return '#4ade80';
+      case 'losing':
+        return '#f87171';
+      case 'even':
+        return '#facc15';
+      default:
+        return '#8a93a5';
+    }
+  }
+
+  private leagueStatModifier(parsed: ParsedRecord): string {
+    if (parsed.form === 'unknown') return '—';
+    if (parsed.winRate >= 1) return '+5% dmg & speed';
+    if (parsed.winRate <= 0) return '−5% dmg & speed';
+    return 'Neutral';
+  }
+
+  private combatStatRows(f: LoadedFighter): StatRow[] {
+    const s = f.stats;
+    return [
+      { label: 'Health', value: String(s.maxHealth) },
+      { label: 'Damage', value: String(s.attackDamage) },
+      { label: 'Move Speed', value: String(s.moveSpeed) },
+      { label: 'Reverse Speed', value: String(s.reverseSpeed) },
+      { label: 'Turn Speed', value: String(s.rotationSpeed) },
+      { label: 'Attack Range', value: String(s.attackRange) },
+      { label: 'Attack Arc', value: `${s.attackArc}°` },
+      { label: 'Cooldown', value: `${s.attackCooldown}ms` },
+      { label: 'Knockback', value: String(s.knockbackForce) },
+      { label: 'Body Size', value: String(s.bodyRadius) },
+      { label: 'Weapon Class', value: this.formatWeaponClass(f.weaponClass) },
+      { label: 'Strategy', value: this.formatStrategy(f.strategy) },
+    ];
+  }
+
+  private addLeagueSection(
+    root: Phaser.GameObjects.Container,
+    f: LoadedFighter,
+    x: number,
+    y: number,
+    w: number,
+  ): number {
+    const parsed = this.parseRecord(f);
+    const leagueBot = getProLeagueBot(f.id);
+    const group = leagueBot?.group;
+    const recordColor = this.recordValueColor(parsed);
+    const sectionH = 72;
+
+    const bg = this.add.graphics();
+    bg.fillStyle(0x000000, 0.28);
+    bg.fillRoundedRect(x + 10, y, w - 20, sectionH, 6);
+    bg.lineStyle(1, Phaser.Display.Color.HexStringToColor(recordColor).color, 0.35);
+    bg.strokeRoundedRect(x + 10, y, w - 20, sectionH, 6);
+    root.add(bg);
+
+    const header = group
+      ? `PRO LEAGUE · GROUP ${group}`
+      : 'PRO LEAGUE';
+    root.add(
+      this.add
+        .text(x + 18, y + 8, header, {
+          fontFamily: HUD_FONT,
+          fontSize: '8px',
+          fontStyle: '700',
+          color: f.accentHex,
+        })
+        .setOrigin(0, 0),
+    );
+
+    if (parsed.form === 'unknown') {
+      root.add(
+        this.add
+          .text(x + 18, y + 30, 'No scraped season record for this bot.', {
+            fontFamily: HUD_FONT,
+            fontSize: '9px',
+            color: '#8a93a5',
+          })
+          .setOrigin(0, 0),
+      );
+      return sectionH + 8;
+    }
+
+    const recordText = `${parsed.wins} - ${parsed.losses}`;
+    const winPct = `${Math.round(parsed.winRate * 100)}%`;
+    const wlDetail = `${parsed.wins} W · ${parsed.losses} L`;
+
+    root.add(
+      this.add
+        .text(x + 18, y + 24, 'RECORD', {
+          fontFamily: HUD_FONT,
+          fontSize: '7px',
+          fontStyle: '700',
+          color: '#6d7688',
+        })
+        .setOrigin(0, 0),
+    );
+    root.add(
+      this.add
+        .text(x + 18, y + 36, recordText, {
+          fontFamily: HUD_FONT,
+          fontSize: '20px',
+          fontStyle: '700',
+          color: recordColor,
+        })
+        .setOrigin(0, 0),
+    );
+    root.add(
+      this.add
+        .text(x + 18, y + 58, wlDetail, {
+          fontFamily: HUD_FONT,
+          fontSize: '8px',
+          color: '#b8c0cc',
+        })
+        .setOrigin(0, 0),
+    );
+
+    const midX = x + w * 0.38;
+    root.add(
+      this.add
+        .text(midX, y + 24, 'WIN RATE', {
+          fontFamily: HUD_FONT,
+          fontSize: '7px',
+          fontStyle: '700',
+          color: '#6d7688',
+        })
+        .setOrigin(0, 0),
+    );
+    root.add(
+      this.add
+        .text(midX, y + 36, winPct, {
+          fontFamily: HUD_FONT,
+          fontSize: '16px',
+          fontStyle: '700',
+          color: recordColor,
+        })
+        .setOrigin(0, 0),
+    );
+    root.add(
+      this.add
+        .text(midX, y + 58, this.recordFormLabel(parsed), {
+          fontFamily: HUD_FONT,
+          fontSize: '8px',
+          fontStyle: '700',
+          color: recordColor,
+        })
+        .setOrigin(0, 0),
+    );
+
+    const rightX = x + w * 0.68;
+    root.add(
+      this.add
+        .text(rightX, y + 24, 'STAT BOOST', {
+          fontFamily: HUD_FONT,
+          fontSize: '7px',
+          fontStyle: '700',
+          color: '#6d7688',
+        })
+        .setOrigin(0, 0),
+    );
+    root.add(
+      this.add
+        .text(rightX, y + 36, this.leagueStatModifier(parsed), {
+          fontFamily: HUD_FONT,
+          fontSize: '9px',
+          fontStyle: '700',
+          color: '#e8ecf2',
+          wordWrap: { width: w * 0.28 },
+        })
+        .setOrigin(0, 0),
+    );
+    root.add(
+      this.add
+        .text(rightX, y + 58, 'from scraped W-L', {
+          fontFamily: HUD_FONT,
+          fontSize: '7px',
+          color: '#6d7688',
+        })
+        .setOrigin(0, 0),
+    );
+
+    return sectionH + 8;
+  }
+
+  private addStatGrid(
+    root: Phaser.GameObjects.Container,
+    rows: StatRow[],
+    x: number,
+    y: number,
+    w: number,
+    title: string,
+    accentHex: string,
+  ): void {
+    root.add(
+      this.add
+        .text(x + 14, y, title, {
+          fontFamily: HUD_FONT,
+          fontSize: '8px',
+          fontStyle: '700',
+          color: accentHex,
+        })
+        .setOrigin(0, 0),
+    );
+
+    const colW = (w - 28) / 2;
+    const labelX = x + 14;
+    const valueX = x + 14 + colW * 0.42;
+    const col2LabelX = x + 14 + colW;
+    const col2ValueX = x + 14 + colW + colW * 0.42;
+    const rowH = 16;
+    const tableTop = y + 14;
+
+    const g = this.add.graphics();
+    g.lineStyle(1, 0xffffff, 0.06);
+    g.lineBetween(x + 10, tableTop - 2, x + w - 10, tableTop - 2);
+    root.add(g);
+
+    rows.forEach((row, i) => {
+      const col = i % 2;
+      const rowIdx = Math.floor(i / 2);
+      const ry = tableTop + rowIdx * rowH;
+      const lx = col === 0 ? labelX : col2LabelX;
+      const vx = col === 0 ? valueX : col2ValueX;
+
+      root.add(
+        this.add
+          .text(lx, ry, row.label, {
+            fontFamily: HUD_FONT,
+            fontSize: '8px',
+            color: '#6d7688',
+          })
+          .setOrigin(0, 0),
+      );
+      root.add(
+        this.add
+          .text(vx, ry, row.value, {
+            fontFamily: HUD_FONT,
+            fontSize: '8px',
+            fontStyle: '700',
+            color: row.valueColor ?? '#e8ecf2',
+          })
+          .setOrigin(0, 0),
+      );
+    });
+  }
+
+  private addStatsTable(
+    root: Phaser.GameObjects.Container,
+    f: LoadedFighter,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ): void {
+    const panel = this.add.graphics();
+    panel.fillStyle(0x0e121a, 0.92);
+    panel.fillRoundedRect(x, y, w, h, 8);
+    panel.lineStyle(1, f.accent, 0.45);
+    panel.strokeRoundedRect(x, y, w, h, 8);
+    root.add(panel);
+
+    const leagueOffset = this.addLeagueSection(root, f, x, y + 8, w);
+    this.addStatGrid(
+      root,
+      this.combatStatRows(f),
+      x,
+      y + 8 + leagueOffset + 4,
+      w,
+      'COMBAT STATS',
+      f.accentHex,
+    );
   }
 
   private get selected(): FighterDef {
@@ -300,20 +646,24 @@ export class SelectScene extends Phaser.Scene {
     g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     const accent = this.selected.accent;
-    g.fillStyle(accent, 0.07);
-    g.fillCircle(GAME_WIDTH * 0.52, GAME_HEIGHT * 0.4, 180);
-    g.fillStyle(accent, 0.04);
-    g.fillCircle(GAME_WIDTH * 0.52, GAME_HEIGHT * 0.4, 260);
+    g.fillStyle(accent, 0.06);
+    g.fillCircle(LAYOUT.portraitX, LAYOUT.portraitY, 120);
+    g.fillStyle(accent, 0.03);
+    g.fillCircle(LAYOUT.portraitX, LAYOUT.portraitY, 170);
 
-    g.fillStyle(0x10141c, 1);
-    g.fillRect(0, GAME_HEIGHT - 56, GAME_WIDTH, 56);
+    const rosterTop = LAYOUT.rosterRow1Y - LAYOUT.thumbH / 2 - 10;
+    g.fillStyle(0x080a10, 0.55);
+    g.fillRect(0, rosterTop, GAME_WIDTH, GAME_HEIGHT - rosterTop);
+
+    g.lineStyle(1, 0xffffff, 0.08);
+    g.lineBetween(16, rosterTop, GAME_WIDTH - 16, rosterTop);
     g.fillStyle(0xf7d038, 0.85);
     for (let x = 0; x < GAME_WIDTH; x += 28) {
-      g.fillRect(x, GAME_HEIGHT - 56, 14, 6);
+      g.fillRect(x, GAME_HEIGHT - 40, 14, 6);
     }
     g.fillStyle(0x0a0c12, 1);
     for (let x = 14; x < GAME_WIDTH; x += 28) {
-      g.fillRect(x, GAME_HEIGHT - 56, 14, 6);
+      g.fillRect(x, GAME_HEIGHT - 40, 14, 6);
     }
 
     g.lineStyle(1, 0xffffff, 0.03);
@@ -370,136 +720,119 @@ export class SelectScene extends Phaser.Scene {
   private rebuildFeatured(): void {
     this.featureRoot?.destroy(true);
     const f = this.loadedSelected;
-    const cardW = 400;
-    const cardH = 292;
-    const cx = GAME_WIDTH / 2;
-    const cy = GAME_HEIGHT / 2 - 48;
+    const contentH = LAYOUT.contentBottom - LAYOUT.contentTop;
 
     const root = this.add.container(0, 0).setDepth(DEPTH.hud);
     this.featureRoot = root;
 
-    const panel = this.add.graphics();
-    panel.fillStyle(0x0e121a, 0.94);
-    panel.fillRoundedRect(cx - cardW / 2, cy - cardH / 2, cardW, cardH, 10);
-    panel.lineStyle(2, f.accent, 1);
-    panel.strokeRoundedRect(cx - cardW / 2, cy - cardH / 2, cardW, cardH, 10);
-    panel.lineStyle(1, 0xffffff, 0.1);
-    panel.strokeRoundedRect(
-      cx - cardW / 2 + 4,
-      cy - cardH / 2 + 4,
-      cardW - 8,
-      cardH - 8,
-      8,
-    );
-    root.add(panel);
+    // Left panel — portrait & identity
+    const leftPanel = this.add.graphics();
+    leftPanel.fillStyle(0x0e121a, 0.94);
+    leftPanel.fillRoundedRect(LAYOUT.leftX, LAYOUT.contentTop, LAYOUT.leftW, contentH, 10);
+    leftPanel.lineStyle(2, f.accent, 1);
+    leftPanel.strokeRoundedRect(LAYOUT.leftX, LAYOUT.contentTop, LAYOUT.leftW, contentH, 10);
+    root.add(leftPanel);
 
-    // Soft accent halo behind every portrait so black parts don't vanish on dark UI.
     const halo = this.add.graphics();
-    halo.fillStyle(f.accent, 0.18);
-    halo.fillCircle(cx, cy - 40, 72);
-    halo.fillStyle(f.accent, 0.08);
-    halo.fillCircle(cx, cy - 40, 96);
+    halo.fillStyle(f.accent, 0.16);
+    halo.fillCircle(LAYOUT.portraitX, LAYOUT.portraitY, 58);
+    halo.fillStyle(f.accent, 0.07);
+    halo.fillCircle(LAYOUT.portraitX, LAYOUT.portraitY, 78);
     root.add(halo);
 
-    const portrait = this.add.image(cx, cy - 44, f.portraitKey).setOrigin(0.5);
-    const maxH = 138;
-    const maxW = 260;
-    const fit = Math.min(maxH / portrait.height, maxW / portrait.width, 1.15);
-    portrait.setScale(fit);
+    const portrait = this.add
+      .image(LAYOUT.portraitX, LAYOUT.portraitY, f.portraitKey)
+      .setOrigin(0.5);
+    const maxH = 108;
+    const maxW = 220;
+    portrait.setScale(Math.min(maxH / portrait.height, maxW / portrait.width, 1.1));
     root.add(portrait);
 
+    const nameY = LAYOUT.contentTop + 168;
     root.add(
       this.add
-        .text(cx, cy + 56, f.name, {
+        .text(LAYOUT.leftX + LAYOUT.leftW / 2, nameY, f.name, {
           fontFamily: HUD_FONT,
-          fontSize: '20px',
+          fontSize: '17px',
           fontStyle: '700',
           color: f.accentHex,
-        })
-        .setOrigin(0.5),
-    );
-
-    root.add(
-      this.add
-        .text(cx, cy + 82, f.weaponLabel, {
-          fontFamily: HUD_FONT,
-          fontSize: '10px',
-          fontStyle: '700',
-          color: '#8a93a5',
-        })
-        .setOrigin(0.5),
-    );
-
-    root.add(
-      this.add
-        .text(cx, cy + 104, f.strategyNotes, {
-          fontFamily: HUD_FONT,
-          fontSize: '9px',
-          color: '#c8d0dc',
           align: 'center',
-          wordWrap: { width: cardW - 56 },
-          lineSpacing: 4,
+          wordWrap: { width: LAYOUT.leftW - 24 },
         })
         .setOrigin(0.5, 0),
     );
 
-    const recordLine = f.record ? `RECORD ${f.record}` : '';
-    const stratLine = `STRATEGY: ${f.strategy.replace(/_/g, ' ').toUpperCase()}`;
     root.add(
       this.add
-        .text(cx, cy + 154, [recordLine, stratLine].filter(Boolean).join('  ·  '), {
+        .text(LAYOUT.leftX + LAYOUT.leftW / 2, nameY + 26, f.weaponLabel, {
           fontFamily: HUD_FONT,
-          fontSize: '8px',
+          fontSize: '9px',
           fontStyle: '700',
           color: '#8a93a5',
+          align: 'center',
+          wordWrap: { width: LAYOUT.leftW - 24 },
         })
-        .setOrigin(0.5),
+        .setOrigin(0.5, 0),
     );
 
-    const statsY = cy + cardH / 2 - 22;
-    [
-      `DMG ${f.stats.attackDamage}`,
-      `SPD ${f.stats.moveSpeed}`,
-      `HP ${f.stats.maxHealth}`,
-    ].forEach((label, i) => {
-      root.add(
-        this.add
-          .text(cx - 90 + i * 90, statsY, label, {
-            fontFamily: HUD_FONT,
-            fontSize: '11px',
-            fontStyle: '700',
-            color: '#ffffff',
-          })
-          .setOrigin(0.5),
-      );
-    });
-
-    // Nav chevrons
     root.add(
       this.add
-        .text(cx - cardW / 2 - 28, cy, '‹', {
+        .text(LAYOUT.leftX + LAYOUT.leftW / 2, nameY + 48, f.strategyNotes, {
           fontFamily: HUD_FONT,
-          fontSize: '36px',
+          fontSize: '8px',
+          color: '#b8c0cc',
+          align: 'center',
+          wordWrap: { width: LAYOUT.leftW - 28 },
+          lineSpacing: 3,
+        })
+        .setOrigin(0.5, 0),
+    );
+
+    // Right panel — full stats table
+    this.addStatsTable(
+      root,
+      f,
+      LAYOUT.rightX,
+      LAYOUT.contentTop,
+      LAYOUT.rightW,
+      contentH,
+    );
+
+    // Nav chevrons
+    const chevronY = LAYOUT.contentTop + contentH / 2;
+    root.add(
+      this.add
+        .text(LAYOUT.leftX - 8, chevronY, '‹', {
+          fontFamily: HUD_FONT,
+          fontSize: '32px',
           color: '#ffffff',
         })
-        .setOrigin(0.5)
+        .setOrigin(1, 0.5)
         .setInteractive({ useHandCursor: true })
         .on('pointerdown', () => this.shift(-1)),
     );
     root.add(
       this.add
-        .text(cx + cardW / 2 + 28, cy, '›', {
+        .text(LAYOUT.rightX + LAYOUT.rightW + 8, chevronY, '›', {
           fontFamily: HUD_FONT,
-          fontSize: '36px',
+          fontSize: '32px',
           color: '#ffffff',
         })
-        .setOrigin(0.5)
+        .setOrigin(0, 0.5)
         .setInteractive({ useHandCursor: true })
         .on('pointerdown', () => this.shift(1)),
     );
 
     const hit = this.add
-      .rectangle(cx, cy, cardW, cardH, 0x000000, 0.001)
+      .rectangle(
+        LAYOUT.leftX,
+        LAYOUT.contentTop,
+        LAYOUT.leftW + LAYOUT.rightW + 12,
+        contentH,
+        0x000000,
+        0.001,
+      )
+      .setOrigin(0, 0)
       .setInteractive({ useHandCursor: true });
     hit.on('pointerdown', () => this.confirm());
     root.add(hit);
@@ -509,8 +842,8 @@ export class SelectScene extends Phaser.Scene {
 
   private drawRosterRow(): void {
     this.thumbBorders = [];
-    const thumbW = 64;
-    const thumbH = 48;
+    const thumbW = LAYOUT.thumbW;
+    const thumbH = LAYOUT.thumbH;
     const halfW = thumbW / 2;
     const halfH = thumbH / 2;
 
@@ -536,13 +869,13 @@ export class SelectScene extends Phaser.Scene {
 
           this.add
             .image(x, y - 2, f.hudKey)
-            .setScale(1.15)
+            .setScale(1.05)
             .setDepth(DEPTH.hud);
 
           this.add
-            .text(x, y + halfH + 6, f.shortName.slice(0, 9), {
+            .text(x, y + halfH + 4, f.shortName.slice(0, 8), {
               fontFamily: HUD_FONT,
-              fontSize: '8px',
+              fontSize: '7px',
               fontStyle: '700',
               color: f.accentHex,
             })
@@ -589,8 +922,8 @@ export class SelectScene extends Phaser.Scene {
   }
 
   private refreshThumbBorders(): void {
-    const thumbW = 64;
-    const thumbH = 48;
+    const thumbW = LAYOUT.thumbW;
+    const thumbH = LAYOUT.thumbH;
     const halfW = thumbW / 2;
     const halfH = thumbH / 2;
     let borderIdx = 0;
@@ -619,9 +952,9 @@ export class SelectScene extends Phaser.Scene {
         ? '← → SELECT   ·   ENTER — CHOOSE OPPONENT'
         : '← → SELECT   ·   ENTER — FIGHT   ·   BACKSPACE — BACK';
     this.confirmHint = this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 26, hint, {
+      .text(GAME_WIDTH / 2, LAYOUT.footerY, hint, {
         fontFamily: HUD_FONT,
-        fontSize: '11px',
+        fontSize: '10px',
         fontStyle: '700',
         color: '#ffffff',
       })
