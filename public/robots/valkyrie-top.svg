@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <!-- Top-down Valkyrie (+X = V wedge / undercutter) -->
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2048a8"/>
+      <stop offset="100%" stop-color="#5088e8"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7040a0"/>
+      <stop offset="100%" stop-color="#c888f0"/>
+    </linearGradient>
+    <pattern id="stripe" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="2.5" height="5" fill="#3060d0"/>
+      <rect x="2.5" width="2.5" height="5" fill="#ffffff"/>
+    </pattern>
+  </defs>
+
+  <ellipse cx="48" cy="86" rx="34" ry="5" fill="#000" opacity="0.38"/>
+
+  <!-- wheels -->
+  <circle cx="22" cy="30" r="8" fill="#121218" stroke="#0a0a0e"/>
+  <circle cx="22" cy="66" r="8" fill="#121218" stroke="#0a0a0e"/>
+  <path d="M16 30 H28" stroke="#2a2a30" stroke-width="1.2"/>
+  <path d="M16 66 H28" stroke="#2a2a30" stroke-width="1.2"/>
+
+  <!-- V wedge body -->
+  <path d="M48 22 L78 34 L72 74 L18 70 L16 38 Z" fill="url(#blue)" stroke="#0a0a0e" stroke-width="1.3"/>
+  <path d="M48 22 L62 30 L58 68 L34 66 L30 40 Z" fill="url(#stripe)" stroke="#0a0a0e"/>
+  <!-- white corner marks -->
+  <path d="M34 38 L42 34 L40 44 Z" fill="#ffffff" stroke="#0a0a0e"/>
+  <path d="M58 30 L66 34 L60 40 Z" fill="#ffffff" stroke="#0a0a0e"/>
+  <!-- bolts -->
+  <circle cx="40" cy="42" r="1.5" fill="#0a0a0e"/>
+  <circle cx="48" cy="38" r="1.5" fill="#0a0a0e"/>
+  <circle cx="54" cy="42" r="1.5" fill="#0a0a0e"/>
+  <!-- nose -->
+  <path d="M48 22 L52 38 L44 38 Z" fill="#0a0a0e"/>
+
+  <!-- purple undercutter (low profile at front) -->
+  <path d="M58 36 L88 42 L82 58 L56 52 Z" fill="url(#purple)" stroke="#503080" stroke-width="1.2"/>
+  <path d="M68 44 L82 46 L78 54 L64 52 Z" fill="#c888f0" opacity="0.35"/>
+  <ellipse cx="78" cy="50" rx="10" ry="6" fill="#9858c8" stroke="#503080" stroke-width="1"/>
+</svg>

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Skorpios from reference (3/4 front-right):
+      black wedge plow + dual horns, blue/black chassis,
+      overhead belt-driven arm, blue spinning saw,
+      rear gray wheels with blue hubs, SKORPIOS name plate
+  -->
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#58c8f8"/>
+      <stop offset="45%" stop-color="#38a8e8"/>
+      <stop offset="100%" stop-color="#2088c8"/>
+    </linearGradient>
+    <linearGradient id="blueDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3098d8"/>
+      <stop offset="100%" stop-color="#1868a8"/>
+    </linearGradient>
+    <linearGradient id="black" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#2a2a30"/>
+      <stop offset="55%" stop-color="#121218"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#6a7080"/>
+      <stop offset="55%" stop-color="#3a4050"/>
+      <stop offset="100%" stop-color="#12151a"/>
+    </linearGradient>
+    <linearGradient id="saw" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#68d0f8"/>
+      <stop offset="50%" stop-color="#38a8e8"/>
+      <stop offset="100%" stop-color="#2088c8"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- rear wheels -->
+  <ellipse cx="88" cy="228" rx="28" ry="28" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="88" cy="228" rx="14" ry="14" fill="url(#blue)"/>
+  <ellipse cx="88" cy="228" rx="5" ry="5" fill="#0a0a0e"/>
+  <ellipse cx="155" cy="248" rx="24" ry="24" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="155" cy="248" rx="12" ry="12" fill="url(#blue)"/>
+  <ellipse cx="155" cy="248" rx="4" ry="4" fill="#0a0a0e"/>
+
+  <!-- main chassis -->
+  <path d="M95 195 L165 145 L280 130 L330 165 L315 235 L180 250 L95 235 Z"
+        fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M165 145 L280 130 L315 165 L280 195 L195 205 L165 175 Z"
+        fill="url(#blueDark)" stroke="#1868a8" stroke-width="1.5"/>
+  <path d="M180 250 L315 235 L300 255 L190 265 Z" fill="#0a0a0e" stroke="#0a0a0e"/>
+
+  <!-- blue side trim -->
+  <path d="M195 175 L285 165 L295 195 L210 210 Z" fill="url(#blue)" stroke="#1868a8" stroke-width="1.2"/>
+  <path d="M210 210 L295 195 L288 220 L205 228 Z" fill="#2088c8" opacity="0.65"/>
+
+  <!-- Van Gelder Bros plate (geometry hint, no text) -->
+  <rect x="218" y="178" width="52" height="22" rx="2" fill="url(#blue)" stroke="#1868a8" stroke-width="1.2"/>
+  <rect x="224" y="184" width="40" height="3" rx="1" fill="#0a0a0e" opacity="0.55"/>
+  <rect x="224" y="190" width="32" height="2" rx="1" fill="#0a0a0e" opacity="0.35"/>
+  <circle cx="228" cy="198" r="2" fill="#1868a8"/>
+  <circle cx="236" cy="198" r="2" fill="#1868a8"/>
+  <circle cx="244" cy="198" r="2" fill="#1868a8"/>
+
+  <!-- SKORPIOS name plate -->
+  <rect x="195" y="138" width="88" height="18" rx="2" fill="url(#blue)" stroke="#1868a8" stroke-width="1.2"/>
+  <g fill="#0a0a0e" transform="translate(202 142)">
+    <rect x="0" y="0" width="3" height="10"/><rect x="0" y="0" width="8" height="3"/><rect x="0" y="7" width="8" height="3"/>
+    <rect x="10" y="0" width="3" height="10"/><rect x="10" y="0" width="8" height="3"/><rect x="10" y="3.5" width="7" height="3"/><rect x="15" y="0" width="3" height="10"/>
+    <rect x="20" y="0" width="3" height="10"/><rect x="20" y="0" width="8" height="3"/><rect x="20" y="3.5" width="7" height="3"/><rect x="25" y="0" width="3" height="10"/>
+    <rect x="30" y="0" width="3" height="10"/><rect x="30" y="0" width="8" height="3"/><rect x="30" y="7" width="8" height="3"/><path d="M38 3 L33 6 L38 9 Z"/>
+    <rect x="40" y="0" width="3" height="10"/><rect x="40" y="3.5" width="3" height="3"/><circle cx="46.5" cy="5" r="3.5" fill="none" stroke="#0a0a0e" stroke-width="3"/>
+    <rect x="52" y="0" width="3" height="10"/><rect x="52" y="0" width="8" height="3"/><rect x="52" y="3.5" width="7" height="3"/><rect x="57" y="0" width="3" height="10"/>
+    <rect x="62" y="0" width="3" height="10"/><rect x="62" y="0" width="8" height="3"/><rect x="62" y="7" width="8" height="3"/>
+  </g>
+
+  <!-- wedge plow -->
+  <path d="M330 165 L420 145 L435 175 L400 230 L340 220 L315 195 Z"
+        fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M340 175 L410 158 L420 178 L365 215 L335 200 Z" fill="#1a1a22" stroke="#0a0a0e"/>
+  <path d="M355 168 L395 160 L400 175 L365 195 Z" fill="#2a2a32" stroke="#0a0a0e" stroke-width="1"/>
+
+  <!-- horns / forks -->
+  <path d="M350 158 L365 95 L378 98 L368 158 Z" fill="#0a0a0e" stroke="#121218" stroke-width="1.5"/>
+  <path d="M358 100 L365 102 L362 130 L355 128 Z" fill="#2a2a32"/>
+  <path d="M390 152 L405 88 L418 92 L402 155 Z" fill="#0a0a0e" stroke="#121218" stroke-width="1.5"/>
+  <path d="M398 92 L405 94 L402 122 L395 120 Z" fill="#2a2a32"/>
+  <path d="M420 145 L455 138 L460 152 L430 168 Z" fill="#121218" stroke="#0a0a0e"/>
+  <path d="M430 168 L460 152 L465 165 L438 178 Z" fill="#1a1a22" stroke="#0a0a0e"/>
+  <path d="M438 178 L465 165 L470 178 L445 188 Z" fill="#121218" stroke="#0a0a0e"/>
+
+  <!-- overhead arm -->
+  <g transform="translate(250 120)">
+    <rect x="0" y="0" width="12" height="48" rx="2" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+    <rect x="14" y="-8" width="8" height="56" rx="2" fill="#1a1a22" stroke="#0a0a0e"/>
+    <rect x="24" y="-18" width="70" height="10" rx="2" fill="#121218" stroke="#0a0a0e" stroke-width="1.2"/>
+    <rect x="28" y="-16" width="62" height="6" rx="1" fill="#2a2a32"/>
+    <!-- belt -->
+    <rect x="30" y="-14" width="58" height="2" fill="#0a0a0e"/>
+    <rect x="34" y="-12" width="50" height="1.5" fill="#3a3a42"/>
+    <rect x="88" y="-22" width="10" height="18" rx="2" fill="#121218" stroke="#0a0a0e"/>
+    <rect x="92" y="-30" width="62" height="8" rx="2" fill="#1a1a22" stroke="#0a0a0e"/>
+    <rect x="96" y="-28" width="54" height="4" rx="1" fill="#2a2a32"/>
+    <rect x="148" y="-38" width="10" height="26" rx="2" fill="#121218" stroke="#0a0a0e"/>
+    <!-- red sensor -->
+    <rect x="4" y="42" width="8" height="4" rx="1" fill="#d02828"/>
+    <!-- saw mount -->
+    <rect x="150" y="-42" width="14" height="34" rx="2" fill="#121218" stroke="#0a0a0e"/>
+    <!-- spinning saw -->
+    <circle cx="178" cy="-26" r="28" fill="url(#saw)" stroke="#1868a8" stroke-width="2"/>
+    <circle cx="178" cy="-26" r="8" fill="#121218"/>
+    <circle cx="178" cy="-26" r="3" fill="#3a3a42"/>
+    <path d="M178 -54 L188 -42 L182 -26 L198 -22 L186 -10 L178 -26 L166 -10 L154 -22 L170 -26 L164 -42 Z"
+          fill="#68d0f8" stroke="#1868a8" stroke-width="1.2"/>
+    <path d="M206 -26 L194 -14 L178 -26 L194 -38 Z" fill="#68d0f8" stroke="#1868a8" stroke-width="1"/>
+    <path d="M178 2 L166 -10 L178 -26 L190 -10 Z" fill="#68d0f8" stroke="#1868a8" stroke-width="1"/>
+    <path d="M150 -26 L162 -38 L178 -26 L162 -14 Z" fill="#68d0f8" stroke="#1868a8" stroke-width="1"/>
+  </g>
+
+  <!-- front lip highlight -->
+  <path d="M330 165 L380 152 L375 162 L328 178 Z" fill="#2a2a32" opacity="0.5"/>
+  <path d="M195 205 L280 195" stroke="#58c8f8" stroke-width="1.2" opacity="0.35"/>
+</svg>

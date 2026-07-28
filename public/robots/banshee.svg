@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Banshee from reference (3/4 front-left):
+      green camo wedge, flipper arm with skull scoop,
+      blue linkage, front fork wedges, ClearPath hint
+  -->
+  <defs>
+    <linearGradient id="green" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#d8ff60"/>
+      <stop offset="45%" stop-color="#b8ff2a"/>
+      <stop offset="100%" stop-color="#68a818"/>
+    </linearGradient>
+    <linearGradient id="camo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#88d028"/>
+      <stop offset="50%" stop-color="#488818"/>
+      <stop offset="100%" stop-color="#286010"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#58b8ff"/>
+      <stop offset="100%" stop-color="#2080d8"/>
+    </linearGradient>
+    <linearGradient id="black" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#2a2a30"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- chassis -->
+  <path d="M85 215 L155 165 L300 155 L335 200 L310 255 L140 265 L80 240 Z"
+        fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M155 165 L300 155 L320 185 L190 205 Z" fill="url(#camo)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M190 175 L250 168 L260 188 L200 198 Z" fill="#68a818" opacity="0.55"/>
+  <path d="M220 162 L280 158 L275 172 L225 178 Z" fill="#286010" opacity="0.65"/>
+  <path d="M170 188 L230 180 L235 195 L175 202 Z" fill="#88d028" opacity="0.45"/>
+
+  <!-- ClearPath plate hint -->
+  <rect x="168" y="182" width="46" height="16" rx="2" fill="#f0f0f4" stroke="#0a0a0e" stroke-width="1"/>
+  <circle cx="178" cy="190" r="5" fill="#2080d8"/>
+  <rect x="186" y="187" width="24" height="3" rx="1" fill="#2080d8" opacity="0.65"/>
+  <rect x="186" y="192" width="18" height="2" rx="1" fill="#8a93a5"/>
+
+  <!-- front black panel holes -->
+  <circle cx="305" cy="198" r="3" fill="#1a1a22" stroke="#0a0a0e"/>
+  <circle cx="318" cy="205" r="3" fill="#1a1a22" stroke="#0a0a0e"/>
+  <circle cx="292" cy="212" r="3" fill="#1a1a22" stroke="#0a0a0e"/>
+
+  <!-- gas tank -->
+  <rect x="215" y="148" width="16" height="28" rx="3" fill="#8a93a5" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="217" y="150" width="12" height="6" rx="1" fill="#c0c8d8"/>
+  <path d="M219 152 H227" stroke="#5a6270" stroke-width="1"/>
+
+  <!-- blue scissor linkage -->
+  <g stroke="#0a0a0e" stroke-width="1.5">
+    <path d="M210 205 L240 185 L270 205 L240 225 Z" fill="url(#black)"/>
+    <path d="M218 209 L240 193 L262 209 L240 221 Z" fill="url(#blue)"/>
+    <path d="M225 212 L240 200 L255 212 L240 218 Z" fill="#58b8ff" opacity="0.45"/>
+  </g>
+
+  <!-- flipper arm -->
+  <g transform="translate(230 95)">
+    <path d="M10 95 L85 45 L105 68 L75 95 L35 110 L10 105 Z"
+          fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+    <path d="M35 78 L80 52 L95 68 L55 92 Z" fill="#121218"/>
+    <!-- green flames on arm -->
+    <path d="M42 70 L58 58 L62 72 L48 82 Z" fill="url(#green)" stroke="#0a0a0e"/>
+    <path d="M62 62 L78 50 L82 66 L66 76 Z" fill="url(#green)" stroke="#0a0a0e"/>
+    <!-- skull scoop -->
+    <path d="M85 45 L125 28 L135 55 L110 72 L88 68 Z" fill="url(#black)" stroke="#0a0a0e" stroke-width="1.8"/>
+    <ellipse cx="108" cy="48" rx="10" ry="8" fill="url(#green)" stroke="#0a0a0e"/>
+    <ellipse cx="104" cy="46" rx="3" ry="4" fill="#0a0a0e"/>
+    <ellipse cx="112" cy="46" rx="3" ry="4" fill="#0a0a0e"/>
+    <path d="M102 54 Q108 58 114 54" fill="none" stroke="#0a0a0e" stroke-width="1.2"/>
+    <path d="M118 52 L132 48 L128 58 Z" fill="#121218" stroke="#0a0a0e"/>
+  </g>
+
+  <!-- front fork wedges -->
+  <path d="M335 200 L395 215 L388 232 L328 220 Z" fill="url(#green)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M328 220 L388 232 L382 248 L318 235 Z" fill="#68a818" stroke="#0a0a0e"/>
+  <path d="M300 220 L340 228 L335 242 L295 235 Z" fill="url(#green)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M295 235 L335 242 L330 256 L288 248 Z" fill="#68a818" stroke="#0a0a0e"/>
+</svg>

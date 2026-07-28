@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Tombstone from reference (3/4 front-right):
+      black tubular frame, triangular top plate,
+      red horizontal bar, grim reaper mark, big wheels
+  -->
+  <defs>
+    <linearGradient id="black" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#3a3a42"/>
+      <stop offset="55%" stop-color="#1a1a22"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a01828"/>
+      <stop offset="50%" stop-color="#d02838"/>
+      <stop offset="100%" stop-color="#a01828"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#3a3a42"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d0d6e0"/>
+      <stop offset="100%" stop-color="#8a93a5"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- wheels -->
+  <ellipse cx="110" cy="238" rx="30" ry="30" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="110" cy="238" rx="10" ry="10" fill="url(#steel)"/>
+  <ellipse cx="220" cy="252" rx="26" ry="26" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="220" cy="252" rx="8" ry="8" fill="url(#steel)"/>
+
+  <!-- tubular frame -->
+  <rect x="95" y="175" width="12" height="70" rx="2" fill="url(#black)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="205" y="185" width="12" height="62" rx="2" fill="url(#black)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="95" y="175" width="122" height="12" rx="2" fill="url(#black)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="95" y="233" width="122" height="12" rx="2" fill="url(#black)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="175" y="175" width="12" height="70" rx="2" fill="#121218" stroke="#0a0a0e"/>
+
+  <!-- triangular top plate -->
+  <path d="M130 155 L290 125 L320 175 L250 210 L140 205 Z"
+        fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M130 155 L290 125 L305 145 L170 185 Z" fill="#2a2a30" opacity="0.45"/>
+
+  <!-- TOMBSTONE mark -->
+  <g fill="#f0f0f4" transform="translate(155 148) scale(0.9)">
+    <rect x="0" y="4" width="3" height="16"/><rect x="-4" y="4" width="11" height="3"/>
+    <rect x="8" y="0" width="3" height="20"/><rect x="8" y="0" width="10" height="3"/><rect x="8" y="17" width="10" height="3"/>
+    <rect x="20" y="0" width="3" height="20"/><rect x="20" y="0" width="10" height="3"/><rect x="20" y="8" width="8" height="3"/><rect x="20" y="17" width="10" height="3"/>
+    <rect x="32" y="0" width="3" height="20"/><rect x="32" y="0" width="10" height="3"/><rect x="32" y="17" width="10" height="3"/><path d="M42 3 L37 10 L42 17 Z"/>
+    <rect x="46" y="0" width="3" height="20"/><rect x="46" y="0" width="10" height="3"/><rect x="46" y="8" width="8" height="3"/><rect x="51" y="0" width="3" height="20"/>
+    <rect x="58" y="0" width="3" height="20"/><rect x="58" y="0" width="10" height="3"/><rect x="58" y="8" width="8" height="3"/><rect x="63" y="0" width="3" height="20"/>
+    <rect x="70" y="0" width="3" height="20"/><rect x="70" y="0" width="10" height="3"/><rect x="70" y="17" width="10" height="3"/>
+    <rect x="82" y="0" width="3" height="20"/><rect x="82" y="0" width="10" height="3"/><rect x="82" y="8" width="8" height="3"/><rect x="87" y="0" width="3" height="20"/>
+    <rect x="94" y="0" width="3" height="20"/><rect x="94" y="0" width="10" height="3"/><rect x="94" y="17" width="10" height="3"/>
+  </g>
+
+  <!-- grim reaper emblem -->
+  <rect x="198" y="168" width="36" height="36" rx="2" fill="#0a0a0e" stroke="#2a2a30" stroke-width="1.5"/>
+  <circle cx="216" cy="182" r="8" fill="#f0f0f4"/>
+  <path d="M208 192 L224 192 L220 210 L212 210 Z" fill="#f0f0f4"/>
+  <path d="M224 186 L240 198 L224 204 Z" fill="#f0f0f4" stroke="#d0d6e0" stroke-width="0.8"/>
+  <path d="M210 176 Q216 172 222 176" fill="none" stroke="#0a0a0e" stroke-width="1.2"/>
+
+  <!-- bar mount -->
+  <rect x="285" y="118" width="14" height="36" rx="2" fill="url(#black)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <polygon points="292,112 298,112 301,118 289,118" fill="url(#steel)" stroke="#0a0a0e"/>
+
+  <!-- red horizontal bar -->
+  <rect x="295" y="128" width="130" height="16" rx="3" fill="url(#red)" stroke="#801018" stroke-width="2"/>
+  <rect x="310" y="131" width="100" height="4" fill="#ff5060" opacity="0.35"/>
+  <rect x="295" y="128" width="8" height="16" rx="2" fill="#801018"/>
+  <rect x="417" y="128" width="8" height="16" rx="2" fill="#801018"/>
+
+  <!-- front wheel -->
+  <ellipse cx="310" cy="248" rx="22" ry="22" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="310" cy="248" rx="7" ry="7" fill="url(#steel)"/>
+</svg>

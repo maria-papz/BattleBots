@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Calypso from reference (3/4 front):
+      cyan/orange arch chassis, hex vents, black undercutter,
+      lattice forks, orange hub wheels
+  -->
+  <defs>
+    <linearGradient id="cyan" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#78e8f8"/>
+      <stop offset="45%" stop-color="#48c8e8"/>
+      <stop offset="100%" stop-color="#2898c8"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#ff9830"/>
+      <stop offset="45%" stop-color="#f07820"/>
+      <stop offset="100%" stop-color="#c05810"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#3a3a42"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- wheels -->
+  <ellipse cx="95" cy="238" rx="28" ry="28" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="95" cy="238" rx="12" ry="12" fill="url(#orange)"/>
+  <ellipse cx="330" cy="242" rx="26" ry="26" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="330" cy="242" rx="11" ry="11" fill="url(#orange)"/>
+
+  <!-- arch chassis -->
+  <path d="M110 220 L170 145 L310 140 L370 210 L340 255 L150 260 L95 235 Z"
+        fill="url(#cyan)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M170 145 L310 140 L295 175 L185 185 Z" fill="url(#orange)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M185 185 L295 175 L280 210 L175 220 Z" fill="#f07820" opacity="0.55"/>
+  <!-- white V on front -->
+  <path d="M220 158 L240 148 L260 158 L250 178 L230 178 Z" fill="#ffffff" stroke="#0a0a0e" stroke-width="1"/>
+  <path d="M230 178 L240 168 L250 178 Z" fill="#f07820"/>
+
+  <!-- side rivets -->
+  <circle cx="188" cy="168" r="3" fill="#2a3040" stroke="#0a0a0e"/>
+  <circle cx="198" cy="165" r="3" fill="#2a3040" stroke="#0a0a0e"/>
+  <circle cx="282" cy="165" r="3" fill="#2a3040" stroke="#0a0a0e"/>
+  <circle cx="292" cy="168" r="3" fill="#2a3040" stroke="#0a0a0e"/>
+
+  <!-- hex vent cluster -->
+  <g fill="#1a8098" stroke="#0a0a0e" stroke-width="0.8">
+    <polygon points="228,152 234,155 234,162 228,165 222,162 222,155"/>
+    <polygon points="240,150 246,153 246,160 240,163 234,160 234,153"/>
+    <polygon points="252,152 258,155 258,162 252,165 246,162 246,155"/>
+    <polygon points="234,166 240,169 240,176 234,179 228,176 228,169"/>
+    <polygon points="246,166 252,169 252,176 246,179 240,176 240,169"/>
+    <polygon points="258,166 264,169 264,176 258,179 252,176 252,169"/>
+    <polygon points="270,168 276,171 276,178 270,181 264,178 264,171"/>
+  </g>
+
+  <!-- lifting eye -->
+  <path d="M238 142 L242 138 L246 142 L242 146 Z" fill="#ffffff" stroke="#0a0a0e"/>
+
+  <!-- wheel guards -->
+  <path d="M118 228 L128 210 L135 225 Z" fill="#ffffff" stroke="#0a0a0e"/>
+  <path d="M318 232 L328 214 L335 229 Z" fill="#ffffff" stroke="#0a0a0e"/>
+
+  <!-- lattice fork arms -->
+  <g stroke="#0a0a0e" stroke-width="1.5" fill="#121218">
+    <path d="M155 195 L95 240 L88 252 L148 210 Z"/>
+    <path d="M110 220 L130 205 L125 218 Z" fill="#1a1a22"/>
+    <path d="M95 235 L115 218 L108 232 Z" fill="#1a1a22"/>
+    <path d="M88 252 L98 242 L92 250 Z" fill="url(#orange)"/>
+    <path d="M325 198 L385 245 L378 258 L318 215 Z"/>
+    <path d="M340 218 L360 232 L352 242 Z" fill="#1a1a22"/>
+    <path d="M365 235 L378 248 L370 254 Z" fill="#1a1a22"/>
+    <path d="M378 258 L368 248 L374 256 Z" fill="url(#orange)"/>
+  </g>
+
+  <!-- undercutter disc -->
+  <ellipse cx="240" cy="228" rx="42" ry="14" fill="#0a0a0e" stroke="#121218" stroke-width="2"/>
+  <ellipse cx="240" cy="228" rx="34" ry="10" fill="#121218"/>
+  <path d="M206 228 L220 218 L220 238 Z" fill="#2a2a30"/>
+  <path d="M260 218 L274 228 L260 238 Z" fill="#2a2a30"/>
+  <path d="M228 218 L252 218 L240 238 Z" fill="#2a2a30"/>
+  <circle cx="240" cy="228" r="5" fill="#0a0a0e"/>
+</svg>

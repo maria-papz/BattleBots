@@ -15,6 +15,16 @@ import { preloadManta } from '../art/manta';
 import { preloadMinotaur } from '../art/minotaur';
 import { preloadOrbitron } from '../art/orbitron';
 import { preloadRibbot } from '../art/ribbot';
+import { preloadSkorpios } from '../art/skorpios';
+import { preloadSwitchback } from '../art/switchback';
+import { preloadTerrortops } from '../art/terrortops';
+import { preloadTheTwins } from '../art/thetwins';
+import { preloadTombstone } from '../art/tombstone';
+import { preloadValkyrie } from '../art/valkyrie';
+import { preloadWitchDoctor } from '../art/witchdoctor';
+import { preloadBanshee } from '../art/banshee';
+import { preloadCalypso } from '../art/calypso';
+import { preloadNemesis } from '../art/nemesis';
 import {
   loadBotProfiles,
   REGISTRY_BOT_PROFILES,
@@ -41,6 +51,16 @@ export class BootScene extends Phaser.Scene {
     preloadMinotaur(this);
     preloadOrbitron(this);
     preloadRibbot(this);
+    preloadSkorpios(this);
+    preloadSwitchback(this);
+    preloadTerrortops(this);
+    preloadTheTwins(this);
+    preloadTombstone(this);
+    preloadValkyrie(this);
+    preloadWitchDoctor(this);
+    preloadBanshee(this);
+    preloadCalypso(this);
+    preloadNemesis(this);
   }
 
   create(): void {

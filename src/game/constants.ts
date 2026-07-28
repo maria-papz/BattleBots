@@ -29,6 +29,9 @@ export const MINOTAUR_GOLD = 0xc89830;
 export const ORBITRON_WHITE = 0xd0d4dc;
 export const ORBITRON_BLUE = 0x2a68c8;
 export const RIBBOT_GREEN = 0x3a7028;
+export const BANSHEE_GREEN = 0xb8ff2a;
+export const CALYPSO_CYAN = 0x48c8e8;
+export const SKORPIOS_BLUE = 0x38a8e8;
 export const HAZARD_YELLOW = 0xf7d038;
 export const HP_GREEN = 0x5dff7a;
 
@@ -238,6 +241,46 @@ export const TEXTURE_KEYS = {
   ribbotWeapon: 'tex-ribbot-weapon',
   ribbotPortrait: 'tex-ribbot-portrait',
   hudRibbot: 'tex-hud-ribbot',
+  skorpiosBody: 'tex-skorpios-body',
+  skorpiosWeapon: 'tex-skorpios-weapon',
+  skorpiosPortrait: 'tex-skorpios-portrait',
+  hudSkorpios: 'tex-hud-skorpios',
+  switchbackBody: 'tex-switchback-body',
+  switchbackWeapon: 'tex-switchback-weapon',
+  switchbackPortrait: 'tex-switchback-portrait',
+  hudSwitchback: 'tex-hud-switchback',
+  terrortopsBody: 'tex-terrortops-body',
+  terrortopsWeapon: 'tex-terrortops-weapon',
+  terrortopsPortrait: 'tex-terrortops-portrait',
+  hudTerrortops: 'tex-hud-terrortops',
+  thetwinsBody: 'tex-thetwins-body',
+  thetwinsWeapon: 'tex-thetwins-weapon',
+  thetwinsPortrait: 'tex-thetwins-portrait',
+  hudThetwins: 'tex-hud-thetwins',
+  tombstoneBody: 'tex-tombstone-body',
+  tombstoneWeapon: 'tex-tombstone-weapon',
+  tombstonePortrait: 'tex-tombstone-portrait',
+  hudTombstone: 'tex-hud-tombstone',
+  valkyrieBody: 'tex-valkyrie-body',
+  valkyrieWeapon: 'tex-valkyrie-weapon',
+  valkyriePortrait: 'tex-valkyrie-portrait',
+  hudValkyrie: 'tex-hud-valkyrie',
+  witchdoctorBody: 'tex-witchdoctor-body',
+  witchdoctorWeapon: 'tex-witchdoctor-weapon',
+  witchdoctorPortrait: 'tex-witchdoctor-portrait',
+  hudWitchdoctor: 'tex-hud-witchdoctor',
+  bansheeBody: 'tex-banshee-body',
+  bansheeWeapon: 'tex-banshee-weapon',
+  bansheePortrait: 'tex-banshee-portrait',
+  hudBanshee: 'tex-hud-banshee',
+  calypsoBody: 'tex-calypso-body',
+  calypsoWeapon: 'tex-calypso-weapon',
+  calypsoPortrait: 'tex-calypso-portrait',
+  hudCalypso: 'tex-hud-calypso',
+  nemesisBody: 'tex-nemesis-body',
+  nemesisWeapon: 'tex-nemesis-weapon',
+  nemesisPortrait: 'tex-nemesis-portrait',
+  hudNemesis: 'tex-hud-nemesis',
   floorTile: 'tex-floor-tile',
   floorTileAlt: 'tex-floor-tile-alt',
   wallTile: 'tex-wall-tile',

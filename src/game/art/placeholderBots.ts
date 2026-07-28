@@ -12,78 +12,7 @@ export interface PlaceholderBotArt {
   hudKey: string;
 }
 
-export const PLACEHOLDER_BOTS: PlaceholderBotArt[] = [
-  {
-    id: 'tombstone',
-    accent: 0x9a9aa8,
-    secondary: 0x2a2a30,
-    label: 'TOMBSTONE',
-    bodyKey: 'tex-tombstone-body',
-    weaponKey: 'tex-tombstone-weapon',
-    portraitKey: 'tex-tombstone-portrait',
-    hudKey: 'tex-hud-tombstone',
-  },
-  {
-    id: 'terrortops',
-    accent: 0xe04828,
-    secondary: 0x3a2018,
-    label: 'TERRORTOPS',
-    bodyKey: 'tex-terrortops-body',
-    weaponKey: 'tex-terrortops-weapon',
-    portraitKey: 'tex-terrortops-portrait',
-    hudKey: 'tex-hud-terrortops',
-  },
-  {
-    id: 'skorpios',
-    accent: 0xf07820,
-    secondary: 0x3a2818,
-    label: 'SKORPIOS',
-    bodyKey: 'tex-skorpios-body',
-    weaponKey: 'tex-skorpios-weapon',
-    portraitKey: 'tex-skorpios-portrait',
-    hudKey: 'tex-hud-skorpios',
-  },
-  {
-    id: 'valkyrie',
-    accent: 0xe040a8,
-    secondary: 0x3a1830,
-    label: 'VALKYRIE',
-    bodyKey: 'tex-valkyrie-body',
-    weaponKey: 'tex-valkyrie-weapon',
-    portraitKey: 'tex-valkyrie-portrait',
-    hudKey: 'tex-hud-valkyrie',
-  },
-  {
-    id: 'switchback',
-    accent: 0x40a848,
-    secondary: 0x183820,
-    label: 'SWITCHBACK',
-    bodyKey: 'tex-switchback-body',
-    weaponKey: 'tex-switchback-weapon',
-    portraitKey: 'tex-switchback-portrait',
-    hudKey: 'tex-hud-switchback',
-  },
-  {
-    id: 'witchdoctor',
-    accent: 0x8030c8,
-    secondary: 0x281040,
-    label: 'W.DOC',
-    bodyKey: 'tex-witchdoctor-body',
-    weaponKey: 'tex-witchdoctor-weapon',
-    portraitKey: 'tex-witchdoctor-portrait',
-    hudKey: 'tex-hud-witchdoctor',
-  },
-  {
-    id: 'thetwins',
-    accent: 0xe8c020,
-    secondary: 0x403818,
-    label: 'TWINS',
-    bodyKey: 'tex-thetwins-body',
-    weaponKey: 'tex-thetwins-weapon',
-    portraitKey: 'tex-thetwins-portrait',
-    hudKey: 'tex-hud-thetwins',
-  },
-];
+export const PLACEHOLDER_BOTS: PlaceholderBotArt[] = [];
 
 function gfx(scene: Phaser.Scene): Phaser.GameObjects.Graphics {
   return scene.make.graphics({ x: 0, y: 0 });
