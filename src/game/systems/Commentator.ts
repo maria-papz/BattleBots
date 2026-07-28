@@ -35,10 +35,10 @@ export class Commentator {
     return this.apiEnabled;
   }
 
-  /** Always attempts an audible intro (API TTS, then browser speech). */
+  /** ElevenLabs intro only — never uses robotic browser speech. */
   async playIntro(): Promise<void> {
     await this.refreshApiEnabled();
-    if (this.playing) return;
+    if (!this.apiEnabled || this.playing) return;
     await this.speak({
       type: 'intro',
       player: this.botPayload(this.player),
@@ -74,7 +74,6 @@ export class Commentator {
   destroy(): void {
     this.aborted = true;
     this.playing = false;
-    window.speechSynthesis?.cancel();
     this.subtitle?.destroy();
     this.subtitle = undefined;
   }
@@ -103,25 +102,23 @@ export class Commentator {
   }
 
   private async speak(req: CommentaryRequest): Promise<void> {
-    if (this.playing || this.aborted) return;
+    if (!this.apiEnabled || this.playing || this.aborted) return;
     this.playing = true;
     sfx.unlock();
     try {
       let text = '';
-      if (this.apiEnabled) {
-        try {
-          const scriptRes = await fetch('/api/commentary', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(req),
-          });
-          if (scriptRes.ok) {
-            const data = (await scriptRes.json()) as { text: string };
-            text = data.text?.trim() ?? '';
-          }
-        } catch {
-          // fall through to local script
+      try {
+        const scriptRes = await fetch('/api/commentary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(req),
+        });
+        if (scriptRes.ok) {
+          const data = (await scriptRes.json()) as { text: string };
+          text = data.text?.trim() ?? '';
         }
+      } catch {
+        // fall through to local script
       }
 
       if (!text) {
@@ -132,10 +129,8 @@ export class Commentator {
       this.showSubtitle(text);
       if (this.aborted) return;
 
-      const spoken = await this.playTts(text);
-      if (!spoken && !this.aborted) {
-        await this.playBrowserSpeech(text);
-      }
+      // ElevenLabs only — never fall back to robotic browser TTS.
+      await this.playTts(text);
     } catch {
       // commentary is optional
     } finally {
@@ -154,7 +149,6 @@ export class Commentator {
   }
 
   private async playTts(text: string): Promise<boolean> {
-    if (!this.apiEnabled) return false;
     try {
       const ttsRes = await fetch('/api/tts', {
         method: 'POST',
@@ -166,12 +160,10 @@ export class Commentator {
       const data = await ttsRes.arrayBuffer();
       if (this.aborted || data.byteLength < 64) return false;
 
-      // Prefer unlocked Web Audio — HTMLAudio is blocked after async network.
       if (await sfx.playArrayBuffer(data)) {
         return true;
       }
 
-      // Last resort HTML audio (may still be blocked by autoplay).
       const url = URL.createObjectURL(new Blob([data], { type: 'audio/mpeg' }));
       try {
         await new Promise<void>((resolve, reject) => {
@@ -187,32 +179,6 @@ export class Commentator {
     } catch {
       return false;
     }
-  }
-
-  private playBrowserSpeech(text: string): Promise<void> {
-    return new Promise((resolve) => {
-      const synth = window.speechSynthesis;
-      if (!synth || this.aborted) {
-        resolve();
-        return;
-      }
-      let settled = false;
-      const done = () => {
-        if (settled) return;
-        settled = true;
-        resolve();
-      };
-      synth.cancel();
-      synth.resume();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.05;
-      utterance.pitch = 1;
-      utterance.volume = 1;
-      utterance.onend = () => done();
-      utterance.onerror = () => done();
-      synth.speak(utterance);
-      window.setTimeout(done, Math.min(22_000, 1200 + text.length * 70));
-    });
   }
 
   private showSubtitle(text: string): void {

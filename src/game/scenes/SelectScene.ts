@@ -1025,9 +1025,8 @@ export class SelectScene extends Phaser.Scene {
       return;
     }
 
-    // User gesture — unlock Web Audio + prime TTS so the arena intro can play.
+    // User gesture — unlock Web Audio so the arena intro can play.
     sfx.unlock();
-    sfx.primeSpeech();
 
     this.registry.set(REGISTRY_PLAYER_FIGHTER, this.playerPickId);
     this.registry.set(REGISTRY_OPPONENT_FIGHTER, this.selected.id);

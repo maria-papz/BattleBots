@@ -35,10 +35,9 @@ const hasOpenRouter = Boolean(process.env.OPENROUTER_API_KEY);
 const hasOpenAI = Boolean(process.env.OPENAI_API_KEY);
 const hasElevenLabs = Boolean(process.env.ELEVENLABS_API_KEY);
 
+// Voice requires ElevenLabs. LLM keys are optional (local script + TTS still works).
 const commentaryEnabled =
-  process.env.ENABLE_COMMENTARY === 'true' &&
-  hasElevenLabs &&
-  (hasOpenRouter || hasOpenAI);
+  process.env.ENABLE_COMMENTARY === 'true' && hasElevenLabs;
 
 /** Preferred LLM: openrouter (default) | openai | auto */
 const preferredLlm = (
@@ -208,15 +207,19 @@ async function generateCommentary(body) {
 
 async function synthesizeSpeech(text) {
   const preferredVoice =
-    process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM';
-  const fallbackVoice = '21m00Tcm4TlvDq8ikWAM';
+    process.env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB';
+  // Adam — clear sports-announcer style public voice as safety net
+  const fallbackVoice = 'pNInz6obpgDQGcFmaJgB';
   const voiceIds = [...new Set([preferredVoice, fallbackVoice])];
   const modelId = process.env.ELEVENLABS_MODEL_ID || 'eleven_multilingual_v2';
+  const stability = Number(process.env.ELEVENLABS_STABILITY ?? 0.28);
+  const similarity = Number(process.env.ELEVENLABS_SIMILARITY ?? 0.85);
+  const style = Number(process.env.ELEVENLABS_STYLE ?? 0.55);
 
   let lastError = 'ElevenLabs request failed';
   for (const voiceId of voiceIds) {
     const res = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
       {
         method: 'POST',
         headers: {
@@ -227,7 +230,12 @@ async function synthesizeSpeech(text) {
         body: JSON.stringify({
           text,
           model_id: modelId,
-          voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+          voice_settings: {
+            stability: Number.isFinite(stability) ? stability : 0.28,
+            similarity_boost: Number.isFinite(similarity) ? similarity : 0.85,
+            style: Number.isFinite(style) ? style : 0.55,
+            use_speaker_boost: true,
+          },
         }),
       },
     );
@@ -238,6 +246,7 @@ async function synthesizeSpeech(text) {
 
     const err = await res.text();
     lastError = `ElevenLabs ${res.status}: ${err.slice(0, 200)}`;
+    console.warn(lastError);
     // Retry with fallback voice on missing/invalid voice ids.
     if (!/voice_not_found|voice_id/i.test(err)) {
       break;
