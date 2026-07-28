@@ -174,6 +174,16 @@ const server = createServer(async (req, res) => {
   }
 });
 
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(
+      `API port ${PORT} is already in use. Stop the other process or set API_PORT in .env.`,
+    );
+    process.exit(1);
+  }
+  throw err;
+});
+
 server.listen(PORT, () => {
   console.log(
     `API http://localhost:${PORT} — commentary ${commentaryEnabled ? 'ON' : 'OFF'}`,

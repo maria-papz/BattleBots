@@ -31,22 +31,46 @@ async function waitForApi(maxMs = 5000): Promise<boolean> {
  */
 export function apiServerPlugin(): Plugin {
   let proc: ChildProcess | undefined;
+  let spawnedByPlugin = false;
 
   return {
     name: 'battlebots-api-server',
     apply: 'serve',
     configureServer(server) {
-      proc = spawn('node', ['server/index.mjs'], {
-        stdio: 'inherit',
-        env: process.env,
-      });
+      void (async () => {
+        if (await fetchHealth()) {
+          console.log(`[api] reusing existing server at ${API_ORIGIN}`);
+          return;
+        }
 
-      proc.on('error', (err) => {
-        console.warn(`[api] failed to start: ${err.message}`);
-      });
+        proc = spawn('node', ['server/index.mjs'], {
+          stdio: 'inherit',
+          env: process.env,
+        });
+        spawnedByPlugin = true;
+
+        proc.on('error', (err) => {
+          console.warn(`[api] failed to start: ${err.message}`);
+        });
+
+        proc.on('exit', (code, signal) => {
+          if (!spawnedByPlugin) return;
+          if (code === 0 || signal === 'SIGTERM') return;
+          console.warn(
+            `[api] exited unexpectedly (code=${code ?? 'null'}, signal=${signal ?? 'null'})`,
+          );
+        });
+
+        const ready = await waitForApi();
+        if (!ready && spawnedByPlugin) {
+          console.warn(
+            `[api] server did not become ready on port ${API_PORT} — commentary may be unavailable`,
+          );
+        }
+      })();
 
       server.httpServer?.on('close', () => {
-        if (proc && !proc.killed) {
+        if (spawnedByPlugin && proc && !proc.killed) {
           proc.kill('SIGTERM');
         }
       });
