@@ -37,7 +37,7 @@ import {
   REGISTRY_OPPONENT_FIGHTER,
   REGISTRY_PLAYER_FIGHTER,
 } from '../data/loadBotProfiles';
-
+import { sfx } from '../audio/Sfx';
 const SVG_ART_VERSION = 36;
 
 type SelectStep = 'player' | 'opponent';
@@ -1024,6 +1024,10 @@ export class SelectScene extends Phaser.Scene {
       this.buildSelectUi();
       return;
     }
+
+    // User gesture — unlock Web Audio + prime TTS so the arena intro can play.
+    sfx.unlock();
+    sfx.primeSpeech();
 
     this.registry.set(REGISTRY_PLAYER_FIGHTER, this.playerPickId);
     this.registry.set(REGISTRY_OPPONENT_FIGHTER, this.selected.id);

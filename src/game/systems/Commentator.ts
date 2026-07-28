@@ -1,3 +1,4 @@
+import { sfx } from '../audio/Sfx';
 import type { LoadedFighter } from '../data/loadBotProfiles';
 
 export interface CommentaryRequest {
@@ -8,7 +9,7 @@ export interface CommentaryRequest {
 }
 
 export class Commentator {
-  private enabled = false;
+  private apiEnabled = false;
   private checked = false;
   private playing = false;
   private aborted = false;
@@ -27,23 +28,17 @@ export class Commentator {
   async init(): Promise<void> {
     if (this.checked) return;
     this.checked = true;
-    try {
-      const res = await fetch('/api/health');
-      if (!res.ok) return;
-      const data = (await res.json()) as { commentaryEnabled: boolean };
-      this.enabled = data.commentaryEnabled;
-    } catch {
-      this.enabled = false;
-    }
+    await this.refreshApiEnabled();
   }
 
   isEnabled(): boolean {
-    return this.enabled;
+    return this.apiEnabled;
   }
 
+  /** Always attempts an audible intro (API TTS, then browser speech). */
   async playIntro(): Promise<void> {
-    await this.init();
-    if (!this.enabled || this.playing) return;
+    await this.refreshApiEnabled();
+    if (this.playing) return;
     await this.speak({
       type: 'intro',
       player: this.botPayload(this.player),
@@ -52,7 +47,7 @@ export class Commentator {
   }
 
   update(playerHp: number, enemyHp: number, now: number): void {
-    if (!this.enabled || this.playing) return;
+    if (!this.apiEnabled || this.playing) return;
     const maxHp = Math.max(
       this.player.stats.maxHealth,
       this.opponent.stats.maxHealth,
@@ -79,8 +74,23 @@ export class Commentator {
   destroy(): void {
     this.aborted = true;
     this.playing = false;
+    window.speechSynthesis?.cancel();
     this.subtitle?.destroy();
     this.subtitle = undefined;
+  }
+
+  private async refreshApiEnabled(): Promise<void> {
+    try {
+      const res = await fetch('/api/health');
+      if (!res.ok) {
+        this.apiEnabled = false;
+        return;
+      }
+      const data = (await res.json()) as { commentaryEnabled: boolean };
+      this.apiEnabled = Boolean(data.commentaryEnabled);
+    } catch {
+      this.apiEnabled = false;
+    }
   }
 
   private botPayload(f: LoadedFighter) {
@@ -95,41 +105,37 @@ export class Commentator {
   private async speak(req: CommentaryRequest): Promise<void> {
     if (this.playing || this.aborted) return;
     this.playing = true;
+    sfx.unlock();
     try {
-      const scriptRes = await fetch('/api/commentary', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(req),
-      });
-      if (!scriptRes.ok || this.aborted) return;
-      const { text } = (await scriptRes.json()) as { text: string };
+      let text = '';
+      if (this.apiEnabled) {
+        try {
+          const scriptRes = await fetch('/api/commentary', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req),
+          });
+          if (scriptRes.ok) {
+            const data = (await scriptRes.json()) as { text: string };
+            text = data.text?.trim() ?? '';
+          }
+        } catch {
+          // fall through to local script
+        }
+      }
+
+      if (!text) {
+        text = this.localScript(req);
+      }
       if (!text || this.aborted) return;
 
       this.showSubtitle(text);
       if (this.aborted) return;
 
-      const ttsRes = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      });
-      if (!ttsRes.ok || this.aborted) return;
-
-      const blob = await ttsRes.blob();
-      if (this.aborted) return;
-      const url = URL.createObjectURL(blob);
-      await new Promise<void>((resolve) => {
-        const audio = new Audio(url);
-        audio.onended = () => {
-          URL.revokeObjectURL(url);
-          resolve();
-        };
-        audio.onerror = () => {
-          URL.revokeObjectURL(url);
-          resolve();
-        };
-        void audio.play();
-      });
+      const spoken = await this.playTts(text);
+      if (!spoken && !this.aborted) {
+        await this.playBrowserSpeech(text);
+      }
     } catch {
       // commentary is optional
     } finally {
@@ -138,6 +144,75 @@ export class Commentator {
       }
       this.playing = false;
     }
+  }
+
+  private localScript(req: CommentaryRequest): string {
+    if (req.type === 'intro') {
+      return `${req.player.name}, armed with a ${req.player.weapon}, faces ${req.opponent.name} and their ${req.opponent.weapon}. It's robot fighting time!`;
+    }
+    return `${req.trailingBot ?? 'That bot'} is getting crushed — dig in and fight back!`;
+  }
+
+  private async playTts(text: string): Promise<boolean> {
+    if (!this.apiEnabled) return false;
+    try {
+      const ttsRes = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+      if (!ttsRes.ok || this.aborted) return false;
+
+      const data = await ttsRes.arrayBuffer();
+      if (this.aborted || data.byteLength < 64) return false;
+
+      // Prefer unlocked Web Audio — HTMLAudio is blocked after async network.
+      if (await sfx.playArrayBuffer(data)) {
+        return true;
+      }
+
+      // Last resort HTML audio (may still be blocked by autoplay).
+      const url = URL.createObjectURL(new Blob([data], { type: 'audio/mpeg' }));
+      try {
+        await new Promise<void>((resolve, reject) => {
+          const audio = new Audio(url);
+          audio.onended = () => resolve();
+          audio.onerror = () => reject(new Error('audio playback failed'));
+          void audio.play().then(undefined, reject);
+        });
+        return true;
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  private playBrowserSpeech(text: string): Promise<void> {
+    return new Promise((resolve) => {
+      const synth = window.speechSynthesis;
+      if (!synth || this.aborted) {
+        resolve();
+        return;
+      }
+      let settled = false;
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        resolve();
+      };
+      synth.cancel();
+      synth.resume();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.05;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      utterance.onend = () => done();
+      utterance.onerror = () => done();
+      synth.speak(utterance);
+      window.setTimeout(done, Math.min(22_000, 1200 + text.length * 70));
+    });
   }
 
   private showSubtitle(text: string): void {

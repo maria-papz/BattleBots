@@ -31,10 +31,19 @@ function loadEnv() {
 
 loadEnv();
 
+const hasOpenRouter = Boolean(process.env.OPENROUTER_API_KEY);
+const hasOpenAI = Boolean(process.env.OPENAI_API_KEY);
+const hasElevenLabs = Boolean(process.env.ELEVENLABS_API_KEY);
+
 const commentaryEnabled =
   process.env.ENABLE_COMMENTARY === 'true' &&
-  Boolean(process.env.OPENAI_API_KEY) &&
-  Boolean(process.env.ELEVENLABS_API_KEY);
+  hasElevenLabs &&
+  (hasOpenRouter || hasOpenAI);
+
+/** Preferred LLM: openrouter (default) | openai | auto */
+const preferredLlm = (
+  process.env.COMMENTARY_LLM || 'openrouter'
+).toLowerCase();
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
@@ -53,75 +62,189 @@ function json(res, status, data) {
   res.end(JSON.stringify(data));
 }
 
-async function generateCommentary(body) {
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+function fallbackCommentary(body) {
   const { type, player, opponent, trailingBot } = body;
+  if (type === 'intro') {
+    return `${player.name}, armed with a ${player.weapon}, faces ${opponent.name} and their ${opponent.weapon}. It's robot fighting time!`;
+  }
+  return `${trailingBot} is getting crushed — dig in and fight back!`;
+}
 
+function buildPrompts(body) {
+  const { type, player, opponent, trailingBot } = body;
   const system =
     'You are Faruq Tauheed, the BattleBots arena announcer. Write ONE or TWO short sentences. Energetic, factual, no markdown.';
 
-  let userPrompt;
+  let user;
   if (type === 'intro') {
-    userPrompt = `Introduce this Pro League matchup:
+    user = `Introduce this Pro League matchup:
 ${player.name} (${player.weapon}, record ${player.record ?? 'unknown'}) — ${player.strategyNotes}
 vs
 ${opponent.name} (${opponent.weapon}, record ${opponent.record ?? 'unknown'}) — ${opponent.strategyNotes}
 End with something like "It's robot fighting time!"`;
   } else {
-    userPrompt = `${trailingBot} is falling behind in this fight. Urge them to keep up and fight back. Reference their weapon style briefly.`;
+    user = `${trailingBot} is falling behind in this fight. Urge them to keep up and fight back. Reference their weapon style briefly.`;
   }
 
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+  return { system, user };
+}
+
+async function chatCompletion({
+  label,
+  url,
+  apiKey,
+  model,
+  system,
+  user,
+  extraHeaders = {},
+  useMaxCompletionTokens = false,
+}) {
+  const tokenField = useMaxCompletionTokens
+    ? { max_completion_tokens: 120 }
+    : { max_tokens: 120 };
+
+  const res = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
+      ...extraHeaders,
     },
     body: JSON.stringify({
       model,
       messages: [
         { role: 'system', content: system },
-        { role: 'user', content: userPrompt },
+        { role: 'user', content: user },
       ],
-      max_tokens: 120,
       temperature: 0.9,
+      ...tokenField,
     }),
   });
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`OpenAI ${res.status}: ${err.slice(0, 200)}`);
+    throw new Error(`${label} ${res.status}: ${err.slice(0, 200)}`);
   }
 
   const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim() ?? '';
+  const text = data.choices?.[0]?.message?.content?.trim() ?? '';
+  if (!text) throw new Error(`${label} returned empty content`);
+  return text;
+}
+
+async function generateViaOpenRouter(system, user) {
+  const model = process.env.OPENROUTER_MODEL || 'openrouter/free';
+  return chatCompletion({
+    label: 'OpenRouter',
+    url: 'https://openrouter.ai/api/v1/chat/completions',
+    apiKey: process.env.OPENROUTER_API_KEY,
+    model,
+    system,
+    user,
+    extraHeaders: {
+      'HTTP-Referer': process.env.OPENROUTER_HTTP_REFERER || 'http://localhost:5173',
+      'X-Title': process.env.OPENROUTER_APP_TITLE || 'BattleBots',
+    },
+  });
+}
+
+async function generateViaOpenAI(system, user) {
+  const model = process.env.OPENAI_MODEL || 'gpt-5.4';
+  return chatCompletion({
+    label: 'OpenAI',
+    url: 'https://api.openai.com/v1/chat/completions',
+    apiKey: process.env.OPENAI_API_KEY,
+    model,
+    system,
+    user,
+    useMaxCompletionTokens: true,
+  });
+}
+
+function providerOrder() {
+  const order = [];
+  const push = (name) => {
+    if (!order.includes(name)) order.push(name);
+  };
+
+  if (preferredLlm === 'openai') {
+    if (hasOpenAI) push('openai');
+    if (hasOpenRouter) push('openrouter');
+  } else if (preferredLlm === 'auto') {
+    if (hasOpenRouter) push('openrouter');
+    if (hasOpenAI) push('openai');
+  } else {
+    // default: openrouter first (free model), OpenAI fallback
+    if (hasOpenRouter) push('openrouter');
+    if (hasOpenAI) push('openai');
+  }
+  return order;
+}
+
+async function generateCommentary(body) {
+  const { system, user } = buildPrompts(body);
+  const order = providerOrder();
+
+  for (const provider of order) {
+    try {
+      if (provider === 'openrouter') {
+        const text = await generateViaOpenRouter(system, user);
+        console.log(`[commentary] via OpenRouter (${process.env.OPENROUTER_MODEL || 'openrouter/free'})`);
+        return text;
+      }
+      if (provider === 'openai') {
+        const text = await generateViaOpenAI(system, user);
+        console.log(`[commentary] via OpenAI (${process.env.OPENAI_MODEL || 'gpt-5.4'})`);
+        return text;
+      }
+    } catch (err) {
+      console.warn(err.message || err);
+    }
+  }
+
+  console.warn('[commentary] all LLM providers failed — using local fallback');
+  return fallbackCommentary(body);
 }
 
 async function synthesizeSpeech(text) {
-  const voiceId = process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM';
-  const res = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
-    {
-      method: 'POST',
-      headers: {
-        'xi-api-key': process.env.ELEVENLABS_API_KEY,
-        'Content-Type': 'application/json',
-        Accept: 'audio/mpeg',
-      },
-      body: JSON.stringify({
-        text,
-        model_id: 'eleven_monolingual_v1',
-        voice_settings: { stability: 0.5, similarity_boost: 0.75 },
-      }),
-    },
-  );
+  const preferredVoice =
+    process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM';
+  const fallbackVoice = '21m00Tcm4TlvDq8ikWAM';
+  const voiceIds = [...new Set([preferredVoice, fallbackVoice])];
+  const modelId = process.env.ELEVENLABS_MODEL_ID || 'eleven_multilingual_v2';
 
-  if (!res.ok) {
+  let lastError = 'ElevenLabs request failed';
+  for (const voiceId of voiceIds) {
+    const res = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+      {
+        method: 'POST',
+        headers: {
+          'xi-api-key': process.env.ELEVENLABS_API_KEY,
+          'Content-Type': 'application/json',
+          Accept: 'audio/mpeg',
+        },
+        body: JSON.stringify({
+          text,
+          model_id: modelId,
+          voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+        }),
+      },
+    );
+
+    if (res.ok) {
+      return Buffer.from(await res.arrayBuffer());
+    }
+
     const err = await res.text();
-    throw new Error(`ElevenLabs ${res.status}: ${err.slice(0, 200)}`);
+    lastError = `ElevenLabs ${res.status}: ${err.slice(0, 200)}`;
+    // Retry with fallback voice on missing/invalid voice ids.
+    if (!/voice_not_found|voice_id/i.test(err)) {
+      break;
+    }
   }
 
-  return Buffer.from(await res.arrayBuffer());
+  throw new Error(lastError);
 }
 
 const server = createServer(async (req, res) => {
@@ -138,7 +261,15 @@ const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
   if (req.method === 'GET' && url.pathname === '/api/health') {
-    json(res, 200, { commentaryEnabled });
+    json(res, 200, {
+      commentaryEnabled,
+      llmPreference: preferredLlm,
+      providers: {
+        openrouter: hasOpenRouter,
+        openai: hasOpenAI,
+        elevenlabs: hasElevenLabs,
+      },
+    });
     return;
   }
 
@@ -185,7 +316,13 @@ server.on('error', (err) => {
 });
 
 server.listen(PORT, () => {
+  const llmBits = [];
+  if (hasOpenRouter) llmBits.push('openrouter');
+  if (hasOpenAI) llmBits.push('openai');
   console.log(
-    `API http://localhost:${PORT} — commentary ${commentaryEnabled ? 'ON' : 'OFF'}`,
+    `API http://localhost:${PORT} — commentary ${commentaryEnabled ? 'ON' : 'OFF'}` +
+      (commentaryEnabled
+        ? ` (prefer ${preferredLlm}; keys: ${llmBits.join('+') || 'none'})`
+        : ''),
   );
 });

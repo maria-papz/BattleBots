@@ -111,6 +111,58 @@ export class Sfx {
     this.tone(780, 0.12, 'square', 0.12);
   }
 
+  /**
+   * Play decoded MP3/WAV bytes via the unlocked AudioContext.
+   * Survives browser autoplay rules after unlock() from a user gesture.
+   */
+  async playArrayBuffer(data: ArrayBuffer): Promise<boolean> {
+    this.unlock();
+    const ctx = this.ensureCtx();
+    if (!ctx) return false;
+    if (ctx.state === 'suspended') {
+      try {
+        await ctx.resume();
+      } catch {
+        return false;
+      }
+    }
+    try {
+      const buffer = await ctx.decodeAudioData(data.slice(0));
+      await new Promise<void>((resolve, reject) => {
+        const src = ctx.createBufferSource();
+        const g = ctx.createGain();
+        g.gain.value = Math.min(1, this.master * 3.2);
+        src.buffer = buffer;
+        src.connect(g);
+        g.connect(ctx.destination);
+        src.onended = () => resolve();
+        try {
+          src.start(0);
+        } catch (err) {
+          reject(err);
+        }
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /** Warm speechSynthesis during a user gesture so later async speak() works. */
+  primeSpeech(): void {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    try {
+      synth.cancel();
+      const warm = new SpeechSynthesisUtterance(' ');
+      warm.volume = 0;
+      synth.speak(warm);
+      synth.cancel();
+    } catch {
+      // ignore
+    }
+  }
+
   /** Brief win / loss sting. */
   end(won: boolean): void {
     if (won) {

@@ -13,7 +13,6 @@ import {
   PIXEL_FONT,
   PLAYER_CYAN,
   PLAYER_SPAWN,
-  READY_DURATION_MS,
   SCREEN_SHAKE_DURATION_MS,
   SCREEN_SHAKE_INTENSITY,
   TEXTURE_KEYS,
@@ -440,16 +439,33 @@ export class ArenaScene extends Phaser.Scene {
       return;
     }
 
-    this.hud.setStatus('READY?', 'GET SET');
+    this.hud.setStatus('READY?', 'ANNOUNCER');
     this.hud.setMatchStatusLabel('READY');
-    this.readyEvent = this.time.delayedCall(READY_DURATION_MS, () => {
-      if (this.matchState !== 'READY') return;
-      this.matchState = 'PLAYING';
-      this.fightFlashUntil = this.time.now + FIGHT_FLASH_MS;
-      this.hud.setStatus('FIGHT!', 'MAKE IT COUNT');
-      this.hud.setMatchStatusLabel('LIVE');
-      sfx.fight();
-      void this.commentator?.playIntro();
+    this.readyEvent = undefined;
+    void this.runIntroThenFight();
+  }
+
+  private async runIntroThenFight(): Promise<void> {
+    sfx.unlock();
+    this.hud.setStatus('READY?', 'ANNOUNCER LOADING');
+    // Brief beat so READY is visible, then speak before the fight starts.
+    await this.waitMs(250);
+    if (this.matchState !== 'READY') return;
+
+    this.hud.setStatus('READY?', 'ANNOUNCER');
+    await this.commentator?.playIntro();
+    if (this.matchState !== 'READY') return;
+
+    this.matchState = 'PLAYING';
+    this.fightFlashUntil = this.time.now + FIGHT_FLASH_MS;
+    this.hud.setStatus('FIGHT!', 'MAKE IT COUNT');
+    this.hud.setMatchStatusLabel('LIVE');
+    sfx.fight();
+  }
+
+  private waitMs(ms: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.readyEvent = this.time.delayedCall(ms, () => resolve());
     });
   }
 
