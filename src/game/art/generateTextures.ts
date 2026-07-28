@@ -23,6 +23,16 @@ import { generateMantaTextures } from './manta';
 import { generateMinotaurTextures } from './minotaur';
 import { generateOrbitronTextures } from './orbitron';
 import { generateRibbotTextures } from './ribbot';
+import { generateSkorpiosTextures } from './skorpios';
+import { generateSwitchbackTextures } from './switchback';
+import { generateTerrortopsTextures } from './terrortops';
+import { generateTheTwinsTextures } from './thetwins';
+import { generateTombstoneTextures } from './tombstone';
+import { generateValkyrieTextures } from './valkyrie';
+import { generateWitchDoctorTextures } from './witchdoctor';
+import { generateBansheeTextures } from './banshee';
+import { generateCalypsoTextures } from './calypso';
+import { generateNemesisTextures } from './nemesis';
 import { generatePlaceholderBotTextures } from './placeholderBots';
 
 /** Premium industrial sci-fi pixel textures matching the esports HUD mockup. */
@@ -48,6 +58,16 @@ export function generateGameTextures(scene: Phaser.Scene): void {
   generateMinotaurTextures(scene);
   generateOrbitronTextures(scene);
   generateRibbotTextures(scene);
+  generateSkorpiosTextures(scene);
+  generateSwitchbackTextures(scene);
+  generateTerrortopsTextures(scene);
+  generateTheTwinsTextures(scene);
+  generateTombstoneTextures(scene);
+  generateValkyrieTextures(scene);
+  generateWitchDoctorTextures(scene);
+  generateBansheeTextures(scene);
+  generateCalypsoTextures(scene);
+  generateNemesisTextures(scene);
   generatePlaceholderBotTextures(scene);
   makeFloorTile(scene, TEXTURE_KEYS.floorTile, 0);
   makeFloorTile(scene, TEXTURE_KEYS.floorTileAlt, 1);

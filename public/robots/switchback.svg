@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Switchback from reference (3/4 front-right):
+      black chassis, lattice forks, central flipper arm,
+      orange hazard checks + lightning bolt, SWITCHBACK side mark
+  -->
+  <defs>
+    <linearGradient id="orange" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#ff9a28"/>
+      <stop offset="45%" stop-color="#f07810"/>
+      <stop offset="100%" stop-color="#c05008"/>
+    </linearGradient>
+    <linearGradient id="black" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#2a2a30"/>
+      <stop offset="55%" stop-color="#121218"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#3a4050"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <pattern id="hazard" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="#f07810"/>
+      <path d="M0 0 L8 8 M8 0 L0 8" stroke="#ffffff" stroke-width="2.5"/>
+    </pattern>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- rear wheels -->
+  <ellipse cx="95" cy="232" rx="22" ry="22" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="95" cy="232" rx="10" ry="10" fill="url(#orange)"/>
+  <ellipse cx="165" cy="248" rx="20" ry="20" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="165" cy="248" rx="9" ry="9" fill="url(#orange)"/>
+  <ellipse cx="250" cy="228" rx="18" ry="18" fill="url(#wheel)" stroke="#0a0a0e"/>
+  <ellipse cx="250" cy="228" rx="8" ry="8" fill="url(#orange)"/>
+
+  <!-- chassis -->
+  <path d="M80 195 L155 150 L290 140 L330 185 L310 245 L170 255 L85 235 Z"
+        fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M80 195 L85 235 L170 255 L165 200 Z" fill="#0a0a0e" stroke="#0a0a0e"/>
+  <path d="M155 150 L290 140 L310 185 L220 200 L170 195 Z" fill="#1a1a22" stroke="#0a0a0e"/>
+
+  <!-- side guards -->
+  <path d="M170 200 L310 185 L305 210 L175 225 Z" fill="#121218" stroke="#0a0a0e" stroke-width="1.2"/>
+
+  <!-- SWITCHBACK mark (geometry + arrow hints) -->
+  <g fill="#ffffff" transform="translate(95 205) scale(0.85)">
+    <path d="M0 0 L6 -4 L6 0 L14 0 L14 3 L6 3 L6 10 L0 6 Z"/>
+    <rect x="18" y="0" width="3" height="10"/><rect x="18" y="0" width="8" height="3"/><rect x="18" y="7" width="8" height="3"/>
+    <rect x="28" y="0" width="3" height="10"/><rect x="28" y="0" width="3" height="3"/><circle cx="34" cy="5" r="3.5" fill="none" stroke="#fff" stroke-width="3"/>
+    <rect x="40" y="0" width="3" height="10"/><rect x="40" y="0" width="8" height="3"/><rect x="40" y="3.5" width="7" height="3"/><rect x="45" y="0" width="3" height="10"/>
+    <rect x="50" y="0" width="3" height="10"/><rect x="50" y="0" width="8" height="3"/><rect x="50" y="3.5" width="7" height="3"/><rect x="55" y="0" width="3" height="10"/>
+    <rect x="60" y="0" width="3" height="10"/><rect x="60" y="0" width="8" height="3"/><rect x="60" y="7" width="8" height="3"/><path d="M68 3 L63 6 L68 9 Z"/>
+    <rect x="72" y="0" width="3" height="10"/><rect x="72" y="0" width="8" height="3"/><rect x="72" y="3.5" width="7" height="3"/><rect x="77" y="0" width="3" height="10"/>
+    <rect x="82" y="0" width="3" height="10"/><rect x="82" y="0" width="8" height="3"/><rect x="82" y="7" width="8" height="3"/>
+    <path d="M92 5 L98 2 L98 8 Z"/>
+  </g>
+
+  <!-- flipper pivot base -->
+  <path d="M195 148 L285 138 L300 168 L240 185 L190 175 Z" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="210" y="142" width="62" height="18" rx="2" fill="url(#hazard)" stroke="#0a0a0e"/>
+  <rect x="218" y="158" width="48" height="10" rx="1" fill="#121218" stroke="#0a0a0e"/>
+
+  <!-- flipper arm assembly -->
+  <g transform="translate(230 95)">
+    <rect x="0" y="48" width="18" height="42" rx="3" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+    <rect x="4" y="52" width="10" height="34" rx="2" fill="#1a1a22"/>
+    <!-- lightning bolt -->
+    <path d="M8 58 L14 58 L10 68 L16 68 L6 82 L10 72 L4 72 Z" fill="url(#orange)" stroke="#c05008" stroke-width="0.8"/>
+    <!-- arm -->
+    <path d="M18 52 L95 18 L105 38 L88 55 L40 72 L18 68 Z"
+          fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+    <path d="M40 58 L88 38 L95 48 L48 66 Z" fill="#1a1a22" stroke="#0a0a0e"/>
+    <rect x="88" y="22" width="24" height="28" rx="3" fill="#121218" stroke="#0a0a0e"/>
+    <rect x="92" y="26" width="16" height="20" rx="2" fill="#0a0a0e"/>
+    <rect x="94" y="34" width="12" height="4" fill="#2a2a32"/>
+    <!-- white up arrows -->
+    <path d="M96 12 L100 18 L92 18 Z" fill="#ffffff"/>
+    <path d="M108 10 L112 16 L104 16 Z" fill="#ffffff"/>
+    <rect x="98" y="18" width="4" height="8" fill="#ffffff"/>
+    <rect x="110" y="16" width="4" height="10" fill="#ffffff"/>
+    <!-- hazard on arm side -->
+    <rect x="22" y="44" width="18" height="12" fill="url(#hazard)" stroke="#0a0a0e"/>
+  </g>
+
+  <!-- lattice forks -->
+  <g stroke="#0a0a0e" stroke-width="1.5" fill="none">
+    <path d="M330 185 L430 165 L445 178 L350 210 Z" fill="#121218" stroke="#0a0a0e"/>
+    <path d="M350 195 L420 178 L435 188 L365 215 Z" fill="#0a0a0e"/>
+    <!-- upper fork lattice -->
+    <path d="M345 198 L430 175"/>
+    <path d="M352 205 L422 182"/>
+    <path d="M358 192 L428 168"/>
+    <path d="M345 198 L358 192 L352 205 Z" fill="#1a1a22" stroke="#0a0a0e"/>
+    <path d="M365 208 L425 188"/>
+    <path d="M372 200 L432 180"/>
+    <!-- fork tip -->
+    <path d="M430 175 L455 168 L445 178 L435 188 L420 178 Z" fill="#121218" stroke="#0a0a0e"/>
+    <!-- lower fork -->
+    <path d="M325 220 L415 235 L405 252 L320 245 Z" fill="#121218" stroke="#0a0a0e"/>
+    <path d="M330 228 L400 238"/>
+    <path d="M335 236 L405 246"/>
+    <path d="M340 224 L410 234"/>
+    <path d="M405 235 L430 242 L415 252 L400 238 Z" fill="#0a0a0e" stroke="#0a0a0e"/>
+  </g>
+
+  <!-- front wheel hint -->
+  <ellipse cx="310" cy="248" rx="16" ry="16" fill="url(#wheel)" stroke="#0a0a0e"/>
+  <ellipse cx="310" cy="248" rx="7" ry="7" fill="url(#orange)"/>
+
+  <path d="M170 200 L280 188" stroke="#ffffff" stroke-width="1" opacity="0.12"/>
+</svg>

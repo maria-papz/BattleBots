@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Valkyrie from reference (3/4 front):
+      royal blue wedge, white corner triangles, striped prow,
+      purple undercutter disc, rear wheels
+  -->
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#5088e8"/>
+      <stop offset="45%" stop-color="#3060d0"/>
+      <stop offset="100%" stop-color="#2048a8"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c888f0"/>
+      <stop offset="50%" stop-color="#9858c8"/>
+      <stop offset="100%" stop-color="#7040a0"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#3a3a42"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <pattern id="stripe" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="4" height="8" fill="#3060d0"/>
+      <rect x="4" width="4" height="8" fill="#ffffff"/>
+    </pattern>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- rear wheels -->
+  <ellipse cx="105" cy="238" rx="28" ry="28" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="105" cy="238" rx="12" ry="12" fill="#1a1a22"/>
+  <path d="M92 238 H118" stroke="#2a2a30" stroke-width="2"/>
+  <path d="M98 228 H112" stroke="#2a2a30" stroke-width="1.5"/>
+  <path d="M98 248 H112" stroke="#2a2a30" stroke-width="1.5"/>
+  <ellipse cx="195" cy="252" rx="24" ry="24" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="195" cy="252" rx="10" ry="10" fill="#1a1a22"/>
+  <path d="M183 252 H207" stroke="#2a2a30" stroke-width="2"/>
+
+  <!-- main wedge body -->
+  <path d="M240 125 L360 165 L340 240 L140 250 L80 210 L160 145 Z"
+        fill="url(#blue)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M160 145 L240 125 L280 155 L180 195 Z" fill="#5088e8" opacity="0.45"/>
+
+  <!-- top plate -->
+  <path d="M170 155 L300 135 L320 175 L210 205 L160 185 Z"
+        fill="url(#blue)" stroke="#2048a8" stroke-width="1.5"/>
+  <!-- white corner triangles -->
+  <path d="M175 160 L195 152 L188 172 Z" fill="#ffffff" stroke="#0a0a0e"/>
+  <path d="M290 140 L310 148 L298 162 Z" fill="#ffffff" stroke="#0a0a0e"/>
+  <!-- bolts -->
+  <circle cx="205" cy="165" r="3" fill="#0a0a0e"/>
+  <circle cx="230" cy="158" r="3" fill="#0a0a0e"/>
+  <circle cx="255" cy="152" r="3" fill="#0a0a0e"/>
+  <circle cx="280" cy="148" r="3" fill="#0a0a0e"/>
+  <circle cx="220" cy="178" r="3" fill="#0a0a0e"/>
+  <circle cx="265" cy="168" r="3" fill="#0a0a0e"/>
+
+  <!-- front sensor housing -->
+  <path d="M228 148 L252 142 L258 158 L234 166 Z" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+
+  <!-- striped V prow panels -->
+  <path d="M240 125 L360 165 L330 195 L250 175 Z" fill="url(#stripe)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M240 125 L160 145 L180 195 L250 175 Z" fill="url(#stripe)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M232 168 L248 162 L255 175 L238 182 Z" fill="#121218" stroke="#0a0a0e"/>
+  <!-- black nose -->
+  <path d="M240 125 L252 170 L228 170 Z" fill="#0a0a0e" stroke="#121218" stroke-width="1.2"/>
+
+  <!-- rear center -->
+  <rect x="175" y="220" width="50" height="18" rx="2" fill="#121218" stroke="#0a0a0e"/>
+
+  <!-- purple undercutter -->
+  <path d="M250 175 L340 205 L355 228 L320 248 L230 220 L215 198 Z"
+        fill="url(#purple)" stroke="#503080" stroke-width="2"/>
+  <path d="M280 198 L330 210 L318 232 L268 218 Z" fill="#c888f0" opacity="0.35"/>
+  <path d="M318 228 L368 238 L350 255 L305 242 Z" fill="url(#purple)" stroke="#503080" stroke-width="1.5"/>
+  <ellipse cx="335" cy="248" rx="18" ry="10" fill="#7040a0" opacity="0.45"/>
+
+  <path d="M180 195 L280 175" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+</svg>

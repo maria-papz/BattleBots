@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Terrortops from reference (3/4 front-left):
+      yellow/black wedge, rake tines, hazard stripes,
+      1953 mark, YELL STEEL arm, triceratops horn head
+  -->
+  <defs>
+    <linearGradient id="yellow" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#ffe860"/>
+      <stop offset="45%" stop-color="#f0d020"/>
+      <stop offset="100%" stop-color="#c8a008"/>
+    </linearGradient>
+    <linearGradient id="black" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#2a2a30"/>
+      <stop offset="55%" stop-color="#121218"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <pattern id="hazard" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#f0d020"/>
+      <path d="M0 0 L10 10 M10 0 L0 10" stroke="#0a0a0e" stroke-width="3"/>
+    </pattern>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- chassis wedge -->
+  <path d="M75 210 L140 165 L280 155 L320 195 L295 250 L130 260 L70 235 Z"
+        fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M140 165 L280 155 L320 195 L250 210 L170 215 Z" fill="url(#yellow)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M75 210 L130 260 L125 235 L140 215 Z" fill="#0a0a0e"/>
+
+  <!-- hazard stripe panel (right/front) -->
+  <path d="M250 210 L320 195 L310 235 L240 245 Z" fill="url(#hazard)" stroke="#0a0a0e" stroke-width="1.2"/>
+
+  <!-- 1953 mark -->
+  <rect x="168" y="188" width="52" height="22" rx="2" fill="#0a0a0e" stroke="#121218"/>
+  <g fill="#f0d020" transform="translate(174 193)">
+    <rect x="0" y="0" width="4" height="12"/><rect x="0" y="0" width="10" height="4"/><rect x="0" y="8" width="10" height="4"/>
+    <rect x="12" y="0" width="4" height="12"/><rect x="12" y="4" width="4" height="4"/><rect x="16" y="0" width="4" height="12"/>
+    <rect x="22" y="0" width="4" height="12"/><rect x="22" y="0" width="10" height="4"/><rect x="22" y="4" width="8" height="4"/><rect x="22" y="8" width="10" height="4"/>
+    <rect x="34" y="0" width="4" height="12"/><rect x="34" y="0" width="10" height="4"/><rect x="34" y="8" width="10" height="4"/>
+  </g>
+
+  <!-- rake tines (left front) -->
+  <g fill="url(#yellow)" stroke="#0a0a0e" stroke-width="1.2">
+    <path d="M95 220 Q88 245 82 268 L78 268 Q84 244 92 218 Z"/>
+    <path d="M108 215 Q100 242 94 268 L90 268 Q96 242 104 214 Z"/>
+    <path d="M121 210 Q112 238 106 268 L102 268 Q108 238 117 210 Z"/>
+    <path d="M134 205 Q124 234 118 268 L114 268 Q120 234 130 205 Z"/>
+    <path d="M147 200 Q136 230 130 268 L126 268 Q132 230 143 200 Z"/>
+    <path d="M160 196 Q148 226 142 268 L138 268 Q144 226 156 196 Z"/>
+    <path d="M173 192 Q160 222 154 268 L150 268 Q156 222 169 192 Z"/>
+  </g>
+  <rect x="88" y="218" width="88" height="8" rx="2" fill="#121218" stroke="#0a0a0e"/>
+
+  <!-- pivot / beak hook -->
+  <path d="M210 175 L235 168 L240 188 L218 198 Z" fill="url(#yellow)" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M218 188 L228 182 L226 192 Z" fill="#c8a008"/>
+
+  <!-- lifting arm -->
+  <g transform="translate(195 95)">
+    <rect x="20" y="72" width="22" height="38" rx="3" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+    <path d="M42 78 L95 42 L108 62 L88 82 L52 98 L42 92 Z"
+          fill="url(#black)" stroke="#0a0a0e" stroke-width="2"/>
+    <!-- brain logo hint -->
+    <ellipse cx="58" cy="68" rx="8" ry="6" fill="url(#yellow)" stroke="#0a0a0e"/>
+    <path d="M54 66 Q58 62 62 66 Q58 72 54 66" fill="#0a0a0e" opacity="0.4"/>
+    <!-- YELL STEEL bars -->
+    <g fill="#f0d020" transform="translate(66 58)">
+      <rect x="0" y="0" width="3" height="10"/><rect x="0" y="0" width="8" height="3"/><rect x="0" y="7" width="8" height="3"/>
+      <rect x="10" y="0" width="3" height="10"/><rect x="10" y="0" width="8" height="3"/><rect x="10" y="7" width="8" height="3"/>
+      <rect x="20" y="0" width="3" height="10"/>
+      <rect x="25" y="0" width="3" height="10"/>
+      <rect x="30" y="0" width="3" height="10"/><rect x="30" y="0" width="8" height="3"/><rect x="30" y="3.5" width="7" height="3"/><rect x="35" y="0" width="3" height="10"/>
+      <rect x="40" y="0" width="3" height="10"/><rect x="40" y="0" width="8" height="3"/><rect x="40" y="3.5" width="7" height="3"/><rect x="45" y="0" width="3" height="10"/>
+      <rect x="50" y="0" width="3" height="10"/><rect x="50" y="0" width="8" height="3"/><rect x="50" y="7" width="8" height="3"/>
+    </g>
+    <!-- triceratops head weapon -->
+    <path d="M95 42 L115 18 L125 38 L118 55 L100 62 L88 55 Z" fill="url(#yellow)" stroke="#0a0a0e" stroke-width="1.8"/>
+    <path d="M108 22 L135 8 L128 28 L112 38 Z" fill="url(#yellow)" stroke="#0a0a0e" stroke-width="1.5"/>
+    <path d="M115 30 L142 18 L136 36 L118 44 Z" fill="url(#yellow)" stroke="#0a0a0e" stroke-width="1.5"/>
+    <!-- frill -->
+    <path d="M100 28 L108 8 L118 12 L115 32 L105 38 Z" fill="url(#yellow)" stroke="#0a0a0e"/>
+    <circle cx="108" cy="18" r="4" fill="#0a0a0e" opacity="0.35"/>
+    <circle cx="114" cy="22" r="3.5" fill="#0a0a0e" opacity="0.35"/>
+  </g>
+
+  <!-- side black panel -->
+  <path d="M130 230 L210 220 L205 245 L128 255 Z" fill="#121218" stroke="#0a0a0e"/>
+  <path d="M170 215 L250 205" stroke="#ffe860" stroke-width="1" opacity="0.25"/>
+</svg>

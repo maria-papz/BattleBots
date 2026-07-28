@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Witch Doctor from reference (3/4 front-left):
+      black chassis, bone ribs, green flames, skull vertical spinner,
+      purple mounts, green hub wheels, front forks
+  -->
+  <defs>
+    <linearGradient id="green" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#d8ff60"/>
+      <stop offset="45%" stop-color="#b8ff2a"/>
+      <stop offset="100%" stop-color="#78c818"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b868f0"/>
+      <stop offset="50%" stop-color="#8030c8"/>
+      <stop offset="100%" stop-color="#502080"/>
+    </linearGradient>
+    <linearGradient id="skull" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#e8f8d0"/>
+      <stop offset="100%" stop-color="#b8ff2a"/>
+    </linearGradient>
+    <linearGradient id="bone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff8e8"/>
+      <stop offset="100%" stop-color="#e8dcc0"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#3a3a42"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="165" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- wheels -->
+  <ellipse cx="95" cy="235" rx="24" ry="24" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="95" cy="235" rx="10" ry="10" fill="url(#green)"/>
+  <ellipse cx="170" cy="252" rx="22" ry="22" fill="url(#wheel)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="170" cy="252" rx="9" ry="9" fill="url(#green)"/>
+  <ellipse cx="280" cy="245" rx="20" ry="20" fill="url(#wheel)" stroke="#0a0a0e"/>
+  <ellipse cx="280" cy="245" rx="8" ry="8" fill="url(#green)"/>
+  <ellipse cx="340" cy="230" rx="18" ry="18" fill="url(#wheel)" stroke="#0a0a0e"/>
+  <ellipse cx="340" cy="230" rx="7" ry="7" fill="url(#green)"/>
+
+  <!-- chassis -->
+  <path d="M80 210 L150 165 L290 155 L330 195 L310 250 L140 260 L75 235 Z"
+        fill="#121218" stroke="#0a0a0e" stroke-width="2"/>
+  <path d="M150 165 L290 155 L310 195 L180 210 Z" fill="#1a1a22" stroke="#0a0a0e"/>
+
+  <!-- bone ribs -->
+  <g fill="url(#bone)" stroke="#8030c8" stroke-width="1.2">
+    <path d="M165 172 Q175 150 185 172 Q175 178 165 172"/>
+    <path d="M178 168 Q188 146 198 168 Q188 174 178 168"/>
+    <path d="M191 164 Q201 142 211 164 Q201 170 191 164"/>
+    <path d="M204 160 Q214 138 224 160 Q214 166 204 160"/>
+    <path d="M230 158 Q240 136 250 158 Q240 164 230 158"/>
+    <path d="M243 162 Q253 140 263 162 Q253 168 243 162"/>
+    <path d="M256 166 Q266 144 276 166 Q266 172 256 166"/>
+    <path d="M269 170 Q279 148 289 170 Q279 176 269 170"/>
+  </g>
+
+  <!-- green flame decals -->
+  <path d="M155 195 L175 175 L185 205 L165 215 Z" fill="url(#green)" stroke="#0a0a0e" stroke-width="1.2"/>
+  <path d="M168 185 L174 178 L178 192 Z" fill="#d8ff60"/>
+  <path d="M285 188 L305 172 L312 202 L292 210 Z" fill="url(#green)" stroke="#0a0a0e" stroke-width="1.2"/>
+  <path d="M296 180 L302 174 L306 188 Z" fill="#d8ff60"/>
+
+  <!-- weapon brackets -->
+  <rect x="205" y="118" width="10" height="55" rx="2" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="265" y="118" width="10" height="55" rx="2" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+  <rect x="207" y="120" width="6" height="18" fill="#8030c8"/>
+  <rect x="267" y="120" width="6" height="18" fill="#8030c8"/>
+  <path d="M205 138 L195 145 L205 152 Z" fill="#121218" stroke="#0a0a0e"/>
+  <path d="M275 138 L285 145 L275 152 Z" fill="#121218" stroke="#0a0a0e"/>
+
+  <!-- skull vertical spinner -->
+  <ellipse cx="240" cy="148" rx="34" ry="38" fill="url(#skull)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="228" cy="138" rx="8" ry="10" fill="#0a0a0e"/>
+  <ellipse cx="252" cy="138" rx="8" ry="10" fill="#0a0a0e"/>
+  <path d="M220 168 Q240 182 260 168 L255 176 Q240 188 225 176 Z" fill="#0a0a0e"/>
+  <path d="M224 172 Q240 184 256 172" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <rect x="234" y="178" width="12" height="8" rx="2" fill="url(#purple)" stroke="#502080"/>
+
+  <!-- front forks -->
+  <path d="M330 195 L395 185 L400 198 L340 215 Z" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M340 215 L400 198 L405 212 L350 228 Z" fill="#0a0a0e" stroke="#0a0a0e"/>
+  <path d="M155 205 L95 198 L98 212 L158 220 Z" fill="#121218" stroke="#0a0a0e" stroke-width="1.5"/>
+  <path d="M158 220 L98 212 L102 226 L162 232 Z" fill="#0a0a0e" stroke="#0a0a0e"/>
+</svg>
