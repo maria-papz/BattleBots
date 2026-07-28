@@ -23,6 +23,7 @@ import { generateMantaTextures } from './manta';
 import { generateMinotaurTextures } from './minotaur';
 import { generateOrbitronTextures } from './orbitron';
 import { generateRibbotTextures } from './ribbot';
+import { generatePlaceholderBotTextures } from './placeholderBots';
 
 /** Premium industrial sci-fi pixel textures matching the esports HUD mockup. */
 export function generateGameTextures(scene: Phaser.Scene): void {
@@ -47,6 +48,7 @@ export function generateGameTextures(scene: Phaser.Scene): void {
   generateMinotaurTextures(scene);
   generateOrbitronTextures(scene);
   generateRibbotTextures(scene);
+  generatePlaceholderBotTextures(scene);
   makeFloorTile(scene, TEXTURE_KEYS.floorTile, 0);
   makeFloorTile(scene, TEXTURE_KEYS.floorTileAlt, 1);
   makeWallTile(scene);

@@ -1,20 +1,30 @@
 import Phaser from 'phaser';
-import { ENEMY_STATS, TEXTURE_KEYS } from '../constants';
+import type { LoadedFighter } from '../data/loadBotProfiles';
 import type { MovementIntent } from '../types/game';
 import { Robot } from './Robot';
 
 export class EnemyRobot extends Robot {
-  constructor(scene: Phaser.Scene, x: number, y: number, facingDeg: number) {
+  readonly fighter: LoadedFighter;
+
+  constructor(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    facingDeg: number,
+    fighter: LoadedFighter,
+  ) {
     super(
       scene,
       x,
       y,
-      TEXTURE_KEYS.enemyBody,
-      TEXTURE_KEYS.enemyWeapon,
+      fighter.bodyKey,
+      fighter.weaponKey,
       'enemy',
-      ENEMY_STATS,
+      fighter.stats,
       facingDeg,
+      fighter.weaponClass,
     );
+    this.fighter = fighter;
   }
 
   setIntent(intent: MovementIntent): void {

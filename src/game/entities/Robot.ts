@@ -8,19 +8,21 @@ import {
   KNOCKBACK_DURATION_MS,
 } from '../constants';
 import type { MovementIntent, RobotId, RobotState, RobotStats } from '../types/game';
+import type { WeaponClass } from '../data/botProfile';
+import { playWeaponAttackVisual, resetWeaponMarker } from '../systems/weaponAnimation';
 import { clamp, degToRad, normalizeAngleDeg, shortestAngleDiffDeg } from '../utils/math';
 
 export class Robot extends Phaser.Physics.Arcade.Image {
   readonly robotId: RobotId;
   readonly stats: RobotStats;
   readonly robotState: RobotState;
+  readonly weaponClass: WeaponClass;
 
   intent: MovementIntent = { forward: 0, rotate: 0, attack: false };
 
   private weaponMarker: Phaser.GameObjects.Image;
   private attackVisualUntil = 0;
   private knockbackUntil = 0;
-  private baseScaleX = 1;
 
   constructor(
     scene: Phaser.Scene,
@@ -31,10 +33,12 @@ export class Robot extends Phaser.Physics.Arcade.Image {
     robotId: RobotId,
     stats: RobotStats,
     facingDeg: number,
+    weaponClass: WeaponClass = 'vertical_spinner',
   ) {
     super(scene, x, y, textureKey);
     this.robotId = robotId;
     this.stats = stats;
+    this.weaponClass = weaponClass;
     this.robotState = {
       currentHealth: stats.maxHealth,
       canAttack: true,
@@ -65,7 +69,6 @@ export class Robot extends Phaser.Physics.Arcade.Image {
     this.weaponMarker.setDepth(DEPTH.weapon);
     this.weaponMarker.setOrigin(0, 0.5);
     this.weaponMarker.setVisible(false);
-    this.baseScaleX = 1;
     this.syncWeaponMarker();
   }
 
@@ -151,6 +154,13 @@ export class Robot extends Phaser.Physics.Arcade.Image {
   beginAttackVisual(now: number): void {
     this.robotState.isAttacking = true;
     this.attackVisualUntil = now + ATTACK_VISUAL_MS;
+    playWeaponAttackVisual(
+      this.scene,
+      this.weaponClass,
+      this.weaponMarker,
+      this.attackVisualUntil,
+      now,
+    );
   }
 
   setDisabled(disabled: boolean): void {
@@ -200,16 +210,12 @@ export class Robot extends Phaser.Physics.Arcade.Image {
 
   private updateAttackVisual(now: number): void {
     if (now < this.attackVisualUntil) {
-      this.weaponMarker.setVisible(true);
-      this.weaponMarker.setScale(1.7, 1.15);
-      this.weaponMarker.setAlpha(1);
       return;
     }
     if (this.robotState.isAttacking) {
       this.robotState.isAttacking = false;
     }
-    this.weaponMarker.setVisible(false);
-    this.weaponMarker.setScale(this.baseScaleX, 1);
+    resetWeaponMarker(this.weaponMarker);
   }
 }
 

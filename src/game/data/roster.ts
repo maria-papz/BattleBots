@@ -37,7 +37,14 @@ export type FighterId =
   | 'manta'
   | 'minotaur'
   | 'orbitron'
-  | 'ribbot';
+  | 'ribbot'
+  | 'skorpios'
+  | 'switchback'
+  | 'terrortops'
+  | 'thetwins'
+  | 'tombstone'
+  | 'valkyrie'
+  | 'witchdoctor';
 
 export interface FighterDef {
   id: FighterId;
@@ -291,6 +298,104 @@ export const RIBBOT_STATS: RobotStats = {
   attackCooldown: 690,
   knockbackForce: 275,
   bodyRadius: 24,
+};
+
+/** Horizontal bar spinner — legendary bite, fragile if flipped. */
+export const TOMBSTONE_STATS: RobotStats = {
+  maxHealth: 90,
+  moveSpeed: 172,
+  reverseSpeed: 108,
+  rotationSpeed: 165,
+  attackDamage: 18,
+  attackRange: 80,
+  attackArc: 65,
+  attackCooldown: 700,
+  knockbackForce: 290,
+  bodyRadius: 22,
+};
+
+/** Dino-themed horizontal spinner — aggressive forks. */
+export const TERRORTOPS_STATS: RobotStats = {
+  maxHealth: 100,
+  moveSpeed: 168,
+  reverseSpeed: 106,
+  rotationSpeed: 158,
+  attackDamage: 15,
+  attackRange: 76,
+  attackArc: 55,
+  attackCooldown: 680,
+  knockbackForce: 265,
+  bodyRadius: 24,
+};
+
+/** Overhead saw / lifter hybrid — control and reach. */
+export const SKORPIOS_STATS: RobotStats = {
+  maxHealth: 105,
+  moveSpeed: 155,
+  reverseSpeed: 98,
+  rotationSpeed: 142,
+  attackDamage: 14,
+  attackRange: 78,
+  attackArc: 45,
+  attackCooldown: 750,
+  knockbackForce: 250,
+  bodyRadius: 25,
+};
+
+/** Undercutter spinner — blistering speed, low profile. */
+export const VALKYRIE_STATS: RobotStats = {
+  maxHealth: 92,
+  moveSpeed: 182,
+  reverseSpeed: 112,
+  rotationSpeed: 180,
+  attackDamage: 15,
+  attackRange: 72,
+  attackArc: 75,
+  attackCooldown: 640,
+  knockbackForce: 240,
+  bodyRadius: 21,
+};
+
+/** Flipper — high knockback, lower raw damage. */
+export const SWITCHBACK_STATS: RobotStats = {
+  maxHealth: 108,
+  moveSpeed: 164,
+  reverseSpeed: 104,
+  rotationSpeed: 150,
+  attackDamage: 12,
+  attackRange: 68,
+  attackArc: 40,
+  attackCooldown: 820,
+  knockbackForce: 320,
+  bodyRadius: 26,
+};
+
+/** Vertical spinner — shaman skull, veteran driver. */
+export const WITCHDOCTOR_STATS: RobotStats = {
+  maxHealth: 102,
+  moveSpeed: 166,
+  reverseSpeed: 105,
+  rotationSpeed: 154,
+  attackDamage: 15,
+  attackRange: 74,
+  attackArc: 52,
+  attackCooldown: 690,
+  knockbackForce: 270,
+  bodyRadius: 24,
+};
+
+/** Multibot cluster — swarm pressure, moderate bite. */
+export const THETWINS_STATS: RobotStats = {
+  maxHealth: 98,
+  moveSpeed: 170,
+  reverseSpeed: 108,
+  rotationSpeed: 160,
+  attackDamage: 13,
+  attackRange: 70,
+  attackArc: 80,
+  attackCooldown: 660,
+  knockbackForce: 230,
+  bodyRadius: 23,
 };
 
 export const FIGHTERS: FighterDef[] = [
@@ -547,6 +652,111 @@ export const FIGHTERS: FighterDef[] = [
     hudKey: TEXTURE_KEYS.hudRibbot,
     portraitKey: TEXTURE_KEYS.ribbotPortrait,
     stats: RIBBOT_STATS,
+    selectable: true,
+  },
+  {
+    id: 'skorpios',
+    name: 'SKORPIOS',
+    shortName: 'SKORPIOS',
+    weaponLabel: 'OVERHEAD SAW',
+    blurb: 'Orange wedge, overhead saw arm. Control specialist from Team RioBotz.',
+    accent: 0xf07820,
+    accentHex: '#f07820',
+    bodyKey: 'tex-skorpios-body',
+    weaponKey: 'tex-skorpios-weapon',
+    hudKey: 'tex-hud-skorpios',
+    portraitKey: 'tex-skorpios-portrait',
+    stats: SKORPIOS_STATS,
+    selectable: true,
+  },
+  {
+    id: 'switchback',
+    name: 'SWITCHBACK',
+    shortName: 'SWITCH',
+    weaponLabel: 'FLIPPER',
+    blurb: 'Green flipper wedge. Launches opponents into the ceiling lights.',
+    accent: 0x40a848,
+    accentHex: '#40a848',
+    bodyKey: 'tex-switchback-body',
+    weaponKey: 'tex-switchback-weapon',
+    hudKey: 'tex-hud-switchback',
+    portraitKey: 'tex-switchback-portrait',
+    stats: SWITCHBACK_STATS,
+    selectable: true,
+  },
+  {
+    id: 'terrortops',
+    name: 'TERRORTOPS',
+    shortName: 'T.TOPS',
+    weaponLabel: 'HORIZONTAL SPINNER',
+    blurb: 'Dino-themed horizontal spinner. Jaws full of teeth and torque.',
+    accent: 0xe04828,
+    accentHex: '#e04828',
+    bodyKey: 'tex-terrortops-body',
+    weaponKey: 'tex-terrortops-weapon',
+    hudKey: 'tex-hud-terrortops',
+    portraitKey: 'tex-terrortops-portrait',
+    stats: TERRORTOPS_STATS,
+    selectable: true,
+  },
+  {
+    id: 'thetwins',
+    name: 'THE TWINS',
+    shortName: 'TWINS',
+    weaponLabel: 'MULTIBOT',
+    blurb: 'Two-bot cluster. Swarm tactics, coordinated chaos.',
+    accent: 0xe8c020,
+    accentHex: '#e8c020',
+    bodyKey: 'tex-thetwins-body',
+    weaponKey: 'tex-thetwins-weapon',
+    hudKey: 'tex-hud-thetwins',
+    portraitKey: 'tex-thetwins-portrait',
+    stats: THETWINS_STATS,
+    selectable: true,
+  },
+  {
+    id: 'tombstone',
+    name: 'TOMBSTONE',
+    shortName: 'TOMBSTONE',
+    weaponLabel: 'BAR SPINNER',
+    blurb: 'Gray wedge, giant horizontal bar. Two-time Giant Nut champion.',
+    accent: 0x9a9aa8,
+    accentHex: '#9a9aa8',
+    bodyKey: 'tex-tombstone-body',
+    weaponKey: 'tex-tombstone-weapon',
+    hudKey: 'tex-hud-tombstone',
+    portraitKey: 'tex-tombstone-portrait',
+    stats: TOMBSTONE_STATS,
+    selectable: true,
+  },
+  {
+    id: 'valkyrie',
+    name: 'VALKYRIE',
+    shortName: 'VALKYRIE',
+    weaponLabel: 'UNDERCUTTER',
+    blurb: 'Pink undercutter. Blistering spin speed, eats wheels for breakfast.',
+    accent: 0xe040a8,
+    accentHex: '#e040a8',
+    bodyKey: 'tex-valkyrie-body',
+    weaponKey: 'tex-valkyrie-weapon',
+    hudKey: 'tex-hud-valkyrie',
+    portraitKey: 'tex-valkyrie-portrait',
+    stats: VALKYRIE_STATS,
+    selectable: true,
+  },
+  {
+    id: 'witchdoctor',
+    name: 'WITCH DOCTOR',
+    shortName: 'W.DOCTOR',
+    weaponLabel: 'VERTICAL SPINNER',
+    blurb: 'Purple shaman skull, green flames. Fan-favorite vertical spinner.',
+    accent: 0x8030c8,
+    accentHex: '#8030c8',
+    bodyKey: 'tex-witchdoctor-body',
+    weaponKey: 'tex-witchdoctor-weapon',
+    hudKey: 'tex-hud-witchdoctor',
+    portraitKey: 'tex-witchdoctor-portrait',
+    stats: WITCHDOCTOR_STATS,
     selectable: true,
   },
 ];

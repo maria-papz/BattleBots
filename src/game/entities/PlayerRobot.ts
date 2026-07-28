@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import type { FighterDef } from '../data/roster';
+import type { LoadedFighter } from '../data/loadBotProfiles';
 import type { MatchState } from '../types/game';
 import { Robot } from './Robot';
 
@@ -13,14 +13,14 @@ interface PlayerKeys {
 
 export class PlayerRobot extends Robot {
   private readonly keys: PlayerKeys;
-  readonly fighter: FighterDef;
+  readonly fighter: LoadedFighter;
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
     facingDeg: number,
-    fighter: FighterDef,
+    fighter: LoadedFighter,
   ) {
     super(
       scene,
@@ -31,6 +31,7 @@ export class PlayerRobot extends Robot {
       'player',
       fighter.stats,
       facingDeg,
+      fighter.weaponClass,
     );
     this.fighter = fighter;
 
@@ -62,8 +63,10 @@ export class PlayerRobot extends Robot {
     if (this.keys.A.isDown) rotate -= 1;
     if (this.keys.D.isDown) rotate += 1;
 
-    const attack = Phaser.Input.Keyboard.JustDown(this.keys.SPACE);
-
-    this.intent = { forward, rotate, attack };
+    this.intent = {
+      forward,
+      rotate,
+      attack: this.keys.SPACE.isDown,
+    };
   }
 }

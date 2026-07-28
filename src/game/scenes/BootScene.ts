@@ -15,6 +15,10 @@ import { preloadManta } from '../art/manta';
 import { preloadMinotaur } from '../art/minotaur';
 import { preloadOrbitron } from '../art/orbitron';
 import { preloadRibbot } from '../art/ribbot';
+import {
+  loadBotProfiles,
+  REGISTRY_BOT_PROFILES,
+} from '../data/loadBotProfiles';
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -41,6 +45,23 @@ export class BootScene extends Phaser.Scene {
 
   create(): void {
     generateGameTextures(this);
-    this.scene.start('SelectScene');
+
+    this.add
+      .text(this.scale.width / 2, this.scale.height / 2, 'Loading league data…', {
+        fontFamily: 'Orbitron, sans-serif',
+        fontSize: '14px',
+        color: '#8a93a5',
+      })
+      .setOrigin(0.5);
+
+    void loadBotProfiles()
+      .then((profiles) => {
+        this.registry.set(REGISTRY_BOT_PROFILES, profiles);
+        this.scene.start('SelectScene');
+      })
+      .catch(() => {
+        this.registry.set(REGISTRY_BOT_PROFILES, new Map());
+        this.scene.start('SelectScene');
+      });
   }
 }

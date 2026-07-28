@@ -48,6 +48,9 @@ export class BattleHud {
       playerAccentHex?: string;
       playerIcon?: string;
       enemyName?: string;
+      enemyAccent?: number;
+      enemyAccentHex?: string;
+      enemyIcon?: string;
     },
   ) {
     this.scene = scene;
@@ -58,6 +61,9 @@ export class BattleHud {
     const playerAccentHex = opts?.playerAccentHex ?? '#27c5ff';
     const playerIcon = opts?.playerIcon ?? TEXTURE_KEYS.hudPlayer;
     const enemyName = opts?.enemyName ?? 'ENEMY BOT';
+    const enemyAccent = opts?.enemyAccent ?? ENEMY_ORANGE;
+    const enemyAccentHex = opts?.enemyAccentHex ?? '#ff5c4d';
+    const enemyIcon = opts?.enemyIcon ?? TEXTURE_KEYS.hudEnemy;
 
     const topY = 10;
     const left = this.makeFighterCard(
@@ -73,9 +79,9 @@ export class BattleHud {
       GAME_WIDTH - 12,
       topY,
       enemyName,
-      ENEMY_ORANGE,
-      '#ff5c4d',
-      TEXTURE_KEYS.hudEnemy,
+      enemyAccent,
+      enemyAccentHex,
+      enemyIcon,
       false,
     );
     const mid = this.makeCenterCard(GAME_WIDTH / 2, topY + 2);
@@ -83,8 +89,8 @@ export class BattleHud {
     // Desired: WEAPON + ATK sit in thin bordered sub-panels under fighter cards
     const lw = this.makeMeterPanel(12, topY + 58, true, playerAccent, 'WEAPON', this.weaponSegCount, 16, 3);
     const la = this.makeMeterPanel(12, topY + 84, true, playerAccent, 'ATK', this.atkSegCount, 28, 4);
-    const rw = this.makeMeterPanel(GAME_WIDTH - 12, topY + 58, false, ENEMY_ORANGE, 'WEAPON', this.weaponSegCount, 16, 3);
-    const ra = this.makeMeterPanel(GAME_WIDTH - 12, topY + 84, false, ENEMY_ORANGE, 'ATK', this.atkSegCount, 28, 4);
+    const rw = this.makeMeterPanel(GAME_WIDTH - 12, topY + 58, false, enemyAccent, 'WEAPON', this.weaponSegCount, 16, 3);
+    const ra = this.makeMeterPanel(GAME_WIDTH - 12, topY + 84, false, enemyAccent, 'ATK', this.atkSegCount, 28, 4);
     this.playerWeaponSegs = lw.segs;
     this.playerAtkSegs = la.segs;
     this.enemyWeaponSegs = rw.segs;

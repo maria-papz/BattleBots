@@ -4,3 +4,7 @@ dist
 *.local
 .vite
 .compare
+.env
+data/cache
+
+/mydocs/

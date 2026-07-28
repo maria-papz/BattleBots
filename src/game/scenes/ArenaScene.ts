@@ -19,15 +19,20 @@ import {
   TEXTURE_KEYS,
 } from '../constants';
 import { sfx } from '../audio/Sfx';
+import type { BotProfile } from '../data/botProfile';
 import {
-  getFighter,
-  REGISTRY_SELECTED_FIGHTER,
-  type FighterDef,
-} from '../data/roster';
+  loadFighterWithProfile,
+  REGISTRY_BOT_PROFILES,
+  REGISTRY_OPPONENT_FIGHTER,
+  REGISTRY_PLAYER_FIGHTER,
+  type LoadedFighter,
+} from '../data/loadBotProfiles';
 import { EnemyRobot } from '../entities/EnemyRobot';
 import { PlayerRobot } from '../entities/PlayerRobot';
+import { Commentator } from '../systems/Commentator';
 import { CombatSystem } from '../systems/CombatSystem';
 import { EnemyAI } from '../systems/EnemyAI';
+import { strategyToAiConfig } from '../systems/StrategyAI';
 import type { AttackResult, MatchState } from '../types/game';
 import { BattleHud } from '../ui/BattleHud';
 import { distance } from '../utils/math';
@@ -45,31 +50,50 @@ export class ArenaScene extends Phaser.Scene {
   private prePauseState: MatchState = 'PLAYING';
   private matchRemainingMs = MATCH_DURATION_MS;
   private fightFlashUntil = 0;
-  private selectedFighter!: FighterDef;
+  private playerFighter!: LoadedFighter;
+  private opponentFighter!: LoadedFighter;
+  private commentator?: Commentator;
 
   constructor() {
     super('ArenaScene');
   }
 
   create(): void {
-    this.selectedFighter = getFighter(
-      this.registry.get(REGISTRY_SELECTED_FIGHTER) as string | undefined,
+    const profiles =
+      (this.registry.get(REGISTRY_BOT_PROFILES) as Map<string, BotProfile>) ??
+      new Map();
+    this.playerFighter = loadFighterWithProfile(
+      this.registry.get(REGISTRY_PLAYER_FIGHTER) as string | undefined,
+      profiles,
+    );
+    this.opponentFighter = loadFighterWithProfile(
+      this.registry.get(REGISTRY_OPPONENT_FIGHTER) as string | undefined,
+      profiles,
     );
     this.matchState = 'READY';
     this.matchRemainingMs = MATCH_DURATION_MS;
     this.fightFlashUntil = 0;
     this.combat = new CombatSystem();
-    this.ai = new EnemyAI();
+    this.ai = new EnemyAI(strategyToAiConfig(this.opponentFighter.strategy));
+    this.commentator = new Commentator(
+      this,
+      this.playerFighter,
+      this.opponentFighter,
+    );
+    void this.commentator.init();
 
     this.drawArena();
     this.setupBounds();
     this.createRobots();
     this.hud = new BattleHud(this, {
-      playerName: this.selectedFighter.shortName,
-      playerAccent: this.selectedFighter.accent,
-      playerAccentHex: this.selectedFighter.accentHex,
-      playerIcon: this.selectedFighter.hudKey,
-      enemyName: 'ENEMY BOT',
+      playerName: this.playerFighter.shortName,
+      playerAccent: this.playerFighter.accent,
+      playerAccentHex: this.playerFighter.accentHex,
+      playerIcon: this.playerFighter.hudKey,
+      enemyName: this.opponentFighter.shortName,
+      enemyAccent: this.opponentFighter.accent,
+      enemyAccentHex: this.opponentFighter.accentHex,
+      enemyIcon: this.opponentFighter.hudKey,
     });
     this.drawLightingPass();
     this.setupKeys();
@@ -126,6 +150,12 @@ export class ArenaScene extends Phaser.Scene {
       if (this.matchState === 'PLAYING' && this.matchRemainingMs <= 0) {
         this.endByTimer();
       }
+
+      this.commentator?.update(
+        this.player.robotState.currentHealth,
+        this.enemy.robotState.currentHealth,
+        time,
+      );
     }
 
     this.syncHud(time);
@@ -365,9 +395,15 @@ export class ArenaScene extends Phaser.Scene {
       PLAYER_SPAWN.x,
       PLAYER_SPAWN.y,
       0,
-      this.selectedFighter,
+      this.playerFighter,
     );
-    this.enemy = new EnemyRobot(this, ENEMY_SPAWN.x, ENEMY_SPAWN.y, 180);
+    this.enemy = new EnemyRobot(
+      this,
+      ENEMY_SPAWN.x,
+      ENEMY_SPAWN.y,
+      180,
+      this.opponentFighter,
+    );
     this.physics.add.collider(this.player, this.enemy);
   }
 
@@ -406,6 +442,7 @@ export class ArenaScene extends Phaser.Scene {
       this.hud.setStatus('FIGHT!', 'MAKE IT COUNT');
       this.hud.setMatchStatusLabel('LIVE');
       sfx.fight();
+      void this.commentator?.playIntro();
     });
   }
 
@@ -498,7 +535,9 @@ export class ArenaScene extends Phaser.Scene {
 
     // Quiet swing for player attacks only (AI swings would stack noise)
     if (attacker.robotId === 'player') {
-      sfx.swing();
+      sfx.swing(attacker.weaponClass);
+    } else {
+      sfx.swing(attacker.weaponClass);
     }
 
     if (!result.hit) return;
@@ -638,6 +677,7 @@ export class ArenaScene extends Phaser.Scene {
   private onShutdown(): void {
     this.readyEvent?.remove(false);
     this.readyEvent = undefined;
+    this.commentator?.destroy();
     this.hud?.destroy();
   }
 }

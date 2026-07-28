@@ -85,7 +85,16 @@ export class Sfx {
   }
 
   /** Short metal whoosh when an attack fires. */
-  swing(): void {
+  swing(weaponClass?: string): void {
+    if (weaponClass === 'flipper') {
+      this.tone(180, 0.1, 'triangle', 0.2, 90);
+      return;
+    }
+    if (weaponClass === 'drum') {
+      this.noiseBurst(0.06, 0.4, 1200);
+      this.tone(120, 0.08, 'square', 0.18, 60);
+      return;
+    }
     this.noiseBurst(0.08, 0.35, 1800);
     this.tone(420, 0.07, 'square', 0.12, 180);
   }

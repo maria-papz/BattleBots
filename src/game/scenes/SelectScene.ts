@@ -24,11 +24,20 @@ import {
 import {
   FIGHTERS,
   LOCKED_SLOTS,
-  REGISTRY_SELECTED_FIGHTER,
   type FighterDef,
 } from '../data/roster';
+import type { BotProfile } from '../data/botProfile';
+import type { LoadedFighter } from '../data/loadBotProfiles';
+import {
+  mergeProfileIntoFighter,
+  REGISTRY_BOT_PROFILES,
+  REGISTRY_OPPONENT_FIGHTER,
+  REGISTRY_PLAYER_FIGHTER,
+} from '../data/loadBotProfiles';
 
 const SVG_ART_VERSION = 36;
+
+type SelectStep = 'player' | 'opponent';
 
 /**
  * Choose-your-fighter lobby — selectable roster from FIGHTERS.
@@ -36,6 +45,9 @@ const SVG_ART_VERSION = 36;
 export class SelectScene extends Phaser.Scene {
   private selectable: FighterDef[] = [];
   private selectedIndex = 0;
+  private step: SelectStep = 'player';
+  private playerPickId: string | null = null;
+  private profiles = new Map<string, BotProfile>();
   private confirmHint!: Phaser.GameObjects.Text;
   private featureRoot?: Phaser.GameObjects.Container;
   private thumbBorders: Phaser.GameObjects.Graphics[] = [];
@@ -47,10 +59,12 @@ export class SelectScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.selectable = FIGHTERS.filter((f) => f.selectable);
-    const saved = this.registry.get(REGISTRY_SELECTED_FIGHTER) as string | undefined;
-    const savedIdx = this.selectable.findIndex((f) => f.id === saved);
-    this.selectedIndex = savedIdx >= 0 ? savedIdx : 0;
+    this.profiles =
+      (this.registry.get(REGISTRY_BOT_PROFILES) as Map<string, BotProfile>) ??
+      new Map();
+    this.step = 'player';
+    this.playerPickId = null;
+    this.refreshSelectable();
 
     const svgKeys = [
       TEXTURE_KEYS.deathrollPortrait,
@@ -215,6 +229,40 @@ export class SelectScene extends Phaser.Scene {
     }
   }
 
+  private refreshSelectable(): void {
+    const all = FIGHTERS.filter((f) => f.selectable);
+    if (this.step === 'opponent' && this.playerPickId) {
+      this.selectable = all.filter((f) => f.id !== this.playerPickId);
+    } else {
+      this.selectable = all;
+    }
+    if (this.selectedIndex >= this.selectable.length) {
+      this.selectedIndex = 0;
+    }
+  }
+
+  private get loadedSelected(): LoadedFighter {
+    const f = this.selected;
+    return mergeProfileIntoFighter(f, this.profiles.get(f.id));
+  }
+
+  private rosterGap(count: number): number {
+    if (count >= 24) return 20;
+    if (count >= 17) return 26;
+    if (count >= 16) return 28;
+    if (count >= 15) return 30;
+    if (count >= 14) return 32;
+    if (count >= 13) return 34;
+    if (count >= 12) return 38;
+    if (count >= 11) return 42;
+    if (count >= 10) return 46;
+    if (count >= 9) return 50;
+    if (count >= 8) return 56;
+    if (count >= 7) return 64;
+    if (count >= 6) return 74;
+    return count > 4 ? 86 : 100;
+  }
+
   private get selected(): FighterDef {
     return this.selectable[this.selectedIndex]!;
   }
@@ -259,19 +307,42 @@ export class SelectScene extends Phaser.Scene {
       .setDepth(DEPTH.hud);
 
     this.add
-      .text(GAME_WIDTH / 2, 52, 'CHOOSE YOUR FIGHTER', {
-        fontFamily: HUD_FONT,
-        fontSize: '13px',
-        fontStyle: '700',
-        color: '#8a93a5',
-      })
+      .text(
+        GAME_WIDTH / 2,
+        52,
+        this.step === 'player' ? 'CHOOSE YOUR FIGHTER' : 'CHOOSE OPPONENT',
+        {
+          fontFamily: HUD_FONT,
+          fontSize: '13px',
+          fontStyle: '700',
+          color: '#8a93a5',
+        },
+      )
       .setOrigin(0.5)
       .setDepth(DEPTH.hud);
+
+    if (this.step === 'opponent' && this.playerPickId) {
+      const playerF = FIGHTERS.find((f) => f.id === this.playerPickId);
+      this.add
+        .text(
+          GAME_WIDTH / 2,
+          72,
+          `YOU: ${playerF?.shortName ?? this.playerPickId.toUpperCase()}`,
+          {
+            fontFamily: HUD_FONT,
+            fontSize: '10px',
+            fontStyle: '700',
+            color: playerF?.accentHex ?? '#27c5ff',
+          },
+        )
+        .setOrigin(0.5)
+        .setDepth(DEPTH.hud);
+    }
   }
 
   private rebuildFeatured(): void {
     this.featureRoot?.destroy(true);
-    const f = this.selected;
+    const f = this.loadedSelected;
     const cardW = 400;
     const cardH = 268;
     const cx = GAME_WIDTH / 2;
@@ -334,12 +405,25 @@ export class SelectScene extends Phaser.Scene {
 
     root.add(
       this.add
-        .text(cx, cy + 108, f.blurb, {
+        .text(cx, cy + 108, f.strategyNotes, {
           fontFamily: HUD_FONT,
           fontSize: '9px',
           color: '#c8d0dc',
           align: 'center',
           wordWrap: { width: cardW - 48 },
+        })
+        .setOrigin(0.5),
+    );
+
+    const recordLine = f.record ? `RECORD ${f.record}` : '';
+    const stratLine = `STRATEGY: ${f.strategy.replace(/_/g, ' ').toUpperCase()}`;
+    root.add(
+      this.add
+        .text(cx, cy + 124, [recordLine, stratLine].filter(Boolean).join('  ·  '), {
+          fontFamily: HUD_FONT,
+          fontSize: '8px',
+          fontStyle: '700',
+          color: '#8a93a5',
         })
         .setOrigin(0.5),
     );
@@ -402,34 +486,7 @@ export class SelectScene extends Phaser.Scene {
       ...this.selectable.map((f) => ({ kind: 'fighter' as const, fighter: f })),
       ...LOCKED_SLOTS.map((s) => ({ kind: 'locked' as const, slot: s })),
     ];
-    const gap =
-      this.selectable.length >= 17
-        ? 26
-        : this.selectable.length >= 16
-          ? 28
-          : this.selectable.length >= 15
-            ? 30
-            : this.selectable.length >= 14
-              ? 32
-              : this.selectable.length >= 13
-                ? 34
-                : this.selectable.length >= 12
-                  ? 38
-                  : this.selectable.length >= 11
-                    ? 42
-                    : this.selectable.length >= 10
-                      ? 46
-                      : this.selectable.length >= 9
-                        ? 50
-                        : this.selectable.length >= 8
-                          ? 56
-                          : this.selectable.length >= 7
-                            ? 64
-                            : this.selectable.length >= 6
-                              ? 74
-                              : this.selectable.length > 4
-                                ? 86
-                                : 100;
+    const gap = this.rosterGap(this.selectable.length);
     const startX = GAME_WIDTH / 2 - ((items.length - 1) * gap) / 2;
 
     items.forEach((item, i) => {
@@ -507,34 +564,7 @@ export class SelectScene extends Phaser.Scene {
       ...this.selectable.map((f) => ({ kind: 'fighter' as const, fighter: f })),
       ...LOCKED_SLOTS.map((s) => ({ kind: 'locked' as const, slot: s })),
     ];
-    const gap =
-      this.selectable.length >= 17
-        ? 26
-        : this.selectable.length >= 16
-          ? 28
-          : this.selectable.length >= 15
-            ? 30
-            : this.selectable.length >= 14
-              ? 32
-              : this.selectable.length >= 13
-                ? 34
-                : this.selectable.length >= 12
-                  ? 38
-                  : this.selectable.length >= 11
-                    ? 42
-                    : this.selectable.length >= 10
-                      ? 46
-                      : this.selectable.length >= 9
-                        ? 50
-                        : this.selectable.length >= 8
-                          ? 56
-                          : this.selectable.length >= 7
-                            ? 64
-                            : this.selectable.length >= 6
-                              ? 74
-                              : this.selectable.length > 4
-                                ? 86
-                                : 100;
+    const gap = this.rosterGap(this.selectable.length);
     const startX = GAME_WIDTH / 2 - ((items.length - 1) * gap) / 2;
 
     this.thumbBorders.forEach((border, i) => {
@@ -551,18 +581,17 @@ export class SelectScene extends Phaser.Scene {
   }
 
   private drawFooter(): void {
+    const hint =
+      this.step === 'player'
+        ? '← → SELECT   ·   ENTER — CHOOSE OPPONENT'
+        : '← → SELECT   ·   ENTER — FIGHT   ·   BACKSPACE — BACK';
     this.confirmHint = this.add
-      .text(
-        GAME_WIDTH / 2,
-        GAME_HEIGHT - 26,
-        '← → SELECT   ·   ENTER / SPACE / CLICK — FIGHT',
-        {
-          fontFamily: HUD_FONT,
-          fontSize: '11px',
-          fontStyle: '700',
-          color: '#ffffff',
-        },
-      )
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 26, hint, {
+        fontFamily: HUD_FONT,
+        fontSize: '11px',
+        fontStyle: '700',
+        color: '#ffffff',
+      })
       .setOrigin(0.5)
       .setDepth(DEPTH.hud);
   }
@@ -576,6 +605,7 @@ export class SelectScene extends Phaser.Scene {
     keyboard.on('keydown-RIGHT', () => this.shift(1));
     keyboard.on('keydown-A', () => this.shift(-1));
     keyboard.on('keydown-D', () => this.shift(1));
+    keyboard.on('keydown-BACKSPACE', () => this.goBack());
   }
 
   private shift(dir: number): void {
@@ -586,8 +616,26 @@ export class SelectScene extends Phaser.Scene {
     this.rebuildFeatured();
   }
 
+  private goBack(): void {
+    if (this.step !== 'opponent') return;
+    this.step = 'player';
+    this.playerPickId = null;
+    this.refreshSelectable();
+    this.buildSelectUi();
+  }
+
   private confirm(): void {
-    this.registry.set(REGISTRY_SELECTED_FIGHTER, this.selected.id);
+    if (this.step === 'player') {
+      this.playerPickId = this.selected.id;
+      this.step = 'opponent';
+      this.selectedIndex = 0;
+      this.refreshSelectable();
+      this.buildSelectUi();
+      return;
+    }
+
+    this.registry.set(REGISTRY_PLAYER_FIGHTER, this.playerPickId);
+    this.registry.set(REGISTRY_OPPONENT_FIGHTER, this.selected.id);
     this.scene.start('ArenaScene');
   }
 }
