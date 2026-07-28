@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 360" fill="none">
+  <!--
+    Hypershock — measured from reference:
+      LEFT/MID = neon yellow low chassis + pink paint splatters
+      WHEELS   = four oversized black knobbies, yellow hubs (dominate silhouette)
+      FRONT    = black cradle + tall silver SINGLE-TOOTH vertical disc
+      LOW      = four black cylindrical forks
+      TOP      = two tall black self-righting rods
+  -->
+  <defs>
+    <linearGradient id="yel" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#ffe94a"/>
+      <stop offset="50%" stop-color="#f0d018"/>
+      <stop offset="100%" stop-color="#c8a808"/>
+    </linearGradient>
+    <linearGradient id="yelDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d4b010"/>
+      <stop offset="100%" stop-color="#8a7008"/>
+    </linearGradient>
+    <linearGradient id="blade" x1="0.15" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f4f8"/>
+      <stop offset="35%" stop-color="#b0b8c4"/>
+      <stop offset="70%" stop-color="#6a7380"/>
+      <stop offset="100%" stop-color="#3a4250"/>
+    </linearGradient>
+    <linearGradient id="hubY" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff04a"/>
+      <stop offset="100%" stop-color="#c8a010"/>
+    </linearGradient>
+    <radialGradient id="lens" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="25%" stop-color="#7dffd0"/>
+      <stop offset="50%" stop-color="#5a8cff"/>
+      <stop offset="75%" stop-color="#c45cff"/>
+      <stop offset="100%" stop-color="#ff4d8a"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="250" cy="338" rx="175" ry="14" fill="#000" opacity="0.3"/>
+
+  <!-- ===== OVERSIZED REAR-LEFT WHEELS (behind body) ===== -->
+  <g transform="translate(105 195)">
+    <ellipse cx="0" cy="0" rx="48" ry="48" fill="#050508" stroke="#111" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="40" ry="40" fill="#121218"/>
+    <!-- knobby tread -->
+    <g fill="#1a1a22">
+      <rect x="-44" y="-8" width="8" height="16" rx="2"/>
+      <rect x="36" y="-8" width="8" height="16" rx="2"/>
+      <rect x="-8" y="-44" width="16" height="8" rx="2"/>
+      <rect x="-8" y="36" width="16" height="8" rx="2"/>
+      <rect x="-34" y="-34" width="10" height="10" rx="2" transform="rotate(45 -29 -29)"/>
+      <rect x="24" y="-34" width="10" height="10" rx="2" transform="rotate(45 29 -29)"/>
+      <rect x="-34" y="24" width="10" height="10" rx="2" transform="rotate(45 -29 29)"/>
+      <rect x="24" y="24" width="10" height="10" rx="2" transform="rotate(45 29 29)"/>
+    </g>
+    <ellipse cx="0" cy="0" rx="18" ry="18" fill="url(#hubY)" stroke="#8a7008" stroke-width="1.5"/>
+    <ellipse cx="0" cy="0" rx="7" ry="7" fill="#3a4250"/>
+  </g>
+  <g transform="translate(175 230)">
+    <ellipse cx="0" cy="0" rx="44" ry="44" fill="#050508" stroke="#111" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="36" ry="36" fill="#121218"/>
+    <g fill="#1a1a22">
+      <rect x="-40" y="-7" width="7" height="14" rx="2"/>
+      <rect x="33" y="-7" width="7" height="14" rx="2"/>
+      <rect x="-7" y="-40" width="14" height="7" rx="2"/>
+      <rect x="-7" y="33" width="14" height="7" rx="2"/>
+    </g>
+    <ellipse cx="0" cy="0" rx="16" ry="16" fill="url(#hubY)" stroke="#8a7008"/>
+    <ellipse cx="0" cy="0" rx="6" ry="6" fill="#3a4250"/>
+  </g>
+
+  <!-- ===== LOW YELLOW CHASSIS ===== -->
+  <!-- main top deck — compact, low between wheels -->
+  <path d="M95 185
+           L155 145
+           L280 140
+           L310 175
+           L295 210
+           L170 225
+           L100 215 Z"
+        fill="url(#yel)" stroke="#6a5808" stroke-width="2.5"/>
+  <!-- left side panel -->
+  <path d="M95 185 L100 215 L170 225 L165 190 Z" fill="url(#yelDark)" stroke="#6a5808"/>
+  <!-- gold undercarriage peek -->
+  <path d="M160 200 L250 185 L270 205 L175 220 Z" fill="#c89820" opacity="0.7"/>
+
+  <!-- pink paint splatters (irregular, on top deck) -->
+  <path d="M150 165 C160 150 185 148 195 162 C200 175 175 180 155 175 Z" fill="#ff2a9a"/>
+  <path d="M200 155 C215 145 245 148 255 162 C250 175 220 178 205 170 Z" fill="#ff4db8"/>
+  <path d="M230 175 C245 168 270 170 275 185 C268 195 245 198 232 190 Z" fill="#e01880"/>
+  <path d="M165 185 C175 178 195 180 200 192 C190 200 170 198 165 190 Z" fill="#ff2a9a" opacity="0.85"/>
+  <path d="M250 150 C258 142 272 145 275 155 C270 162 255 160 250 154 Z" fill="#ff4db8"/>
+
+  <!-- HYPERSHOCK label on deck -->
+  <g fill="#1a1208" transform="translate(175 168) scale(0.48)">
+    <rect x="0" y="0" width="3.5" height="14"/><rect x="0" y="0" width="10" height="3.5"/><rect x="0" y="5.5" width="8" height="3"/><rect x="6.5" y="0" width="3.5" height="14"/>
+    <rect x="14" y="0" width="3.5" height="14"/><path d="M14 0 H24 V3.5 H17.5 V14 H14 Z"/>
+    <rect x="28" y="0" width="10" height="3.5"/><rect x="31.5" y="0" width="3.5" height="14"/>
+    <rect x="42" y="0" width="3.5" height="14"/><rect x="42" y="0" width="9" height="3.5"/><rect x="42" y="5.5" width="8" height="3"/><rect x="47.5" y="0" width="3.5" height="14"/>
+    <rect x="55" y="0" width="3.5" height="14"/><rect x="55" y="0" width="9" height="3.5"/><rect x="55" y="10.5" width="9" height="3.5"/><path d="M64 3.5 L58.5 7 L64 10.5 Z"/>
+    <rect x="69" y="0" width="3.5" height="14"/><rect x="69" y="0" width="9" height="3.5"/><rect x="69" y="10.5" width="9" height="3.5"/>
+    <rect x="82" y="0" width="3.5" height="14"/><rect x="82" y="0" width="9" height="3.5"/><rect x="82" y="5.5" width="8" height="3"/><path d="M91 3.5 L85.5 7 L91 10.5 Z"/><rect x="82" y="10.5" width="9" height="3.5"/>
+    <rect x="95" y="0" width="3.5" height="14"/><rect x="95" y="0" width="9" height="3.5"/><rect x="95" y="10.5" width="9" height="3.5"/><path d="M104 3.5 L98.5 7 L104 10.5 Z"/>
+    <rect x="109" y="0" width="3.5" height="14"/><rect x="109" y="0" width="9" height="3.5"/><rect x="109" y="5.5" width="8" height="3"/><path d="M118 3.5 L112.5 7 L118 10.5 Z"/><rect x="109" y="10.5" width="9" height="3.5"/>
+  </g>
+  <!-- KICK-START side badge -->
+  <rect x="108" y="192" width="48" height="13" rx="2" fill="#ff2a9a" stroke="#a01060"/>
+  <g fill="#ffe94a" transform="translate(112 195) scale(0.38)">
+    <rect x="0" y="0" width="3" height="12"/><rect x="6" y="0" width="3" height="12"/><rect x="12" y="0" width="3" height="12"/><rect x="12" y="0" width="8" height="3"/><rect x="12" y="9" width="8" height="3"/>
+    <rect x="24" y="0" width="3" height="12"/><rect x="24" y="0" width="8" height="3"/><rect x="24" y="9" width="8" height="3"/>
+    <rect x="36" y="5" width="6" height="3"/>
+    <rect x="46" y="0" width="3" height="12"/><rect x="46" y="0" width="8" height="3"/><rect x="46" y="9" width="8" height="3"/>
+    <rect x="58" y="0" width="3" height="12"/><rect x="64" y="0" width="3" height="12"/><rect x="64" y="0" width="8" height="3"/><rect x="70" y="0" width="3" height="12"/>
+    <rect x="76" y="0" width="3" height="12"/><rect x="76" y="0" width="8" height="3"/><rect x="76" y="4.5" width="7" height="3"/><path d="M84 3 L79 6 L84 9 Z"/><rect x="76" y="9" width="8" height="3"/>
+  </g>
+
+  <!-- ===== FRONT-RIGHT WHEELS ===== -->
+  <g transform="translate(265 225)">
+    <ellipse cx="0" cy="0" rx="42" ry="42" fill="#050508" stroke="#111" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="34" ry="34" fill="#121218"/>
+    <g fill="#1a1a22">
+      <rect x="-38" y="-7" width="7" height="14" rx="2"/>
+      <rect x="31" y="-7" width="7" height="14" rx="2"/>
+      <rect x="-7" y="-38" width="14" height="7" rx="2"/>
+      <rect x="-7" y="31" width="14" height="7" rx="2"/>
+    </g>
+    <ellipse cx="0" cy="0" rx="15" ry="15" fill="url(#hubY)" stroke="#8a7008"/>
+    <ellipse cx="0" cy="0" rx="6" ry="6" fill="#3a4250"/>
+  </g>
+  <g transform="translate(330 200)">
+    <ellipse cx="0" cy="0" rx="40" ry="40" fill="#050508" stroke="#111" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="32" ry="32" fill="#121218"/>
+    <ellipse cx="0" cy="0" rx="14" ry="14" fill="url(#hubY)" stroke="#8a7008"/>
+    <ellipse cx="0" cy="0" rx="5.5" ry="5.5" fill="#3a4250"/>
+  </g>
+
+  <!-- ===== TALL BLACK SELF-RIGHTING RODS ===== -->
+  <path d="M210 145 L195 25" fill="none" stroke="#0a0a0e" stroke-width="9" stroke-linecap="round"/>
+  <path d="M240 140 L235 20" fill="none" stroke="#0a0a0e" stroke-width="9" stroke-linecap="round"/>
+  <path d="M210 145 L195 25" fill="none" stroke="#2a2a34" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+  <path d="M240 140 L235 20" fill="none" stroke="#2a2a34" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- ===== BLACK WEAPON CRADLE ===== -->
+  <path d="M280 125
+           L345 115
+           L365 155
+           L355 200
+           L310 210
+           L285 175 Z"
+        fill="#0e1016" stroke="#050508" stroke-width="2.5"/>
+  <path d="M295 130 L340 122 L350 160 L310 175 Z" fill="#1a1e28"/>
+  <!-- bronze motor -->
+  <ellipse cx="320" cy="155" rx="12" ry="22" fill="#c87830" stroke="#8a5018" stroke-width="1.5"/>
+  <ellipse cx="320" cy="155" rx="5" ry="10" fill="#f0a848"/>
+  <!-- rainbow lens -->
+  <circle cx="302" cy="138" r="8" fill="url(#lens)" stroke="#e8eef4" stroke-width="1.5"/>
+
+  <!-- ===== SILVER SINGLE-TOOTH VERTICAL DISC (tall, dominant) ===== -->
+  <g transform="translate(375 145)">
+    <ellipse cx="0" cy="0" rx="28" ry="78" fill="url(#blade)" stroke="#2a3038" stroke-width="2.5"/>
+    <ellipse cx="-6" cy="0" rx="18" ry="65" fill="#000" opacity="0.1"/>
+    <!-- hub -->
+    <ellipse cx="0" cy="0" rx="14" ry="28" fill="#3a4250"/>
+    <ellipse cx="0" cy="0" rx="8" ry="16" fill="#c8d0dc"/>
+    <ellipse cx="0" cy="0" rx="3.5" ry="7" fill="#2a3038"/>
+    <!-- THE single curved tooth (signature) -->
+    <path d="M 12 -55
+             C 35 -70 55 -55 48 -30
+             C 42 -15 28 -20 18 -35
+             C 14 -45 12 -50 12 -55 Z"
+          fill="#d8dce4" stroke="#4a5260" stroke-width="1.5"/>
+    <path d="M 20 -50 C 35 -58 42 -45 38 -32 C 32 -28 22 -35 20 -45 Z"
+          fill="#fff" opacity="0.35"/>
+    <!-- secondary small rim nubs -->
+    <ellipse cx="8" cy="60" rx="6" ry="8" fill="#a8b0bc" stroke="#5a6270"/>
+    <ellipse cx="-10" cy="50" rx="5" ry="7" fill="#8a93a0" stroke="#5a6270"/>
+  </g>
+
+  <!-- ===== FOUR BLACK FORKS (cylindrical prongs) ===== -->
+  <g stroke="#111" stroke-width="1">
+    <path d="M330 205 L470 230" stroke="#0a0a0e" stroke-width="7" stroke-linecap="round"/>
+    <path d="M325 218 L465 250" stroke="#0a0a0e" stroke-width="7" stroke-linecap="round"/>
+    <path d="M318 230 L455 270" stroke="#08080c" stroke-width="7" stroke-linecap="round"/>
+    <path d="M310 242 L445 288" stroke="#08080c" stroke-width="7" stroke-linecap="round"/>
+    <!-- tip caps -->
+    <circle cx="470" cy="230" r="4" fill="#1a1a22"/>
+    <circle cx="465" cy="250" r="4" fill="#1a1a22"/>
+    <circle cx="455" cy="270" r="4" fill="#121218"/>
+    <circle cx="445" cy="288" r="4" fill="#121218"/>
+  </g>
+</svg>

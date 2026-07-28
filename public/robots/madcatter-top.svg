@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <!--
+    Top-down MadCatter (+X = front):
+      grey plow + blue eyes, red/blue splat aft, blue disc center-front,
+      large grey wheels left/right aft
+  -->
+  <defs>
+    <linearGradient id="gry" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5a6270"/>
+      <stop offset="100%" stop-color="#e0e4ea"/>
+    </linearGradient>
+    <linearGradient id="disc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0a2048"/>
+      <stop offset="100%" stop-color="#5a8ae8"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="48" cy="86" rx="34" ry="5" fill="#000" opacity="0.38"/>
+
+  <!-- large grey wheels -->
+  <circle cx="22" cy="28" r="12" fill="#3a4048" stroke="#0a0a0e"/>
+  <circle cx="22" cy="28" r="5" fill="#7a8088"/>
+  <circle cx="22" cy="68" r="12" fill="#3a4048" stroke="#0a0a0e"/>
+  <circle cx="22" cy="68" r="5" fill="#7a8088"/>
+
+  <!-- splat body -->
+  <path d="M16 34 L48 26 L52 70 L20 68 Z" fill="#d0312d" stroke="#1a0808" stroke-width="1.3"/>
+  <path d="M24 38 L40 32 L44 48 L28 52 Z" fill="#1e73be"/>
+  <path d="M28 52 L44 48 L48 66 L30 68 Z" fill="#3a88d0"/>
+  <path d="M34 36 L46 34 L48 44 L36 46 Z" fill="#d0312d"/>
+
+  <!-- grey top -->
+  <path d="M30 40 L52 34 L54 62 L32 66 Z" fill="#a8b0bc" opacity="0.7"/>
+  <circle cx="36" cy="44" r="2.2" fill="#3dff5a"/>
+  <circle cx="36" cy="56" r="2.2" fill="#3dff5a"/>
+  <circle cx="42" cy="50" r="4" fill="#6a7380"/>
+
+  <!-- grey plow -->
+  <path d="M48 24 L88 18 L86 78 L50 72 Z" fill="url(#gry)" stroke="#2a323c" stroke-width="1.5"/>
+  <path d="M52 58 L64 54 L68 70 L54 72 Z" fill="#d0312d"/>
+
+  <!-- eyes -->
+  <ellipse cx="62" cy="36" rx="5.5" ry="8" fill="#3a88e8" stroke="#050508" stroke-width="1.3"/>
+  <rect x="60.2" y="30" width="3.5" height="12" rx="1.5" fill="#050508"/>
+  <ellipse cx="62" cy="58" rx="5.5" ry="8" fill="#3a88e8" stroke="#050508" stroke-width="1.3"/>
+  <rect x="60.2" y="52" width="3.5" height="12" rx="1.5" fill="#050508"/>
+
+  <!-- notch + white fin + blue disc -->
+  <rect x="70" y="40" width="8" height="16" fill="#0a0a10"/>
+  <path d="M68 42 L74 28 L78 42 Z" fill="#f4f6fa"/>
+  <ellipse cx="80" cy="48" rx="7" ry="17" fill="url(#disc)" stroke="#0a2048" stroke-width="1.2"/>
+  <ellipse cx="80" cy="48" rx="2.2" ry="5" fill="#c8d0dc"/>
+</svg>

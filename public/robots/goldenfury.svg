@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 320" fill="none">
+  <!--
+    Golden Fury (correct ref):
+      gold/tan side armor + Team Overkill mark,
+      black top deck with red diamond vents + red fins,
+      red front scoop wedge,
+      dual red vertical discs on silver axle in black frame
+  -->
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#e8c86a"/>
+      <stop offset="45%" stop-color="#c8a038"/>
+      <stop offset="100%" stop-color="#8a6a18"/>
+    </linearGradient>
+    <linearGradient id="redW" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%" stop-color="#ff4a4a"/>
+      <stop offset="40%" stop-color="#d01818"/>
+      <stop offset="100%" stop-color="#7a0808"/>
+    </linearGradient>
+    <linearGradient id="disc" x1="0.2" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6060"/>
+      <stop offset="50%" stop-color="#c01018"/>
+      <stop offset="100%" stop-color="#5a0808"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8dce4"/>
+      <stop offset="100%" stop-color="#4a5260"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="230" cy="300" rx="155" ry="14" fill="#000" opacity="0.34"/>
+
+  <!-- ===== GOLD SIDE CHASSIS ===== -->
+  <path d="M55 160
+           L130 125
+           L210 140
+           L205 210
+           L110 230
+           L50 200 Z"
+        fill="url(#gold)" stroke="#4a3808" stroke-width="2"/>
+  <!-- recessed panel -->
+  <path d="M75 175 L145 155 L155 200 L90 215 Z" fill="#9a7820" stroke="#5a4808"/>
+  <!-- rivets -->
+  <circle cx="85" cy="185" r="2.5" fill="#5a4808"/>
+  <circle cx="110" cy="178" r="2.5" fill="#5a4808"/>
+  <circle cx="135" cy="172" r="2.5" fill="#5a4808"/>
+  <circle cx="95" cy="200" r="2.5" fill="#5a4808"/>
+  <!-- silver nameplate -->
+  <rect x="88" y="188" width="36" height="10" rx="1" fill="#c8d0dc" stroke="#5a6270"/>
+  <!-- Team Overkill (path lettering, no text nodes) -->
+  <g fill="#1a1208" transform="translate(78 208) scale(0.55)">
+    <rect x="0" y="0" width="2.5" height="10"/>
+    <rect x="5" y="0" width="2.5" height="10"/><rect x="5" y="0" width="7" height="2.5"/><rect x="5" y="7.5" width="7" height="2.5"/>
+    <rect x="15" y="0" width="2.5" height="10"/><rect x="15" y="0" width="7" height="2.5"/><rect x="15" y="3.5" width="6" height="2.5"/><path d="M22 2 L18 5 L22 8 Z"/>
+    <rect x="26" y="0" width="8" height="2.5"/><rect x="28.5" y="0" width="2.5" height="10"/>
+    <rect x="38" y="3" width="2.5" height="2.5"/><rect x="38" y="7.5" width="2.5" height="2.5"/>
+    <rect x="44" y="0" width="2.5" height="10"/><rect x="44" y="0" width="7" height="2.5"/><rect x="44" y="7.5" width="7" height="2.5"/><path d="M51 2 L47 5 L51 8 Z"/>
+    <rect x="55" y="0" width="2.5" height="10"/><path d="M55 0 L64 0 L64 2.5 L57.5 2.5 L57.5 4 L63 4 L63 6.5 L57.5 6.5 L57.5 10 L55 10 Z"/>
+    <rect x="68" y="0" width="2.5" height="10"/>
+    <rect x="74" y="0" width="2.5" height="10"/><rect x="74" y="0" width="7" height="2.5"/><path d="M81 2 L77 5 L81 8 Z"/><rect x="74" y="7.5" width="7" height="2.5"/>
+    <rect x="85" y="0" width="2.5" height="10"/>
+  </g>
+
+  <!-- wheels under gold -->
+  <ellipse cx="95" cy="200" rx="22" ry="22" fill="#0a0a0e" stroke="#111" stroke-width="1.5"/>
+  <ellipse cx="95" cy="200" rx="9" ry="9" fill="url(#steel)"/>
+  <ellipse cx="130" cy="210" rx="18" ry="18" fill="#0a0a0e" stroke="#111"/>
+  <ellipse cx="130" cy="210" rx="7" ry="7" fill="url(#steel)"/>
+
+  <!-- ===== BLACK TOP DECK ===== -->
+  <path d="M130 125
+           L250 110
+           L300 145
+           L280 185
+           L160 195
+           L125 160 Z"
+        fill="#14161c" stroke="#050508" stroke-width="2"/>
+  <!-- red diamond vent covers -->
+  <g fill="#c81820" stroke="#5a0810" stroke-width="1">
+    <path d="M165 145 L180 135 L195 145 L180 155 Z"/>
+    <path d="M200 138 L215 128 L230 138 L215 148 Z"/>
+    <path d="M235 145 L250 135 L265 145 L250 155 Z"/>
+  </g>
+  <!-- diamond pattern fill on vents -->
+  <g fill="none" stroke="#8a1018" stroke-width="0.8">
+    <path d="M172 145 L180 140 L188 145 L180 150 Z"/>
+    <path d="M207 138 L215 133 L223 138 L215 143 Z"/>
+    <path d="M242 145 L250 140 L258 145 L250 150 Z"/>
+  </g>
+
+  <!-- jagged red fins -->
+  <path d="M175 120 L185 95 L192 122 Z" fill="#d01818" stroke="#5a0810"/>
+  <path d="M255 115 L268 88 L275 120 Z" fill="#d01818" stroke="#5a0810"/>
+  <path d="M178 118 L186 100" stroke="#ff6060" stroke-width="1.5" opacity="0.5"/>
+  <path d="M260 112 L270 95" stroke="#ff6060" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- ===== RED FRONT SCOOP WEDGE ===== -->
+  <path d="M250 150
+           L360 145
+           L390 185
+           L375 230
+           L280 235
+           L245 195 Z"
+        fill="url(#redW)" stroke="#4a0808" stroke-width="2.5"/>
+  <path d="M260 155 L350 152 L360 175 L275 185 Z" fill="#ff6a6a" opacity="0.3"/>
+  <path d="M280 195 L375 230 L360 210 L275 185 Z" fill="#7a0808" opacity="0.45"/>
+  <!-- front wheels peeking -->
+  <ellipse cx="300" cy="220" rx="16" ry="16" fill="#0a0a0e" stroke="#111"/>
+  <ellipse cx="300" cy="220" rx="6" ry="6" fill="url(#steel)"/>
+  <ellipse cx="340" cy="215" rx="14" ry="14" fill="#0a0a0e" stroke="#111"/>
+  <ellipse cx="340" cy="215" rx="5" ry="5" fill="url(#steel)"/>
+
+  <!-- ===== DUAL RED VERTICAL DISCS + BLACK FRAME ===== -->
+  <!-- black U / square frame -->
+  <path d="M220 125
+           L285 120
+           L295 200
+           L230 205 Z"
+        fill="#0e1014" stroke="#050508" stroke-width="2"/>
+  <path d="M228 130 L278 126 L285 190 L235 194 Z" fill="#1a1e26"/>
+  <!-- silver axle -->
+  <ellipse cx="255" cy="155" rx="10" ry="28" fill="url(#steel)" stroke="#2a3038" stroke-width="1.5"/>
+  <ellipse cx="255" cy="155" rx="4" ry="10" fill="#3a4250"/>
+  <!-- rear red disc -->
+  <ellipse cx="248" cy="155" rx="14" ry="42" fill="#8a1018" stroke="#3a0608"/>
+  <path d="M248 115
+           C258 120 262 135 262 155
+           C262 175 258 190 248 195
+           C238 190 234 175 234 155
+           C234 135 238 120 248 115 Z"
+        fill="url(#disc)" stroke="#4a0808" stroke-width="1.2"/>
+  <!-- front red disc -->
+  <ellipse cx="262" cy="158" rx="16" ry="46" fill="#a01018" stroke="#3a0608"/>
+  <path d="M262 114
+           C274 120 280 138 280 158
+           C280 178 274 196 262 202
+           C250 196 244 178 244 158
+           C244 138 250 120 262 114 Z"
+        fill="url(#disc)" stroke="#4a0808" stroke-width="1.5"/>
+  <!-- disc teeth / notches -->
+  <g fill="#ff4050">
+    <path d="M262 114 L270 100 L255 108 Z"/>
+    <path d="M278 140 L294 132 L282 152 Z"/>
+    <path d="M278 175 L294 180 L280 188 Z"/>
+    <path d="M262 202 L270 216 L254 208 Z"/>
+    <path d="M246 175 L232 182 L244 162 Z"/>
+    <path d="M246 140 L232 130 L248 128 Z"/>
+  </g>
+  <!-- hub bolts -->
+  <ellipse cx="262" cy="158" rx="5" ry="10" fill="#2a3038"/>
+  <ellipse cx="262" cy="158" rx="2.5" ry="5" fill="#c8d0dc"/>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <!--
+    Top-down Minotaur (+X = front gold drum):
+      black body, white bull mark, gold drum with teeth, grey wheels aft
+  -->
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6a4810"/>
+      <stop offset="100%" stop-color="#f0d060"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="48" cy="86" rx="34" ry="5" fill="#000" opacity="0.38"/>
+
+  <!-- wheels aft -->
+  <circle cx="22" cy="30" r="10" fill="#3a4050" stroke="#050508"/>
+  <circle cx="22" cy="30" r="4" fill="#7a8490"/>
+  <circle cx="22" cy="66" r="10" fill="#3a4050" stroke="#050508"/>
+  <circle cx="22" cy="66" r="4" fill="#7a8490"/>
+
+  <!-- black body -->
+  <path d="M14 32 L55 24 L58 72 L18 70 Z" fill="#1a1a22" stroke="#050508" stroke-width="1.4"/>
+  <!-- bolts -->
+  <circle cx="28" cy="40" r="1.5" fill="#a8b0bc"/>
+  <circle cx="40" cy="36" r="1.5" fill="#a8b0bc"/>
+  <circle cx="48" cy="42" r="1.5" fill="#a8b0bc"/>
+  <circle cx="44" cy="58" r="1.5" fill="#a8b0bc"/>
+  <circle cx="30" cy="60" r="1.5" fill="#a8b0bc"/>
+
+  <!-- bull head mark -->
+  <ellipse cx="36" cy="48" rx="8" ry="7" fill="#f0f2f6"/>
+  <path d="M30 44 L26 36 L32 42 Z" fill="#f0f2f6"/>
+  <path d="M42 44 L46 36 L40 42 Z" fill="#f0f2f6"/>
+  <circle cx="33" cy="47" r="1.2" fill="#0a0a0e"/>
+  <circle cx="39" cy="47" r="1.2" fill="#0a0a0e"/>
+
+  <!-- black mounts -->
+  <rect x="54" y="34" width="10" height="28" rx="2" fill="#0e0e14" stroke="#050508"/>
+  <circle cx="59" cy="38" r="3.5" fill="#c89830"/>
+  <circle cx="59" cy="58" r="3.5" fill="#c89830"/>
+
+  <!-- gold drum -->
+  <ellipse cx="76" cy="48" rx="14" ry="24" fill="url(#gold)" stroke="#5a4010" stroke-width="1.3"/>
+  <!-- teeth -->
+  <path d="M68 30 L76 18 L82 22 L76 34 Z" fill="#c89830" stroke="#5a4010"/>
+  <path d="M74 34 L82 22 L88 28 L80 38 Z" fill="#e0b040" stroke="#5a4010"/>
+</svg>

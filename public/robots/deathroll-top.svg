@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <!-- Top-down Death Roll: camo wedge, disc + forks at +X -->
+  <defs>
+    <linearGradient id="disc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6a0810"/>
+      <stop offset="50%" stop-color="#c81020"/>
+      <stop offset="100%" stop-color="#ff4a58"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="50" cy="82" rx="34" ry="7" fill="#000" opacity="0.4"/>
+
+  <!-- camo body -->
+  <path d="M12 30 L52 18 L70 36 L68 64 L52 78 L14 70 Z" fill="#2a5a28" stroke="#050805" stroke-width="1.5"/>
+  <path d="M22 36 L40 28 L48 42 L32 50 Z" fill="#c9a12a"/>
+  <path d="M40 48 L58 40 L62 58 L45 66 Z" fill="#d4b03a"/>
+  <path d="M18 52 L34 48 L38 62 L22 66 Z" fill="#c9a12a"/>
+
+  <!-- snout -->
+  <path d="M58 34 L74 40 L72 58 L58 64 Z" fill="#2a5a28" stroke="#050805"/>
+  <path d="M62 40 L70 44 L68 54 L62 52 Z" fill="#c9a12a"/>
+
+  <!-- eye -->
+  <ellipse cx="44" cy="38" rx="4" ry="3" fill="#e01424"/>
+  <ellipse cx="45.5" cy="37" rx="1.4" ry="1" fill="#ffb0b8"/>
+
+  <!-- wheels -->
+  <circle cx="24" cy="38" r="8" fill="#0a0a0e"/>
+  <circle cx="24" cy="38" r="3.5" fill="#8a93a0"/>
+  <circle cx="26" cy="58" r="8" fill="#0a0a0e"/>
+  <circle cx="26" cy="58" r="3.5" fill="#8a93a0"/>
+
+  <!-- teeth -->
+  <path d="M64 40 L72 40 L68 50 Z" fill="#f4f4f4"/>
+  <path d="M66 52 L74 52 L70 62 Z" fill="#f4f4f4"/>
+  <path d="M67 46 L71 46 L69 52 Z" fill="#e01424"/>
+
+  <!-- forks -->
+  <path d="M70 28 L94 20 L92 28 L72 34 Z" fill="#0a0a0e"/>
+  <path d="M70 62 L94 74 L90 80 L68 70 Z" fill="#0a0a0e"/>
+
+  <!-- partial vertical saw (arc from top — open toward body) -->
+  <path d="M72 24
+           C88 28 94 40 94 48
+           C94 56 88 68 72 72
+           L74 64
+           C84 60 86 54 86 48
+           C86 42 84 36 74 32
+           Z"
+        fill="url(#disc)" stroke="#3a060c"/>
+  <circle cx="78" cy="22" r="2.8" fill="#e82030"/>
+  <circle cx="90" cy="36" r="2.5" fill="#e82030"/>
+  <circle cx="90" cy="60" r="2.5" fill="#e82030"/>
+  <circle cx="78" cy="74" r="2.8" fill="#e82030"/>
+</svg>

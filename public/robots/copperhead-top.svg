@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <!-- Top-down: rear wheels (-X) · deck · front drum (+X) — compact -->
+  <defs>
+    <linearGradient id="cu" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8a4818"/>
+      <stop offset="40%" stop-color="#e09038"/>
+      <stop offset="100%" stop-color="#9a5018"/>
+    </linearGradient>
+    <pattern id="carbon" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="5" height="5" fill="#121218"/>
+      <rect width="2.5" height="5" fill="#1e1e28"/>
+    </pattern>
+  </defs>
+
+  <ellipse cx="50" cy="80" rx="32" ry="7" fill="#000" opacity="0.4"/>
+
+  <!-- REAR wheels -->
+  <rect x="8" y="30" width="14" height="15" rx="4" fill="#0c0c12"/>
+  <rect x="8" y="51" width="14" height="15" rx="4" fill="#0c0c12"/>
+  <circle cx="15" cy="37.5" r="3" fill="#2a2a34"/>
+  <circle cx="15" cy="58.5" r="3" fill="#2a2a34"/>
+
+  <!-- chassis + carbon deck (middle, short) -->
+  <rect x="20" y="28" width="32" height="40" rx="4" fill="#101018"/>
+  <rect x="22" y="30" width="28" height="36" rx="3" fill="url(#carbon)" stroke="#050508"/>
+  <circle cx="36" cy="48" r="7" fill="#e01828"/>
+  <circle cx="36" cy="48" r="5" fill="#5a0810"/>
+  <path d="M33 44 C30 42 30 48 34 49 C38 50 38 54 34 55" fill="none" stroke="#e01828" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="26" cy="34" r="1.5" fill="#3db4ff"/>
+  <circle cx="44" cy="34" r="1.5" fill="#4dff7a"/>
+  <circle cx="26" cy="62" r="1.5" fill="#ffe14a"/>
+  <circle cx="44" cy="62" r="1.5" fill="#c45cff"/>
+
+  <!-- FRONT drum mounts flush to deck -->
+  <rect x="48" y="32" width="6" height="32" fill="#08080c"/>
+  <circle cx="51" cy="40" r="1.8" fill="#c8d0dc"/>
+  <circle cx="51" cy="56" r="1.8" fill="#c8d0dc"/>
+
+  <!-- FRONT copper drum -->
+  <rect x="50" y="30" width="32" height="36" rx="9" fill="url(#cu)"/>
+  <ellipse cx="52" cy="48" rx="4" ry="16" fill="#a85820"/>
+  <ellipse cx="80" cy="48" rx="4" ry="16" fill="#a85820"/>
+  <rect x="56" y="33" width="20" height="5" rx="2" fill="#ffe0a8" opacity="0.5"/>
+  <rect x="58" y="42" width="7" height="12" rx="1.5" fill="#1a0c04"/>
+  <rect x="68" y="42" width="7" height="12" rx="1.5" fill="#1a0c04"/>
+
+  <!-- forks under drum -->
+  <path d="M72 34 L92 28 L76 42 Z" fill="#a8b0bc"/>
+  <path d="M72 54 L92 68 L76 58 Z" fill="#a8b0bc"/>
+  <path d="M80 36 L88 32 L86 40 Z" fill="#4a5260"/>
+  <path d="M80 58 L88 65 L86 54 Z" fill="#4a5260"/>
+</svg>

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" fill="none">
+  <!--
+    Layout measured from reference PNG:
+      LEFT  = rear wheels (black cluster ~x left of frame)
+      MID   = carbon deck + snake logo
+      RIGHT = copper drum (copper cluster ~x right of frame)
+    Compact — drum bolted to front of deck, wheels under rear of deck.
+  -->
+  <defs>
+    <linearGradient id="cuBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f4bc66"/>
+      <stop offset="22%" stop-color="#e8983c"/>
+      <stop offset="50%" stop-color="#c87830"/>
+      <stop offset="78%" stop-color="#8f4c16"/>
+      <stop offset="100%" stop-color="#4e280a"/>
+    </linearGradient>
+    <linearGradient id="cuCap" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7a4014"/>
+      <stop offset="40%" stop-color="#d4842c"/>
+      <stop offset="100%" stop-color="#8a4a18"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%" stop-color="#e8ecf2"/>
+      <stop offset="40%" stop-color="#a8b0bc"/>
+      <stop offset="100%" stop-color="#5a6270"/>
+    </linearGradient>
+    <linearGradient id="steelDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6a7380"/>
+      <stop offset="100%" stop-color="#1a1e26"/>
+    </linearGradient>
+    <pattern id="carbon" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="#121218"/>
+      <rect width="3.5" height="7" fill="#1e1e28"/>
+      <rect y="3" width="7" height="1" fill="#0a0a10"/>
+    </pattern>
+  </defs>
+
+  <ellipse cx="210" cy="278" rx="150" ry="16" fill="#000" opacity="0.32"/>
+
+  <!-- ========== LEFT = REAR WHEELS ========== -->
+  <!-- upper/back wheel -->
+  <g>
+    <ellipse cx="95" cy="120" rx="54" ry="32" fill="#050508"/>
+    <rect x="41" y="88" width="108" height="40" rx="7" fill="#0c0c12"/>
+    <ellipse cx="95" cy="88" rx="54" ry="32" fill="#1a1a22"/>
+    <ellipse cx="95" cy="88" rx="31" ry="18" fill="#07070c"/>
+    <ellipse cx="95" cy="88" rx="15" ry="9" fill="#2a2a34"/>
+    <ellipse cx="84" cy="80" rx="12" ry="6" fill="#fff" opacity="0.07"/>
+  </g>
+  <!-- lower/near wheel (rear-left, more forward in iso) -->
+  <g>
+    <ellipse cx="100" cy="210" rx="58" ry="34" fill="#050508"/>
+    <rect x="42" y="176" width="116" height="42" rx="7" fill="#0c0c12"/>
+    <ellipse cx="100" cy="176" rx="58" ry="34" fill="#1a1a22"/>
+    <ellipse cx="100" cy="176" rx="33" ry="19" fill="#07070c"/>
+    <ellipse cx="100" cy="176" rx="16" ry="9" fill="#2a2a34"/>
+    <ellipse cx="88" cy="168" rx="13" ry="6" fill="#fff" opacity="0.07"/>
+  </g>
+
+  <!-- ========== MID = CHASSIS + CARBON DECK (between wheels and drum) ========== -->
+  <path d="M120 95 L235 88 L255 130 L245 200 L130 210 L115 150 Z" fill="#0e0e16"/>
+
+  <path d="M125 85
+           L250 78
+           L275 125
+           L262 185
+           L140 195
+           L118 135 Z"
+        fill="url(#carbon)" stroke="#050508" stroke-width="2.5"/>
+  <!-- front lip of deck (touches drum mounts) -->
+  <path d="M140 195 L262 185 L275 125 L262 140 L145 150 Z" fill="#000" opacity="0.28"/>
+  <path d="M130 87 L245 81 L248 86 L134 92 Z" fill="#fff" opacity="0.05"/>
+
+  <!-- circuit traces -->
+  <g stroke="#e01828" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85">
+    <path d="M195 130 L160 115 L135 125"/>
+    <path d="M210 135 L245 118 L265 130"/>
+    <path d="M205 145 L240 160"/>
+  </g>
+
+  <!-- snake badge -->
+  <g transform="translate(195 135)">
+    <circle r="26" fill="#e01828"/>
+    <circle r="20" fill="#5a0810"/>
+    <path d="M-8 -10 C-16 -16 -16 1 -4 3 C8 5 10 15 0 17 C-12 19 -14 6 -4 4"
+          fill="none" stroke="#e01828" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="8" cy="-11" r="3.6" fill="#e01828"/>
+  </g>
+
+  <!-- LED gems -->
+  <circle cx="140" cy="100" r="4.2" fill="#3db4ff"/><circle cx="138.5" cy="98.5" r="1.3" fill="#fff" opacity=".55"/>
+  <circle cx="175" cy="90" r="4.2" fill="#4dff7a"/><circle cx="173.5" cy="88.5" r="1.3" fill="#fff" opacity=".55"/>
+  <circle cx="215" cy="88" r="4.2" fill="#c45cff"/><circle cx="213.5" cy="86.5" r="1.3" fill="#fff" opacity=".55"/>
+  <circle cx="248" cy="100" r="4.2" fill="#ffe14a"/><circle cx="246.5" cy="98.5" r="1.3" fill="#fff" opacity=".55"/>
+  <circle cx="258" cy="145" r="4" fill="#ff6a3d"/><circle cx="256.6" cy="143.6" r="1.2" fill="#fff" opacity=".55"/>
+  <circle cx="250" cy="175" r="3.8" fill="#ff4d8a"/>
+  <circle cx="150" cy="175" r="3.8" fill="#4dff7a"/>
+  <circle cx="135" cy="140" r="3.8" fill="#ffe14a"/>
+
+  <!-- ========== RIGHT = FRONT COPPER DRUM (flush to deck front) ========== -->
+  <!-- mounts on front edge of deck -->
+  <rect x="248" y="70" width="24" height="100" rx="4" fill="#08080c" stroke="#1a1a22"/>
+  <rect x="355" y="85" width="22" height="95" rx="4" fill="#08080c" stroke="#1a1a22"/>
+  <circle cx="260" cy="95" r="5" fill="#d0d6e0"/><circle cx="258.4" cy="93.4" r="1.6" fill="#5a6270"/>
+  <circle cx="260" cy="125" r="5" fill="#d0d6e0"/><circle cx="258.4" cy="123.4" r="1.6" fill="#5a6270"/>
+  <circle cx="260" cy="150" r="4.5" fill="#d0d6e0"/><circle cx="258.4" cy="148.4" r="1.5" fill="#5a6270"/>
+  <circle cx="366" cy="110" r="4.5" fill="#d0d6e0"/><circle cx="364.4" cy="108.4" r="1.5" fill="#5a6270"/>
+  <circle cx="366" cy="145" r="4.5" fill="#d0d6e0"/><circle cx="364.4" cy="143.4" r="1.5" fill="#5a6270"/>
+
+  <!-- copper drum -->
+  <rect x="252" y="78" width="122" height="100" rx="18" fill="url(#cuBody)"/>
+  <ellipse cx="256" cy="128" rx="14" ry="46" fill="url(#cuCap)"/>
+  <ellipse cx="370" cy="128" rx="14" ry="46" fill="url(#cuCap)"/>
+  <ellipse cx="254" cy="120" rx="8" ry="18" fill="#f4bc66" opacity="0.4"/>
+  <ellipse cx="371" cy="120" rx="7" ry="16" fill="#f4bc66" opacity="0.3"/>
+  <rect x="275" y="84" width="85" height="18" rx="7" fill="#ffe2b0" opacity="0.55"/>
+  <rect x="290" y="87" width="50" height="6" rx="2" fill="#fff" opacity="0.35"/>
+  <!-- two deep channels -->
+  <rect x="285" y="108" width="28" height="55" rx="5" fill="#2a1408"/>
+  <rect x="290" y="114" width="18" height="44" rx="3" fill="#140a04"/>
+  <rect x="285" y="108" width="28" height="55" rx="5" fill="none" stroke="#9a5018" stroke-width="2"/>
+  <rect x="325" y="108" width="28" height="55" rx="5" fill="#2a1408"/>
+  <rect x="330" y="114" width="18" height="44" rx="3" fill="#140a04"/>
+  <rect x="325" y="108" width="28" height="55" rx="5" fill="none" stroke="#9a5018" stroke-width="2"/>
+
+  <!-- LEFT serrated tooth under drum (viewer-near, lower) -->
+  <path d="M270 165 L380 210 L290 245 L250 185 Z" fill="url(#steel)" stroke="#2a3038" stroke-width="1.5"/>
+  <path d="M285 185 L340 215 L295 228 Z" fill="#0e0e16"/>
+  <path d="M270 165 L380 210 L355 205 L285 175 Z" fill="#fff" opacity="0.15"/>
+  <g fill="#4a5260">
+    <path d="M290 230 L305 220 L300 245 Z"/>
+    <path d="M310 232 L326 220 L321 248 Z"/>
+    <path d="M332 228 L350 215 L344 242 Z"/>
+    <path d="M355 222 L375 210 L368 238 Z"/>
+  </g>
+
+  <!-- RIGHT horn under far side of drum -->
+  <path d="M340 95 L400 140 L360 155 L320 115 Z" fill="url(#steelDark)" stroke="#0a0a0e"/>
+  <path d="M340 95 L400 140 L385 135 L345 105 Z" fill="#9aa3b0" opacity="0.22"/>
+</svg>

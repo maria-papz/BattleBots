@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 320" fill="none">
+  <!--
+    Minotaur from reference (3/4 look-down front-left):
+      black boxy chassis, bolted top with white BULL head + lightning marks,
+      GOLD front drum with two teeth, black mounts with gold endcaps,
+      thick grey rear wheels
+      (no Magmotor text)
+  -->
+  <defs>
+    <linearGradient id="blk" x1="0.2" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#3a3a42"/>
+      <stop offset="45%" stop-color="#1a1a22"/>
+      <stop offset="100%" stop-color="#08080c"/>
+    </linearGradient>
+    <linearGradient id="blkSide" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0%" stop-color="#0a0a0e"/>
+      <stop offset="100%" stop-color="#2a2a34"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0d060"/>
+      <stop offset="40%" stop-color="#c89830"/>
+      <stop offset="100%" stop-color="#6a4810"/>
+    </linearGradient>
+    <linearGradient id="goldCap" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#ffe080"/>
+      <stop offset="50%" stop-color="#c89830"/>
+      <stop offset="100%" stop-color="#5a4010"/>
+    </linearGradient>
+    <linearGradient id="whl" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#6a7080"/>
+      <stop offset="55%" stop-color="#3a4050"/>
+      <stop offset="100%" stop-color="#12151a"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="230" cy="300" rx="165" ry="13" fill="#000" opacity="0.32"/>
+
+  <!-- ===== REAR GREY WHEELS ===== -->
+  <ellipse cx="95" cy="210" rx="36" ry="36" fill="url(#whl)" stroke="#050508" stroke-width="2.2"/>
+  <ellipse cx="95" cy="210" rx="22" ry="22" fill="#2a3038"/>
+  <ellipse cx="95" cy="210" rx="9" ry="9" fill="#7a8490"/>
+  <ellipse cx="145" cy="235" rx="30" ry="30" fill="url(#whl)" stroke="#050508" stroke-width="2"/>
+  <ellipse cx="145" cy="235" rx="18" ry="18" fill="#2a3038"/>
+  <ellipse cx="145" cy="235" rx="7" ry="7" fill="#7a8490"/>
+
+  <!-- ===== BLACK CHASSIS ===== -->
+  <path d="M70 185
+           L130 120
+           L280 115
+           L320 160
+           L300 215
+           L160 230
+           L80 215 Z"
+        fill="url(#blk)" stroke="#050508" stroke-width="2.2"/>
+  <!-- left side panel -->
+  <path d="M70 185 L80 215 L160 230 L150 175 Z" fill="url(#blkSide)" stroke="#050508"/>
+  <!-- top deck -->
+  <path d="M125 135
+           L265 125
+           L295 165
+           L270 200
+           L145 205
+           L120 165 Z"
+        fill="#14141c" stroke="#050508" stroke-width="1.8"/>
+  <!-- bolts around top -->
+  <g fill="#a8b0bc">
+    <circle cx="140" cy="150" r="3"/>
+    <circle cx="175" cy="138" r="3"/>
+    <circle cx="215" cy="132" r="3"/>
+    <circle cx="255" cy="138" r="3"/>
+    <circle cx="280" cy="160" r="3"/>
+    <circle cx="265" cy="185" r="3"/>
+    <circle cx="220" cy="195" r="3"/>
+    <circle cx="170" cy="192" r="3"/>
+    <circle cx="140" cy="175" r="3"/>
+  </g>
+
+  <!-- white bull head (centered) -->
+  <g transform="translate(200 160)" fill="#f0f2f6">
+    <!-- head -->
+    <ellipse cx="0" cy="4" rx="22" ry="18"/>
+    <!-- snout -->
+    <ellipse cx="0" cy="16" rx="12" ry="8"/>
+    <!-- horns -->
+    <path d="M-18 -6 L-32 -28 L-12 -10 Z"/>
+    <path d="M18 -6 L32 -28 L12 -10 Z"/>
+    <!-- eyes -->
+    <ellipse cx="-8" cy="0" rx="3.5" ry="4" fill="#0a0a0e"/>
+    <ellipse cx="8" cy="0" rx="3.5" ry="4" fill="#0a0a0e"/>
+    <!-- nostrils -->
+    <ellipse cx="-4" cy="18" rx="2" ry="2.5" fill="#0a0a0e"/>
+    <ellipse cx="4" cy="18" rx="2" ry="2.5" fill="#0a0a0e"/>
+  </g>
+
+  <!-- lightning bolt circles -->
+  <g transform="translate(155 155)">
+    <circle r="10" fill="none" stroke="#f0f2f6" stroke-width="2"/>
+    <path d="M-2 -6 L4 -2 L0 2 L6 8 L-2 2 L2 -2 Z" fill="#f0f2f6"/>
+  </g>
+  <g transform="translate(250 150)">
+    <circle r="10" fill="none" stroke="#f0f2f6" stroke-width="2"/>
+    <path d="M-2 -6 L4 -2 L0 2 L6 8 L-2 2 L2 -2 Z" fill="#f0f2f6"/>
+  </g>
+
+  <!-- jagged white accents -->
+  <path d="M160 175 L175 168 L180 180 L168 185 Z" fill="#f0f2f6" opacity="0.7"/>
+  <path d="M230 178 L248 170 L252 185 L235 190 Z" fill="#f0f2f6" opacity="0.7"/>
+
+  <!-- ===== BLACK DRUM MOUNTS ===== -->
+  <path d="M240 145
+           L275 135
+           L295 175
+           L280 210
+           L245 205
+           L230 165 Z"
+        fill="#0e0e14" stroke="#050508" stroke-width="1.8"/>
+  <path d="M290 130
+           L330 125
+           L345 160
+           L330 195
+           L295 190
+           L280 150 Z"
+        fill="#121218" stroke="#050508" stroke-width="1.8"/>
+  <!-- gold endcaps -->
+  <ellipse cx="255" cy="170" rx="16" ry="22" fill="url(#goldCap)" stroke="#5a4010" stroke-width="1.5"/>
+  <ellipse cx="255" cy="170" rx="7" ry="10" fill="#3a2808"/>
+  <ellipse cx="320" cy="155" rx="14" ry="20" fill="url(#goldCap)" stroke="#5a4010" stroke-width="1.5"/>
+  <ellipse cx="320" cy="155" rx="6" ry="9" fill="#3a2808"/>
+
+  <!-- ===== GOLD DRUM ===== -->
+  <ellipse cx="288" cy="175" rx="55" ry="36" fill="url(#gold)" stroke="#5a4010" stroke-width="2"/>
+  <path d="M240 160 L335 145 L340 190 L245 205 Z" fill="url(#gold)"/>
+  <ellipse cx="242" cy="182" rx="14" ry="24" fill="#8a6818" stroke="#5a4010"/>
+  <ellipse cx="338" cy="168" rx="12" ry="22" fill="#e0b040" stroke="#5a4010"/>
+  <!-- two teeth -->
+  <path d="M265 145
+           L285 120
+           L300 125
+           L290 155 Z"
+        fill="url(#gold)" stroke="#5a4010" stroke-width="1.5"/>
+  <path d="M300 150
+           L320 128
+           L335 135
+           L320 160 Z"
+        fill="#c89830" stroke="#5a4010" stroke-width="1.5"/>
+  <!-- drum highlight -->
+  <path d="M250 165 L325 152" stroke="#ffe080" stroke-width="3" opacity="0.25"/>
+</svg>

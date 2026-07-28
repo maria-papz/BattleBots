@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 360" fill="none">
+  <!--
+    Orbitron measured from reference (3/4 look-down):
+      FRONT = wide WHITE wedge + ORBITRON lettering (orbit Os)
+      MID   = black wheels tucked behind wedge, grey bolted open deck
+      TOP   = AVID box (red/green ports), Bambu box, white H-plate
+      REAR  = dual-arm hub + FLARED BLUE tooth (left) + FLARED GOLD tooth (right)
+  -->
+  <defs>
+    <linearGradient id="wht" x1="0.3" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#e4e8ee"/>
+      <stop offset="100%" stop-color="#9aa2ae"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0.2" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#c0c6d0"/>
+      <stop offset="50%" stop-color="#7a8490"/>
+      <stop offset="100%" stop-color="#3a4450"/>
+    </linearGradient>
+    <linearGradient id="blu" x1="0.2" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="#4a90f0"/>
+      <stop offset="40%" stop-color="#1e5ab8"/>
+      <stop offset="100%" stop-color="#0a2868"/>
+    </linearGradient>
+    <linearGradient id="gld" x1="0.2" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="#f4d050"/>
+      <stop offset="40%" stop-color="#d0a020"/>
+      <stop offset="100%" stop-color="#6a4808"/>
+    </linearGradient>
+    <linearGradient id="whl" x1="0.25" y1="0" x2="0.75" y2="1">
+      <stop offset="0%" stop-color="#2a2a34"/>
+      <stop offset="55%" stop-color="#121218"/>
+      <stop offset="100%" stop-color="#050508"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="250" cy="338" rx="185" ry="14" fill="#000" opacity="0.28"/>
+
+  <!-- ===== BLACK WHEELS (behind wedge) ===== -->
+  <ellipse cx="145" cy="230" rx="38" ry="38" fill="url(#whl)" stroke="#050508" stroke-width="2.2"/>
+  <ellipse cx="145" cy="230" rx="22" ry="22" fill="#0e0e14"/>
+  <ellipse cx="145" cy="230" rx="8" ry="8" fill="#3a4250"/>
+  <ellipse cx="230" cy="245" rx="34" ry="34" fill="url(#whl)" stroke="#050508" stroke-width="2"/>
+  <ellipse cx="230" cy="245" rx="19" ry="19" fill="#0e0e14"/>
+  <ellipse cx="230" cy="245" rx="7" ry="7" fill="#3a4250"/>
+
+  <!-- ===== GREY OPEN TOP DECK ===== -->
+  <path d="M155 165
+           L245 125
+           L350 135
+           L370 185
+           L320 220
+           L180 215
+           L150 185 Z"
+        fill="url(#deck)" stroke="#2a323c" stroke-width="1.8"/>
+  <g fill="#1a1e28">
+    <circle cx="175" cy="175" r="2.6"/>
+    <circle cx="210" cy="145" r="2.6"/>
+    <circle cx="260" cy="135" r="2.6"/>
+    <circle cx="310" cy="142" r="2.6"/>
+    <circle cx="345" cy="165" r="2.6"/>
+    <circle cx="330" cy="200" r="2.6"/>
+    <circle cx="270" cy="210" r="2.6"/>
+    <circle cx="200" cy="205" r="2.6"/>
+    <circle cx="165" cy="190" r="2.6"/>
+  </g>
+
+  <!-- AVID module (left) -->
+  <rect x="175" y="160" width="42" height="28" rx="2" fill="#0e0e14" stroke="#050508"/>
+  <rect x="180" y="165" width="8" height="5" rx="0.5" fill="#3a4250"/>
+  <rect x="190" y="165" width="8" height="5" rx="0.5" fill="#3a4250"/>
+  <rect x="200" y="165" width="8" height="5" rx="0.5" fill="#3a4250"/>
+  <circle cx="188" cy="180" r="5" fill="#e01828"/>
+  <circle cx="186.5" cy="178.5" r="1.5" fill="#ff8080" opacity="0.6"/>
+  <circle cx="205" cy="180" r="5" fill="#3dff5a"/>
+  <circle cx="203.5" cy="178.5" r="1.5" fill="#b0ffc0" opacity="0.6"/>
+
+  <!-- Bambu module (right) -->
+  <rect x="300" y="155" width="40" height="26" rx="2" fill="#0e0e14" stroke="#050508"/>
+  <rect x="308" y="161" width="8" height="8" fill="#3a90e0"/>
+  <rect x="318" y="161" width="8" height="8" fill="#3a90e0"/>
+  <rect x="308" y="171" width="8" height="8" fill="#3a90e0"/>
+  <rect x="318" y="171" width="8" height="8" fill="#3a90e0"/>
+
+  <!-- white H / butterfly plate -->
+  <path d="M240 155
+           L285 150
+           L290 175
+           L270 185
+           L245 180
+           L235 165 Z"
+        fill="#f0f2f6" stroke="#8a9098" stroke-width="1.3"/>
+  <path d="M250 162 L275 158 L278 172 L253 175 Z" fill="none" stroke="#c0c6d0" stroke-width="2"/>
+
+  <!-- ===== WHITE FRONT WEDGE (dominant) ===== -->
+  <path d="M50 205
+           L145 105
+           L310 115
+           L360 185
+           L330 255
+           L130 265
+           L55 235 Z"
+        fill="url(#wht)" stroke="#5a6270" stroke-width="2.4"/>
+  <path d="M55 235 L130 265 L330 255 L315 230 L125 240 L70 220 Z"
+        fill="#6a7380" opacity="0.32"/>
+  <path d="M150 112 L300 120" stroke="#fff" stroke-width="2" opacity="0.35"/>
+
+  <!-- side skirt under blue weapon area -->
+  <path d="M80 220 L140 210 L150 245 L90 250 Z" fill="#d8dce4" stroke="#8a9098"/>
+
+  <!-- ORBITRON lettering with 3-blade orbit Os -->
+  <g fill="#0a0a0e" transform="translate(105 175) rotate(-7) scale(0.62)">
+    <!-- O = circle + 3 curved blades -->
+    <g transform="translate(14 14)">
+      <circle r="13" fill="none" stroke="#0a0a0e" stroke-width="3.5"/>
+      <path d="M0 -3 L8 5 L-2 8 Z"/>
+      <path d="M3 2 L-8 6 L-4 -4 Z"/>
+      <path d="M-2 -2 L6 -8 L8 2 Z"/>
+    </g>
+    <!-- R -->
+    <path d="M34 1 L34 27 L41 27 L41 16 L50 27 L58 27 L47 14 C54 13 56 7 56 5 C56 1 51 1 46 1 Z M41 7 L48 7 C50 7 50 11 48 11 L41 11 Z"/>
+    <!-- B -->
+    <path d="M62 1 L62 27 L78 27 C85 27 87 20 87 16 C87 13 85 12 82 11 C86 10 88 6 88 4 C88 1 84 1 78 1 Z M69 7 L76 7 C78 7 80 8 80 10 C80 12 78 13 76 13 L69 13 Z M69 16 L78 16 C80 16 82 18 82 21 C82 23 80 23 78 23 L69 23 Z"/>
+    <!-- I -->
+    <rect x="94" y="1" width="7" height="26"/>
+    <!-- T -->
+    <path d="M106 1 L132 1 L132 8 L122 8 L122 27 L116 27 L116 8 L106 8 Z"/>
+    <!-- R -->
+    <path d="M138 1 L138 27 L145 27 L145 16 L154 27 L162 27 L151 14 C158 13 160 7 160 5 C160 1 155 1 150 1 Z M145 7 L152 7 C154 7 154 11 152 11 L145 11 Z"/>
+    <!-- O orbit -->
+    <g transform="translate(180 14)">
+      <circle r="13" fill="none" stroke="#0a0a0e" stroke-width="3.5"/>
+      <path d="M0 -3 L8 5 L-2 8 Z"/>
+      <path d="M3 2 L-8 6 L-4 -4 Z"/>
+      <path d="M-2 -2 L6 -8 L8 2 Z"/>
+    </g>
+    <!-- N -->
+    <path d="M200 1 L200 27 L207 27 L207 12 L220 27 L227 27 L227 1 L220 1 L220 16 L207 1 Z"/>
+  </g>
+
+  <!-- ===== REAR WEAPON ASSEMBLY ===== -->
+  <!-- white rear wedgelets -->
+  <path d="M355 210 L380 205 L385 230 L360 235 Z" fill="#e8ecf2" stroke="#8a9098"/>
+  <path d="M375 195 L400 190 L405 215 L380 220 Z" fill="#d0d4dc" stroke="#8a9098"/>
+
+  <!-- central hub + arms -->
+  <ellipse cx="380" cy="155" rx="20" ry="26" fill="#4a5260" stroke="#1a1e28" stroke-width="1.5"/>
+  <ellipse cx="380" cy="155" rx="9" ry="12" fill="#2a323c"/>
+  <!-- left arm to blue tooth -->
+  <path d="M360 150
+           L300 100
+           L315 85
+           L375 140 Z"
+        fill="#c8d0dc" stroke="#5a6270" stroke-width="1.5"/>
+  <!-- right arm to gold tooth -->
+  <path d="M390 165
+           L445 195
+           L435 215
+           L380 180 Z"
+        fill="#a8b0bc" stroke="#5a6270" stroke-width="1.5"/>
+
+  <!-- BLUE hub plate (5 bolts) -->
+  <ellipse cx="310" cy="95" rx="18" ry="18" fill="#1e5ab8" stroke="#0a2868" stroke-width="1.5"/>
+  <g fill="#0a2868">
+    <circle cx="310" cy="82" r="2.2"/>
+    <circle cx="322" cy="90" r="2.2"/>
+    <circle cx="318" cy="105" r="2.2"/>
+    <circle cx="302" cy="105" r="2.2"/>
+    <circle cx="298" cy="90" r="2.2"/>
+  </g>
+  <ellipse cx="310" cy="95" rx="6" ry="6" fill="#c8d0dc"/>
+
+  <!-- GOLD hub plate -->
+  <ellipse cx="440" cy="205" rx="18" ry="18" fill="#d0a020" stroke="#6a4808" stroke-width="1.5"/>
+  <g fill="#6a4808">
+    <circle cx="440" cy="192" r="2.2"/>
+    <circle cx="452" cy="200" r="2.2"/>
+    <circle cx="448" cy="215" r="2.2"/>
+    <circle cx="432" cy="215" r="2.2"/>
+    <circle cx="428" cy="200" r="2.2"/>
+  </g>
+  <ellipse cx="440" cy="205" rx="6" ry="6" fill="#c8d0dc"/>
+
+  <!-- ===== BLUE FLARED TOOTH (bell / trumpet) ===== -->
+  <g transform="translate(280 70) rotate(-25)">
+    <!-- outer flared rim (wide mouth) -->
+    <ellipse cx="0" cy="-40" rx="28" ry="12" fill="url(#blu)" stroke="#0a2868" stroke-width="2"/>
+    <!-- body tapering toward hub -->
+    <path d="M-22 -38
+             C-26 -10 -18 20 -8 35
+             L8 35
+             C18 20 26 -10 22 -38 Z"
+          fill="url(#blu)" stroke="#0a2868" stroke-width="1.5"/>
+    <!-- bottom flare -->
+    <ellipse cx="0" cy="38" rx="16" ry="8" fill="#0a2868" stroke="#061848"/>
+    <!-- highlight -->
+    <ellipse cx="-8" cy="-20" rx="6" ry="16" fill="#7ab0ff" opacity="0.35"/>
+  </g>
+
+  <!-- ===== GOLD FLARED TOOTH ===== -->
+  <g transform="translate(460 230) rotate(35)">
+    <ellipse cx="0" cy="-40" rx="28" ry="12" fill="url(#gld)" stroke="#6a4808" stroke-width="2"/>
+    <path d="M-22 -38
+             C-26 -10 -18 20 -8 35
+             L8 35
+             C18 20 26 -10 22 -38 Z"
+          fill="url(#gld)" stroke="#6a4808" stroke-width="1.5"/>
+    <ellipse cx="0" cy="38" rx="16" ry="8" fill="#6a4808" stroke="#4a3008"/>
+    <ellipse cx="-8" cy="-20" rx="6" ry="16" fill="#ffe080" opacity="0.35"/>
+  </g>
+</svg>

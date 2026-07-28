@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Ribbot from attached reference (3/4 front-left):
+      green camo chassis, bright ORANGE treaded wheels,
+      RED vertical spinner frame on green uprights + silver drum,
+      ORANGE front wedge, grey feeder forks
+      (no side lettering)
+  -->
+  <defs>
+    <linearGradient id="grn" x1="0.15" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#5a9a48"/>
+      <stop offset="45%" stop-color="#3a7028"/>
+      <stop offset="100%" stop-color="#1e4810"/>
+    </linearGradient>
+    <linearGradient id="orn" x1="0.2" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#ff9030"/>
+      <stop offset="45%" stop-color="#e86010"/>
+      <stop offset="100%" stop-color="#9a3808"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0.15" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#ff4040"/>
+      <stop offset="40%" stop-color="#d01818"/>
+      <stop offset="100%" stop-color="#6a0810"/>
+    </linearGradient>
+    <linearGradient id="stl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0e4ea"/>
+      <stop offset="50%" stop-color="#9aa2ae"/>
+      <stop offset="100%" stop-color="#4a5260"/>
+    </linearGradient>
+    <linearGradient id="whl" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#ff8030"/>
+      <stop offset="50%" stop-color="#d05010"/>
+      <stop offset="100%" stop-color="#7a2808"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="175" ry="14" fill="#000" opacity="0.3"/>
+
+  <!-- ===== ORANGE WHEELS (4) ===== -->
+  <!-- rear left -->
+  <ellipse cx="85" cy="215" rx="32" ry="32" fill="url(#whl)" stroke="#5a2008" stroke-width="2"/>
+  <ellipse cx="85" cy="215" rx="20" ry="20" fill="#c04810"/>
+  <!-- zig tread -->
+  <g stroke="#7a2808" stroke-width="2.5" fill="none">
+    <path d="M70 200 L78 208 L70 216"/>
+    <path d="M100 200 L92 208 L100 216"/>
+    <path d="M75 235 L85 228 L95 235"/>
+  </g>
+  <ellipse cx="85" cy="215" rx="8" ry="8" fill="#3a4250"/>
+  <!-- rear right peek -->
+  <ellipse cx="155" cy="240" rx="26" ry="26" fill="url(#whl)" stroke="#5a2008"/>
+  <ellipse cx="155" cy="240" rx="10" ry="10" fill="#3a4250"/>
+  <!-- front left (behind fork armor) -->
+  <ellipse cx="200" cy="225" rx="24" ry="24" fill="url(#whl)" stroke="#5a2008"/>
+  <ellipse cx="200" cy="225" rx="9" ry="9" fill="#3a4250"/>
+  <!-- front right -->
+  <ellipse cx="280" cy="210" rx="22" ry="22" fill="url(#whl)" stroke="#5a2008"/>
+  <ellipse cx="280" cy="210" rx="8" ry="8" fill="#3a4250"/>
+
+  <!-- ===== GREEN CAMO BODY ===== -->
+  <path d="M70 185
+           L140 120
+           L280 115
+           L320 160
+           L300 215
+           L160 230
+           L80 215 Z"
+        fill="url(#grn)" stroke="#0e2808" stroke-width="2"/>
+  <!-- camo blotches -->
+  <path d="M95 165 L140 140 L165 160 L140 185 L100 185 Z" fill="#2a5818"/>
+  <path d="M160 135 L210 125 L235 150 L200 170 L160 160 Z" fill="#4a8830"/>
+  <path d="M220 145 L270 135 L290 160 L255 180 L220 170 Z" fill="#2a5818"/>
+  <path d="M110 190 L160 175 L180 205 L140 215 L110 205 Z" fill="#4a8830"/>
+  <path d="M200 180 L250 170 L270 195 L225 210 L200 200 Z" fill="#2a5818"/>
+  <!-- bolts -->
+  <g fill="#1a1a22">
+    <circle cx="130" cy="155" r="3"/>
+    <circle cx="180" cy="140" r="3"/>
+    <circle cx="230" cy="138" r="3"/>
+    <circle cx="275" cy="150" r="3"/>
+    <circle cx="260" cy="185" r="3"/>
+    <circle cx="190" cy="195" r="3"/>
+    <circle cx="140" cy="190" r="3"/>
+  </g>
+
+  <!-- ===== GREY FEEDER FORKS ===== -->
+  <path d="M250 200
+           L360 185
+           L380 200
+           L275 220 Z"
+        fill="url(#stl)" stroke="#2a323c" stroke-width="1.5"/>
+  <path d="M270 170
+           L370 145
+           L385 160
+           L290 185 Z"
+        fill="#8a929e" stroke="#2a323c" stroke-width="1.5"/>
+  <!-- orange fork armor (left) -->
+  <path d="M230 195
+           L280 185
+           L290 220
+           L240 230 Z"
+        fill="url(#orn)" stroke="#7a3008" stroke-width="1.5"/>
+
+  <!-- ===== ORANGE FRONT WEDGE ===== -->
+  <path d="M240 210
+           L320 195
+           L340 230
+           L270 245
+           L235 230 Z"
+        fill="url(#orn)" stroke="#7a3008" stroke-width="2"/>
+  <path d="M250 215 L310 205 L315 220 L255 228 Z" fill="#ff9030" opacity="0.35"/>
+
+  <!-- ===== GREEN WEAPON UPRIGHTS ===== -->
+  <rect x="255" y="95" width="22" height="115" rx="3" fill="url(#grn)" stroke="#0e2808" stroke-width="1.8"/>
+  <rect x="320" y="100" width="20" height="110" rx="3" fill="#2a5818" stroke="#0e2808" stroke-width="1.8"/>
+  <!-- top rollers -->
+  <ellipse cx="266" cy="100" rx="8" ry="6" fill="#8a929e" stroke="#3a4250"/>
+  <ellipse cx="330" cy="105" rx="7" ry="5" fill="#8a929e" stroke="#3a4250"/>
+  <!-- bolts on uprights -->
+  <g fill="#1a1a22">
+    <circle cx="266" cy="130" r="3.5"/>
+    <circle cx="266" cy="160" r="3.5"/>
+    <circle cx="266" cy="185" r="3.5"/>
+    <circle cx="330" cy="135" r="3.2"/>
+    <circle cx="330" cy="165" r="3.2"/>
+    <circle cx="330" cy="190" r="3.2"/>
+  </g>
+
+  <!-- ===== RED VERTICAL SPINNER FRAME ===== -->
+  <rect x="270" y="110" width="58" height="95" rx="4"
+        fill="url(#red)" stroke="#4a0810" stroke-width="2.2"/>
+  <!-- inner cutout showing silver drum -->
+  <rect x="282" y="125" width="34" height="65" rx="2" fill="#1a1e28"/>
+  <!-- silver horizontal drum / mass -->
+  <ellipse cx="299" cy="158" rx="14" ry="36" fill="url(#stl)" stroke="#2a323c" stroke-width="1.5"/>
+  <ellipse cx="299" cy="158" rx="6" ry="16" fill="#4a5260"/>
+  <ellipse cx="294" cy="140" rx="4" ry="10" fill="#e0e4ea" opacity="0.4"/>
+  <!-- axle -->
+  <ellipse cx="299" cy="158" rx="4" ry="8" fill="#c8d0dc"/>
+</svg>

@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 340" fill="none">
+  <!--
+    End Game from reference (3/4 front-left):
+      dual orange front wedges with END / GAME marks,
+      black chassis, blue vertical spinner + tall blue srimech,
+      yellow tooth accents, black wheels
+  -->
+  <defs>
+    <linearGradient id="orange" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%" stop-color="#ff9a28"/>
+      <stop offset="40%" stop-color="#f07810"/>
+      <stop offset="100%" stop-color="#c05008"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a7ec8"/>
+      <stop offset="50%" stop-color="#1e5aa0"/>
+      <stop offset="100%" stop-color="#0e3a78"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c8d0dc"/>
+      <stop offset="100%" stop-color="#5a6270"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8e4dc"/>
+      <stop offset="100%" stop-color="#a8a098"/>
+    </linearGradient>
+    <clipPath id="clipEnd">
+      <path d="M162 168 L228 158 L242 226 L158 230 L144 200 Z"/>
+    </clipPath>
+    <clipPath id="clipGame">
+      <path d="M236 160 L316 172 L328 212 L306 244 L248 226 Z"/>
+    </clipPath>
+  </defs>
+
+  <ellipse cx="230" cy="318" rx="160" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- black chassis body -->
+  <path d="M70 175 L150 140 L280 150 L300 210 L160 230 L75 215 Z"
+        fill="#1a1c22" stroke="#050508" stroke-width="2"/>
+  <!-- side panel -->
+  <path d="M70 175 L75 215 L160 230 L155 185 Z" fill="#0e1016" stroke="#050508"/>
+  <!-- TORQAS mark (simple white bars) -->
+  <g fill="#e8ecf2" transform="translate(88 195) scale(0.7)">
+    <rect x="0" y="0" width="2.5" height="10"/>
+    <rect x="5" y="0" width="8" height="2.5"/><rect x="7.5" y="0" width="2.5" height="10"/>
+    <rect x="16" y="0" width="2.5" height="10"/><rect x="16" y="0" width="7" height="2.5"/><rect x="16" y="7.5" width="7" height="2.5"/><path d="M23 2 L19 5 L23 8 Z"/>
+    <rect x="27" y="0" width="2.5" height="10"/><rect x="27" y="0" width="7" height="2.5"/><rect x="27" y="3.5" width="6" height="2.5"/><path d="M34 2 L30 5 L34 8 Z"/>
+    <rect x="38" y="0" width="2.5" height="10"/><rect x="38" y="0" width="8" height="2.5"/><rect x="38" y="7.5" width="8" height="2.5"/>
+    <rect x="49" y="0" width="2.5" height="10"/><rect x="49" y="0" width="8" height="2.5"/><rect x="49" y="7.5" width="8" height="2.5"/>
+  </g>
+  <!-- red shield badge -->
+  <path d="M145 198 L155 195 L158 208 L150 215 L142 208 Z" fill="#c82028" stroke="#fff" stroke-width="0.8"/>
+
+  <!-- top deck -->
+  <path d="M150 140 L250 125 L290 145 L280 175 L160 180 Z" fill="url(#deck)" stroke="#5a5248" stroke-width="1.5"/>
+  <!-- camo blotches on deck -->
+  <path d="M170 150 L200 142 L215 158 L185 165 Z" fill="#c87830" opacity="0.55"/>
+  <path d="M210 140 L245 135 L255 155 L220 160 Z" fill="#8a6030" opacity="0.45"/>
+  <!-- sponsor dots -->
+  <circle cx="175" cy="155" r="5" fill="#2a8a40"/>
+  <rect x="230" y="148" width="28" height="6" rx="1" fill="#2a2a34"/>
+  <!-- rear fins -->
+  <path d="M255 135 L268 110 L272 138 Z" fill="#0a0a0e" stroke="#111"/>
+  <path d="M275 140 L290 118 L292 148 Z" fill="#0a0a0e" stroke="#111"/>
+  <path d="M240 138 L250 115 L254 142 Z" fill="#121218" stroke="#111"/>
+
+  <!-- wheels (partially under wedges) -->
+  <ellipse cx="125" cy="205" rx="22" ry="22" fill="#0a0a0e" stroke="#111" stroke-width="1.5"/>
+  <ellipse cx="125" cy="205" rx="9" ry="9" fill="url(#steel)"/>
+  <ellipse cx="155" cy="198" rx="18" ry="18" fill="#0a0a0e" stroke="#111"/>
+  <ellipse cx="155" cy="198" rx="7" ry="7" fill="url(#steel)"/>
+
+  <!-- ===== ORANGE FRONT WEDGES ===== -->
+  <!-- left wedge END -->
+  <path d="M160 165
+           L230 155
+           L245 230
+           L155 235
+           L140 200 Z"
+        fill="url(#orange)" stroke="#8a3808" stroke-width="2"/>
+  <path d="M165 168 L225 160 L228 175 L168 182 Z" fill="#ffb050" opacity="0.35"/>
+  <g clip-path="url(#clipEnd)">
+    <g fill="#ffffff" transform="translate(178 194) scale(0.48)">
+      <rect x="0" y="0" width="5" height="32"/>
+      <rect x="0" y="0" width="18" height="6"/>
+      <rect x="0" y="13" width="14" height="6"/>
+      <rect x="0" y="26" width="18" height="6"/>
+      <rect x="24" y="0" width="5" height="32"/>
+      <polygon points="29,0 34,0 43,32 38,32"/>
+      <rect x="43" y="0" width="5" height="32"/>
+      <rect x="54" y="0" width="5" height="32"/>
+      <path d="M59 0 H72 C80 0 84 6 84 16 C84 26 80 32 72 32 H59 V26 H70 C74 26 76 22 76 16 C76 10 74 6 70 6 H59 Z"/>
+    </g>
+  </g>
+
+  <!-- right wedge GAME -->
+  <path d="M230 155
+           L320 170
+           L335 215
+           L310 250
+           L245 230 Z"
+        fill="url(#orange)" stroke="#8a3808" stroke-width="2"/>
+  <path d="M238 160 L310 172 L312 188 L242 178 Z" fill="#ffb050" opacity="0.3"/>
+  <g clip-path="url(#clipGame)">
+    <g fill="#ffffff" transform="translate(256 198) scale(0.38)">
+      <path d="M0 6 C0 2 4 0 10 0 H22 V6 H12 C8 6 6 8 6 16 C6 24 8 26 12 26 H18 V18 H12 V12 H24 V32 H10 C4 32 0 28 0 16 Z"/>
+      <polygon points="30,32 36,0 42,0 48,32 42,32 40.5,24 37.5,24 36,32"/>
+      <rect x="37" y="14" width="5.5" height="5"/>
+      <rect x="54" y="0" width="5" height="32"/>
+      <polygon points="59,0 64,0 69,18 74,0 79,0 79,6 73,32 68,32 69,18 65,32 60,32 59,6"/>
+      <rect x="79" y="0" width="5" height="32"/>
+      <rect x="90" y="0" width="5" height="32"/>
+      <rect x="90" y="0" width="18" height="6"/>
+      <rect x="90" y="13" width="14" height="6"/>
+      <rect x="90" y="26" width="18" height="6"/>
+    </g>
+  </g>
+
+  <!-- ===== BLUE VERTICAL SPINNER + SRIMECH ===== -->
+  <!-- tall blue arm -->
+  <path d="M255 150
+           C270 90 285 40 295 18
+           L308 22
+           C300 55 288 105 275 155 Z"
+        fill="url(#blue)" stroke="#0a2858" stroke-width="1.5"/>
+  <!-- yellow teeth on arm rear -->
+  <g fill="#f0c020">
+    <path d="M300 35 L312 30 L305 42 Z"/>
+    <path d="M298 55 L311 52 L304 65 Z"/>
+    <path d="M292 80 L306 78 L300 92 Z"/>
+    <path d="M285 108 L300 108 L292 120 Z"/>
+  </g>
+  <!-- blue weapon frame -->
+  <path d="M235 120 L275 115 L285 195 L245 200 Z" fill="url(#blue)" stroke="#0a2858" stroke-width="1.5"/>
+  <path d="M240 118 L270 114 L272 125 L242 128 Z" fill="#f0c020"/>
+
+  <!-- gray spinner discs with yellow teeth -->
+  <g transform="translate(260 155)">
+    <ellipse cx="0" cy="0" rx="16" ry="48" fill="#6a7380" stroke="#2a3038" stroke-width="1.5"/>
+    <ellipse cx="6" cy="2" rx="14" ry="44" fill="#9aa3b0" stroke="#3a4250"/>
+    <ellipse cx="4" cy="0" rx="5" ry="12" fill="#2a3038"/>
+    <ellipse cx="4" cy="0" rx="2.5" ry="6" fill="#c8d0dc"/>
+    <!-- yellow triangular teeth -->
+    <g fill="#f0c020" stroke="#8a7010" stroke-width="0.5">
+      <path d="M4 -46 L12 -58 L-2 -52 Z"/>
+      <path d="M16 -30 L28 -38 L18 -20 Z"/>
+      <path d="M18 -5 L32 -5 L22 8 Z"/>
+      <path d="M14 25 L26 35 L12 35 Z"/>
+      <path d="M4 44 L10 58 L-4 50 Z"/>
+      <path d="M-10 30 L-22 40 L-12 20 Z"/>
+      <path d="M-12 0 L-26 2 L-14 -12 Z"/>
+      <path d="M-8 -28 L-20 -38 L-6 -18 Z"/>
+    </g>
+  </g>
+</svg>

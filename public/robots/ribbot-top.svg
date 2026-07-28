@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <!--
+    Top-down Ribbot (+X = front weapon):
+      green camo body, orange wheels, orange wedge, red frame + silver disc, grey forks
+  -->
+  <defs>
+    <linearGradient id="grn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e4810"/>
+      <stop offset="100%" stop-color="#5a9a48"/>
+    </linearGradient>
+    <linearGradient id="orn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9a3808"/>
+      <stop offset="100%" stop-color="#ff9030"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6a0810"/>
+      <stop offset="100%" stop-color="#ff4040"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="48" cy="86" rx="34" ry="5" fill="#000" opacity="0.38"/>
+
+  <!-- orange wheels -->
+  <circle cx="24" cy="28" r="9" fill="#e86010" stroke="#5a2008"/>
+  <circle cx="24" cy="28" r="3.5" fill="#3a4250"/>
+  <circle cx="24" cy="68" r="9" fill="#e86010" stroke="#5a2008"/>
+  <circle cx="24" cy="68" r="3.5" fill="#3a4250"/>
+  <circle cx="48" cy="26" r="7" fill="#d05010"/>
+  <circle cx="48" cy="70" r="7" fill="#d05010"/>
+
+  <!-- green camo body -->
+  <path d="M16 32 L52 24 L56 72 L20 70 Z" fill="url(#grn)" stroke="#0e2808" stroke-width="1.3"/>
+  <path d="M24 38 L38 32 L42 48 L28 52 Z" fill="#2a5818"/>
+  <path d="M30 52 L44 48 L48 64 L32 66 Z" fill="#4a8830"/>
+
+  <!-- grey forks -->
+  <path d="M52 30 L88 22 L86 32 L54 38 Z" fill="#9aa2ae" stroke="#2a323c"/>
+  <path d="M52 62 L88 68 L86 78 L54 70 Z" fill="#8a929e" stroke="#2a323c"/>
+
+  <!-- orange wedge -->
+  <path d="M58 38 L82 34 L80 62 L56 58 Z" fill="url(#orn)" stroke="#7a3008"/>
+
+  <!-- green uprights + red frame -->
+  <rect x="60" y="36" width="8" height="24" fill="#3a7028" stroke="#0e2808"/>
+  <rect x="68" y="38" width="14" height="20" rx="1" fill="url(#red)" stroke="#4a0810"/>
+  <ellipse cx="75" cy="48" rx="4" ry="10" fill="#c8d0dc" stroke="#3a4250"/>
+</svg>

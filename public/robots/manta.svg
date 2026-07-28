@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Manta from reference (3/4 front-left), NO lettering:
+      dark blue chassis + side armor, grey central housing with triangle cutouts,
+      GOLD vertical drum with pill slots + top/bottom teeth,
+      blue mounts, left spike fork + right L-hook fork,
+      four grey wheels
+  -->
+  <defs>
+    <linearGradient id="blu" x1="0.15" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#3a6ab0"/>
+      <stop offset="45%" stop-color="#1e4a88"/>
+      <stop offset="100%" stop-color="#0e2858"/>
+    </linearGradient>
+    <linearGradient id="bluLt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a7ac0"/>
+      <stop offset="100%" stop-color="#1a4080"/>
+    </linearGradient>
+    <linearGradient id="gry" x1="0.2" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#d0d4dc"/>
+      <stop offset="50%" stop-color="#8a909a"/>
+      <stop offset="100%" stop-color="#4a5060"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0.15" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#ffe060"/>
+      <stop offset="35%" stop-color="#e0b020"/>
+      <stop offset="70%" stop-color="#b08010"/>
+      <stop offset="100%" stop-color="#6a4808"/>
+    </linearGradient>
+    <linearGradient id="whl" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#6a7080"/>
+      <stop offset="55%" stop-color="#3a4050"/>
+      <stop offset="100%" stop-color="#12151a"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="170" ry="14" fill="#000" opacity="0.3"/>
+
+  <!-- ===== REAR WHEELS ===== -->
+  <ellipse cx="95" cy="220" rx="26" ry="26" fill="url(#whl)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="95" cy="220" rx="11" ry="11" fill="#5a6270"/>
+  <ellipse cx="140" cy="245" rx="22" ry="22" fill="url(#whl)" stroke="#0a0a0e"/>
+  <ellipse cx="140" cy="245" rx="9" ry="9" fill="#5a6270"/>
+  <!-- mid wheels (tucked) -->
+  <ellipse cx="200" cy="230" rx="18" ry="18" fill="url(#whl)" stroke="#0a0a0e"/>
+  <ellipse cx="200" cy="230" rx="7" ry="7" fill="#5a6270"/>
+  <ellipse cx="280" cy="215" rx="16" ry="16" fill="url(#whl)" stroke="#0a0a0e"/>
+  <ellipse cx="280" cy="215" rx="6" ry="6" fill="#5a6270"/>
+
+  <!-- ===== BLUE SIDE ARMOR / BODY ===== -->
+  <path d="M70 185
+           L130 125
+           L220 115
+           L280 140
+           L290 195
+           L220 230
+           L100 235
+           L75 210 Z"
+        fill="url(#blu)" stroke="#0a1838" stroke-width="2"/>
+  <path d="M70 185 L75 210 L130 200 L125 155 Z" fill="#0e2858" opacity="0.55"/>
+  <!-- right blue panel -->
+  <path d="M250 125
+           L320 120
+           L355 160
+           L340 205
+           L275 210
+           L250 165 Z"
+        fill="url(#bluLt)" stroke="#0a1838" stroke-width="1.8"/>
+
+  <!-- ===== GREY CENTRAL HOUSING ===== -->
+  <path d="M175 130
+           L255 125
+           L275 165
+           L250 195
+           L185 200
+           L165 160 Z"
+        fill="url(#gry)" stroke="#2a3038" stroke-width="1.8"/>
+  <!-- triangle weight cutouts -->
+  <path d="M185 150 L200 145 L195 170 Z" fill="#2a3038"/>
+  <path d="M205 148 L220 143 L215 168 Z" fill="#2a3038"/>
+  <path d="M225 146 L240 142 L235 168 Z" fill="#2a3038"/>
+  <path d="M190 175 L205 170 L200 192 Z" fill="#2a3038"/>
+  <path d="M215 173 L230 168 L225 192 Z" fill="#2a3038"/>
+  <!-- mesh hint aft -->
+  <g stroke="#4a5060" stroke-width="1.2">
+    <path d="M200 185 L245 180"/>
+    <path d="M205 192 L248 186"/>
+  </g>
+
+  <!-- ===== BLUE WEAPON MOUNTS ===== -->
+  <ellipse cx="250" cy="175" rx="28" ry="42" fill="url(#blu)" stroke="#0a1838" stroke-width="2"/>
+  <ellipse cx="250" cy="175" rx="16" ry="26" fill="#0e2858"/>
+  <ellipse cx="320" cy="160" rx="24" ry="38" fill="url(#bluLt)" stroke="#0a1838" stroke-width="2"/>
+  <ellipse cx="320" cy="160" rx="13" ry="22" fill="#0e2858"/>
+
+  <!-- ===== GOLD VERTICAL DRUM ===== -->
+  <g transform="translate(285 168)">
+    <!-- thickness edge -->
+    <ellipse cx="8" cy="0" rx="14" ry="58" fill="#6a4808"/>
+    <!-- face -->
+    <ellipse cx="0" cy="0" rx="22" ry="62" fill="url(#gold)" stroke="#5a4008" stroke-width="2"/>
+    <!-- pill cutouts -->
+    <ellipse cx="-2" cy="-22" rx="12" ry="7" fill="#3a2808"/>
+    <ellipse cx="-2" cy="0" rx="12" ry="7" fill="#3a2808"/>
+    <ellipse cx="-2" cy="22" rx="12" ry="7" fill="#3a2808"/>
+    <!-- top tooth -->
+    <rect x="-10" y="-68" width="22" height="12" rx="2" fill="url(#gold)" stroke="#5a4008"/>
+    <!-- bottom tooth -->
+    <rect x="-6" y="56" width="16" height="10" rx="2" fill="#b08010" stroke="#5a4008"/>
+    <!-- highlight -->
+    <ellipse cx="-8" cy="-28" rx="4" ry="18" fill="#ffe060" opacity="0.35"/>
+  </g>
+
+  <!-- axle through mounts -->
+  <ellipse cx="285" cy="168" rx="6" ry="10" fill="#c8d0dc" stroke="#3a4250"/>
+
+  <!-- ===== BLUE FORKS ===== -->
+  <!-- left spike (far) -->
+  <path d="M300 130
+           L380 95
+           L395 110
+           L320 155
+           L300 150 Z"
+        fill="url(#blu)" stroke="#0a1838" stroke-width="1.8"/>
+  <path d="M370 100 L395 110 L375 118 Z" fill="#4a7ac0"/>
+  <!-- pivot -->
+  <circle cx="310" cy="145" r="7" fill="url(#gry)" stroke="#2a3038"/>
+  <circle cx="310" cy="145" r="3" fill="#2a3038"/>
+
+  <!-- right L-hook (near) -->
+  <path d="M270 195
+           L350 210
+           L360 235
+           L345 245
+           L330 230
+           L275 215 Z"
+        fill="url(#blu)" stroke="#0a1838" stroke-width="1.8"/>
+  <!-- L tip up -->
+  <path d="M345 235 L375 240 L370 255 L340 250 Z" fill="url(#bluLt)" stroke="#0a1838"/>
+  <path d="M365 240 L375 240 L372 265 L360 265 Z" fill="url(#blu)" stroke="#0a1838"/>
+  <circle cx="280" cy="205" r="7" fill="url(#gry)" stroke="#2a3038"/>
+  <circle cx="280" cy="205" r="3" fill="#2a3038"/>
+</svg>

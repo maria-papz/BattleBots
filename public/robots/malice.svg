@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <!--
+    Malice from reference (3/4 front-left):
+      grey chassis + Y-bracket over hub, green LEDs,
+      huge RED horizontal spinner RING with two grey teeth,
+      two RED feeder forks with grey wedge tips,
+      large grey rear wheels
+  -->
+  <defs>
+    <linearGradient id="steel" x1="0.15" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#d0d4dc"/>
+      <stop offset="45%" stop-color="#9aa0aa"/>
+      <stop offset="100%" stop-color="#4a5060"/>
+    </linearGradient>
+    <linearGradient id="steelDk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6a7080"/>
+      <stop offset="100%" stop-color="#2a3038"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#ff4040"/>
+      <stop offset="40%" stop-color="#d01818"/>
+      <stop offset="100%" stop-color="#7a0810"/>
+    </linearGradient>
+    <linearGradient id="redDk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a01018"/>
+      <stop offset="100%" stop-color="#4a0810"/>
+    </linearGradient>
+    <linearGradient id="whl" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#6a7080"/>
+      <stop offset="50%" stop-color="#3a4050"/>
+      <stop offset="100%" stop-color="#1a1e28"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="240" cy="318" rx="175" ry="14" fill="#000" opacity="0.32"/>
+
+  <!-- ===== REAR GREY WHEELS ===== -->
+  <ellipse cx="95" cy="210" rx="42" ry="42" fill="url(#whl)" stroke="#0a0a0e" stroke-width="2.5"/>
+  <ellipse cx="95" cy="210" rx="28" ry="28" fill="#2a3038"/>
+  <ellipse cx="95" cy="210" rx="12" ry="12" fill="#8a909a"/>
+  <ellipse cx="95" cy="210" rx="5" ry="5" fill="#1a1e28"/>
+  <ellipse cx="155" cy="235" rx="36" ry="36" fill="url(#whl)" stroke="#0a0a0e" stroke-width="2"/>
+  <ellipse cx="155" cy="235" rx="22" ry="22" fill="#2a3038"/>
+  <ellipse cx="155" cy="235" rx="9" ry="9" fill="#8a909a"/>
+
+  <!-- ===== GREY CHASSIS ===== -->
+  <path d="M80 195
+           L140 140
+           L260 130
+           L300 170
+           L270 220
+           L150 235
+           L90 220 Z"
+        fill="url(#steel)" stroke="#2a3038" stroke-width="2"/>
+  <path d="M80 195 L90 220 L150 235 L140 185 Z" fill="url(#steelDk)" opacity="0.65"/>
+  <!-- top deck bolts -->
+  <g fill="#3a4050">
+    <circle cx="130" cy="170" r="3.2"/>
+    <circle cx="170" cy="155" r="3.2"/>
+    <circle cx="210" cy="148" r="3.2"/>
+    <circle cx="250" cy="155" r="3.2"/>
+    <circle cx="270" cy="180" r="3.2"/>
+    <circle cx="200" cy="195" r="3.2"/>
+    <circle cx="160" cy="200" r="3.2"/>
+  </g>
+  <!-- green LEDs -->
+  <circle cx="145" cy="175" r="5" fill="#3dff5a"/>
+  <circle cx="143.5" cy="173.5" r="1.8" fill="#b0ffc0" opacity="0.7"/>
+  <circle cx="245" cy="168" r="5" fill="#3dff5a"/>
+  <circle cx="243.5" cy="166.5" r="1.8" fill="#b0ffc0" opacity="0.7"/>
+
+  <!-- ===== RED FEEDER FORKS ===== -->
+  <!-- left fork -->
+  <path d="M200 200
+           L280 175
+           L360 195
+           L355 220
+           L275 225
+           L205 220 Z"
+        fill="url(#red)" stroke="#4a0810" stroke-width="2"/>
+  <path d="M200 200 L205 220 L275 225 L270 200 Z" fill="url(#redDk)" opacity="0.5"/>
+  <!-- serrations / holes -->
+  <g fill="#4a0810">
+    <circle cx="240" cy="205" r="3"/>
+    <circle cx="270" cy="200" r="3"/>
+    <circle cx="300" cy="198" r="3"/>
+    <circle cx="330" cy="202" r="3"/>
+  </g>
+  <!-- grey tip -->
+  <path d="M350 190 L395 205 L355 225 Z" fill="url(#steel)" stroke="#2a3038" stroke-width="1.5"/>
+  <path d="M355 195 L385 208 L360 218 Z" fill="#c8d0dc" opacity="0.35"/>
+
+  <!-- right/far fork -->
+  <path d="M230 155
+           L310 130
+           L375 145
+           L370 168
+           L305 175
+           L235 170 Z"
+        fill="url(#red)" stroke="#4a0810" stroke-width="2"/>
+  <g fill="#4a0810">
+    <circle cx="270" cy="152" r="2.5"/>
+    <circle cx="300" cy="148" r="2.5"/>
+    <circle cx="330" cy="148" r="2.5"/>
+    <circle cx="355" cy="152" r="2.5"/>
+  </g>
+  <path d="M365 140 L405 152 L375 172 Z" fill="url(#steel)" stroke="#2a3038" stroke-width="1.5"/>
+
+  <!-- ===== HUGE RED HORIZONTAL RING ===== -->
+  <!-- ring outer (ellipse for iso) -->
+  <ellipse cx="285" cy="175" rx="88" ry="52" fill="url(#red)" stroke="#4a0810" stroke-width="2.5"/>
+  <!-- inner cutout -->
+  <ellipse cx="285" cy="175" rx="58" ry="34" fill="#0e1016"/>
+  <!-- ring thickness hint (inner rim) -->
+  <ellipse cx="285" cy="175" rx="58" ry="34" fill="none" stroke="#7a0810" stroke-width="6"/>
+  <ellipse cx="285" cy="175" rx="52" ry="30" fill="none" stroke="#ff5050" stroke-width="2" opacity="0.25"/>
+
+  <!-- red spokes -->
+  <path d="M285 175 L245 145" stroke="#d01818" stroke-width="10" stroke-linecap="round"/>
+  <path d="M285 175 L325 205" stroke="#d01818" stroke-width="10" stroke-linecap="round"/>
+  <path d="M285 175 L245 145" stroke="#ff5050" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+  <path d="M285 175 L325 205" stroke="#ff5050" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- grey teeth on ring (opposite sides) -->
+  <g transform="translate(220 145) rotate(-35)">
+    <rect x="-14" y="-10" width="28" height="20" rx="3" fill="url(#steel)" stroke="#2a3038" stroke-width="1.5"/>
+    <circle cx="-6" cy="0" r="3" fill="#2a3038"/>
+    <circle cx="6" cy="0" r="3" fill="#2a3038"/>
+  </g>
+  <g transform="translate(350 205) rotate(-35)">
+    <rect x="-14" y="-10" width="28" height="20" rx="3" fill="url(#steelDk)" stroke="#1a1e28" stroke-width="1.5"/>
+    <circle cx="-6" cy="0" r="3" fill="#1a1e28"/>
+    <circle cx="6" cy="0" r="3" fill="#1a1e28"/>
+  </g>
+
+  <!-- center hub (red) -->
+  <ellipse cx="285" cy="175" rx="18" ry="12" fill="url(#red)" stroke="#4a0810" stroke-width="1.5"/>
+  <ellipse cx="285" cy="175" rx="8" ry="5" fill="#2a3038"/>
+
+  <!-- ===== Y-BRACKET OVER WEAPON ===== -->
+  <!-- arms from rear to hub -->
+  <path d="M140 175
+           L200 160
+           L270 168
+           L285 175
+           L270 182
+           L200 185
+           L140 190 Z"
+        fill="url(#steel)" stroke="#2a3038" stroke-width="1.8"/>
+  <path d="M230 150
+           L270 168
+           L285 175
+           L270 155
+           L245 145 Z"
+        fill="url(#steel)" stroke="#2a3038" stroke-width="1.5"/>
+  <!-- bracket bolts -->
+  <g fill="#3a4050">
+    <circle cx="165" cy="178" r="2.8"/>
+    <circle cx="195" cy="170" r="2.8"/>
+    <circle cx="225" cy="168" r="2.8"/>
+    <circle cx="255" cy="172" r="2.8"/>
+  </g>
+  <!-- central logo plate -->
+  <ellipse cx="200" cy="175" rx="22" ry="16" fill="url(#steelDk)" stroke="#1a1e28" stroke-width="1.5"/>
+  <!-- stylized U / horseshoe logo -->
+  <path d="M190 168
+           C190 160 210 160 210 168
+           L210 182
+           L204 182
+           L204 170
+           C204 166 196 166 196 170
+           L196 182
+           L190 182 Z"
+        fill="#0a0a0e"/>
+  <!-- small 5 mark -->
+  <path d="M198 172 L206 172 L206 176 L200 176 L200 180 L206 180" fill="none" stroke="#0a0a0e" stroke-width="1.5"/>
+
+  <!-- axle top cap on ring -->
+  <ellipse cx="285" cy="168" rx="10" ry="7" fill="url(#steel)" stroke="#2a3038"/>
+  <ellipse cx="285" cy="168" rx="4" ry="3" fill="#2a3038"/>
+</svg>
