@@ -17,7 +17,19 @@ export interface RobotState {
   isAttacking: boolean;
   isDisabled: boolean;
   lastAttackTime: number;
+  /** Brief loss of control after a flipper launch. */
+  stunnedUntil: number;
+  /** Saw grind damage-over-time window. */
+  grindUntil: number;
+  lastGrindTick: number;
 }
+
+export type WeaponEffect =
+  | 'launch'
+  | 'grind'
+  | 'precision'
+  | 'undercut'
+  | 'double_hit';
 
 export type MatchState =
   | 'READY'
@@ -37,6 +49,7 @@ export interface AttackResult {
   fired: boolean;
   /** True when Space/AI tried to attack but cooldown was not ready. */
   blockedByCooldown: boolean;
+  effects?: WeaponEffect[];
 }
 
 export interface MovementIntent {

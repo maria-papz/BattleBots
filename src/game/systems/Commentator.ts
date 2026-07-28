@@ -11,6 +11,7 @@ export class Commentator {
   private enabled = false;
   private checked = false;
   private playing = false;
+  private aborted = false;
   private trailingCalled = false;
   private lastTrailingAt = 0;
   private subtitle?: Phaser.GameObjects.Text;
@@ -76,7 +77,10 @@ export class Commentator {
   }
 
   destroy(): void {
+    this.aborted = true;
+    this.playing = false;
     this.subtitle?.destroy();
+    this.subtitle = undefined;
   }
 
   private botPayload(f: LoadedFighter) {
@@ -89,7 +93,7 @@ export class Commentator {
   }
 
   private async speak(req: CommentaryRequest): Promise<void> {
-    if (this.playing) return;
+    if (this.playing || this.aborted) return;
     this.playing = true;
     try {
       const scriptRes = await fetch('/api/commentary', {
@@ -97,20 +101,22 @@ export class Commentator {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(req),
       });
-      if (!scriptRes.ok) return;
+      if (!scriptRes.ok || this.aborted) return;
       const { text } = (await scriptRes.json()) as { text: string };
-      if (!text) return;
+      if (!text || this.aborted) return;
 
       this.showSubtitle(text);
+      if (this.aborted) return;
 
       const ttsRes = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
       });
-      if (!ttsRes.ok) return;
+      if (!ttsRes.ok || this.aborted) return;
 
       const blob = await ttsRes.blob();
+      if (this.aborted) return;
       const url = URL.createObjectURL(blob);
       await new Promise<void>((resolve) => {
         const audio = new Audio(url);
@@ -127,12 +133,15 @@ export class Commentator {
     } catch {
       // commentary is optional
     } finally {
-      this.hideSubtitle();
+      if (!this.aborted) {
+        this.hideSubtitle();
+      }
       this.playing = false;
     }
   }
 
   private showSubtitle(text: string): void {
+    if (this.aborted || !this.scene.scene.isActive()) return;
     this.subtitle?.destroy();
     this.subtitle = this.scene.add
       .text(this.scene.scale.width / 2, 48, text, {

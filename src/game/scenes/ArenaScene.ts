@@ -53,6 +53,7 @@ export class ArenaScene extends Phaser.Scene {
   private playerFighter!: LoadedFighter;
   private opponentFighter!: LoadedFighter;
   private commentator?: Commentator;
+  private audioUnlock?: () => void;
 
   constructor() {
     super('ArenaScene');
@@ -74,7 +75,10 @@ export class ArenaScene extends Phaser.Scene {
     this.matchRemainingMs = MATCH_DURATION_MS;
     this.fightFlashUntil = 0;
     this.combat = new CombatSystem();
-    this.ai = new EnemyAI(strategyToAiConfig(this.opponentFighter.strategy));
+    this.ai = new EnemyAI(
+      this.opponentFighter.strategy,
+      strategyToAiConfig(this.opponentFighter.strategy),
+    );
     this.commentator = new Commentator(
       this,
       this.playerFighter,
@@ -145,6 +149,9 @@ export class ArenaScene extends Phaser.Scene {
         this.matchState,
       );
       this.handleAttackResult(enemyHit, this.player, this.enemy);
+      if (enemyHit.hit) {
+        this.ai.notifyHitLanded();
+      }
 
       this.checkWinLoss();
       if (this.matchState === 'PLAYING' && this.matchRemainingMs <= 0) {
@@ -415,9 +422,9 @@ export class ArenaScene extends Phaser.Scene {
   }
 
   private setupAudioUnlock(): void {
-    const unlock = () => sfx.unlock();
-    this.input.keyboard?.on('keydown', unlock);
-    this.input.on('pointerdown', unlock);
+    this.audioUnlock = () => sfx.unlock();
+    this.input.keyboard?.on('keydown', this.audioUnlock);
+    this.input.on('pointerdown', this.audioUnlock);
   }
 
   private startReadyCountdown(): void {
@@ -585,11 +592,25 @@ export class ArenaScene extends Phaser.Scene {
     });
 
     const critical = result.damage >= 12;
+    const effectLabel =
+      result.effects?.includes('launch')
+        ? 'LAUNCHED'
+        : result.effects?.includes('grind')
+          ? 'GRINDING'
+          : result.effects?.includes('precision')
+            ? 'CLEAN HIT'
+            : result.effects?.includes('undercut')
+              ? 'UNDERCUT'
+              : result.effects?.includes('double_hit')
+                ? 'DOUBLE'
+                : critical
+                  ? 'CRITICAL'
+                  : 'HIT';
     this.hud.floatCallout(
       target.x,
       target.y,
-      critical ? 'CRITICAL' : 'HIT',
-      critical ? '#f7d038' : '#ffffff',
+      effectLabel,
+      critical || result.effects?.length ? '#f7d038' : '#ffffff',
     );
 
     const dmg = this.add
@@ -677,7 +698,26 @@ export class ArenaScene extends Phaser.Scene {
   private onShutdown(): void {
     this.readyEvent?.remove(false);
     this.readyEvent = undefined;
+
+    if (this.audioUnlock) {
+      this.input.keyboard?.off('keydown', this.audioUnlock);
+      this.input.off('pointerdown', this.audioUnlock);
+      this.audioUnlock = undefined;
+    }
+
+    this.tweens.killAll();
+    this.time.removeAllEvents();
+    this.cameras.main.resetFX();
+
     this.commentator?.destroy();
+    this.commentator = undefined;
     this.hud?.destroy();
+
+    if (this.player?.active) {
+      this.player.destroy(true);
+    }
+    if (this.enemy?.active) {
+      this.enemy.destroy(true);
+    }
   }
 }

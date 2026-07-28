@@ -64,9 +64,12 @@ The game features all **24 robots** from the inaugural BattleBots Pro League sea
 │                                  ArenaScene                     │
 │                                  ├─ PlayerRobot (you)           │
 │                                  ├─ EnemyRobot (AI)             │
+│                                  ├─ WeaponBehavior              │
 │                                  ├─ StrategyAI                  │
 │                                  ├─ Weapon animations           │
 │                                  └─ Commentator (optional)        │
+│                                       │                         │
+│                              R key ───┘ (back to SelectScene)   │
 └─────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼ (only if commentary enabled)
@@ -240,13 +243,14 @@ BootScene → SelectScene → ArenaScene
 ### SelectScene (two-step wizard)
 
 **Step 1 — Choose your fighter**
-- Browse all 24 robots in the thumb row.
-- Featured card shows portrait, weapon, strategy notes, record, DMG/SPD/HP.
+- Browse all 24 robots with **← / →** or by clicking thumbnails.
+- The roster uses a **two-row layout** so names and icons don’t overlap.
+- The featured card shows portrait, weapon, strategy notes, record, and DMG / SPD / HP with clear spacing.
 
 **Step 2 — Choose opponent**
-- Same UI; your pick is shown at the top.
+- Same UI; your pick is shown at the top (`YOU: …`).
 - Your robot is excluded from the opponent list (no mirror matches).
-- Press **Backspace** to go back.
+- Press **Backspace** to go back to step 1.
 
 Confirm → arena.
 
@@ -254,7 +258,7 @@ Confirm → arena.
 - **READY** countdown (1 second), then **FIGHT!**
 - 3-minute match timer.
 - Win by KO (HP → 0) or higher HP when timer expires.
-- **R** returns to character select after win/loss.
+- **R** returns to fighter select after win/loss — you can pick a new matchup and play again without refreshing.
 - **ESC** pauses.
 
 ---
@@ -270,9 +274,9 @@ Confirm → arena.
 | **Enter** | Confirm selection |
 | **Backspace** | Back to player pick (opponent step) |
 | **Esc** | Pause / resume |
-| **R** | Rematch (after win/loss) |
+| **R** | Return to fighter select (after win/loss) |
 
-Click the featured card or thumb icons on the select screen to pick fighters.
+Click the featured card, chevrons, or thumb icons on the select screen to pick fighters.
 
 ---
 
@@ -293,11 +297,26 @@ Each robot has these combat properties (from `RobotStats` in `src/game/types/gam
 | `knockbackForce` | Push on hit |
 | `bodyRadius` | Collision circle size |
 
-Combat logic lives in `src/game/systems/CombatSystem.ts`:
-- Attacker must face target within `attackArc`.
+Combat logic lives in `src/game/systems/CombatSystem.ts` and `src/game/systems/WeaponBehavior.ts`:
+- Attacker must face target within `attackArc` (horizontal spinners use a full 360° arc).
 - Target must be within `attackRange`.
 - Cooldown must be elapsed.
 - Hits apply damage + knockback + screen shake + SFX.
+
+**Weapon-specific behavior** (`WeaponBehavior.ts`):
+
+| Weapon class | Special effect |
+|--------------|----------------|
+| `horizontal_spinner` | Slightly lower damage, higher knockback |
+| `vertical_spinner` | Bonus damage on precision head-on hits |
+| `undercutter` | Big bonus on rear/side hits |
+| `drum` | High damage + knockback |
+| `flipper` | Strong knockback + launch |
+| `saw` | Double damage + grind when target is near arena walls |
+| `dual_spinner` | Two hit ticks per swing |
+| `multibot` | Dual offset hit checks per swing |
+
+On-screen callouts show effects like **LAUNCHED**, **GRINDING**, **UNDERCUT**, and **CLEAN HIT**.
 
 The HUD (`src/game/ui/BattleHud.ts`) shows both fighters' names, icons, HP bars, weapon/attack meters, and match timer.
 
@@ -514,6 +533,7 @@ BattleBots/
 │   │   │   └── EnemyRobot.ts      # AI-controlled opponent
 │   │   ├── systems/
 │   │   │   ├── CombatSystem.ts    # Hit detection + damage
+│   │   │   ├── WeaponBehavior.ts  # Per-weapon damage, launch, grind, multi-hit
 │   │   │   ├── EnemyAI.ts         # Chase/attack/reposition FSM
 │   │   │   ├── StrategyAI.ts      # Strategy → AI config mapping
 │   │   │   ├── weaponAnimation.ts # Per-weapon-class attack FX
@@ -545,13 +565,15 @@ BattleBots/
    npm run dev:api & npm run dev
    ```
 
-3. **Pick a matchup** — e.g. Bloodsport vs Tombstone. Show the profile card: strategy, record, scraped stats.
+3. **Pick a matchup** — e.g. Bloodsport vs Tombstone. Show the two-row roster and profile card: strategy, record, scraped stats.
 
-4. **Fight** — note both robots use their real art and data-driven stats. Tombstone hits harder; AI rushes aggressively.
+4. **Fight** — note both robots use their real art and data-driven stats. Tombstone hits harder; AI rushes aggressively. Point out weapon effects (flipper launch, saw grind near walls).
 
 5. **Commentary** (if enabled) — intro at FIGHT, trailing callout when one bot falls behind.
 
-6. **Emphasize Bright Data** — "We scraped Pro League standings via Bright Data Web Unlocker and mapped them directly into gameplay stats, AI, and animations."
+6. **Play again** — press **R** after the match, pick new fighters, and start another round without refreshing.
+
+7. **Emphasize Bright Data** — "We scraped Pro League standings via Bright Data Web Unlocker and mapped them directly into gameplay stats, AI, and animations."
 
 ---
 

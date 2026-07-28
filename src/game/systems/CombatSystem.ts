@@ -1,6 +1,6 @@
 import type { Robot } from '../entities/Robot';
-import type { AttackResult, MatchState } from '../types/game';
-import { isWithinAttackArc } from '../utils/math';
+import type { AttackResult, MatchState, WeaponEffect } from '../types/game';
+import { computeWeaponStrikes } from './WeaponBehavior';
 
 export class CombatSystem {
   tryAttack(
@@ -23,6 +23,9 @@ export class CombatSystem {
     if (attacker.robotState.isDisabled || target.robotState.isDisabled) {
       return idle;
     }
+    if (attacker.isStunned(now)) {
+      return idle;
+    }
     if (!attacker.intent.attack) {
       return idle;
     }
@@ -39,17 +42,10 @@ export class CombatSystem {
     attacker.robotState.lastAttackTime = now;
     attacker.beginAttackVisual(now);
 
-    const inArc = isWithinAttackArc(
-      attacker.x,
-      attacker.y,
-      attacker.facingDeg,
-      target.x,
-      target.y,
-      attacker.stats.attackRange,
-      attacker.stats.attackArc,
-    );
+    const strikes = computeWeaponStrikes(attacker, target);
+    const landed = strikes.filter((strike) => strike.inArc);
 
-    if (!inArc) {
+    if (landed.length === 0) {
       return {
         hit: false,
         damage: 0,
@@ -59,19 +55,32 @@ export class CombatSystem {
       };
     }
 
-    const applied = target.takeDamage(attacker.stats.attackDamage);
-    target.applyKnockback(
-      attacker.facingDeg,
-      attacker.stats.knockbackForce,
-      now,
-    );
+    let totalDamage = 0;
+    const effects: WeaponEffect[] = [];
+
+    for (const strike of landed) {
+      totalDamage += target.takeDamage(strike.damage);
+      target.applyKnockback(attacker.facingDeg, strike.knockback, now);
+      if (strike.launch) {
+        target.applyStun(now);
+        effects.push('launch');
+      }
+      if (strike.grind) {
+        target.applyGrind(now);
+        effects.push('grind');
+      }
+      if (strike.effect) {
+        effects.push(strike.effect);
+      }
+    }
 
     return {
-      hit: applied > 0,
-      damage: applied,
+      hit: totalDamage > 0,
+      damage: totalDamage,
       targetId: target.robotId,
       fired: true,
       blockedByCooldown: false,
+      effects: effects.length > 0 ? [...new Set(effects)] : undefined,
     };
   }
 }

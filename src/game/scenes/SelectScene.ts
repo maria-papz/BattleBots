@@ -52,13 +52,20 @@ export class SelectScene extends Phaser.Scene {
   private featureRoot?: Phaser.GameObjects.Container;
   private thumbBorders: Phaser.GameObjects.Graphics[] = [];
   private pulse = 0;
-  private inputBound = false;
+  private inputHandlers?: {
+    confirm: () => void;
+    shiftLeft: () => void;
+    shiftRight: () => void;
+    goBack: () => void;
+  };
 
   constructor() {
     super('SelectScene');
   }
 
   create(): void {
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.teardownInput());
+
     this.profiles =
       (this.registry.get(REGISTRY_BOT_PROFILES) as Map<string, BotProfile>) ??
       new Map();
@@ -215,10 +222,7 @@ export class SelectScene extends Phaser.Scene {
     this.rebuildFeatured();
     this.drawRosterRow();
     this.drawFooter();
-    if (!this.inputBound) {
-      this.setupInput();
-      this.inputBound = true;
-    }
+    this.setupInput();
   }
 
   update(_time: number, delta: number): void {
@@ -246,21 +250,44 @@ export class SelectScene extends Phaser.Scene {
     return mergeProfileIntoFighter(f, this.profiles.get(f.id));
   }
 
-  private rosterGap(count: number): number {
-    if (count >= 24) return 20;
-    if (count >= 17) return 26;
-    if (count >= 16) return 28;
-    if (count >= 15) return 30;
-    if (count >= 14) return 32;
-    if (count >= 13) return 34;
-    if (count >= 12) return 38;
-    if (count >= 11) return 42;
-    if (count >= 10) return 46;
-    if (count >= 9) return 50;
-    if (count >= 8) return 56;
-    if (count >= 7) return 64;
-    if (count >= 6) return 74;
-    return count > 4 ? 86 : 100;
+  private rosterGap(count: number, thumbW: number): number {
+    if (count <= 1) return thumbW;
+    const maxSpan = GAME_WIDTH - 56;
+    const fitGap = maxSpan / (count - 1);
+    return Math.max(thumbW + 6, Math.min(thumbW + 14, fitGap));
+  }
+
+  private rosterRows(): Array<{
+    y: number;
+    gap: number;
+    items: Array<
+      | { kind: 'fighter'; fighter: FighterDef }
+      | { kind: 'locked'; slot: (typeof LOCKED_SLOTS)[number] }
+    >;
+  }> {
+    const items = [
+      ...this.selectable.map((f) => ({ kind: 'fighter' as const, fighter: f })),
+      ...LOCKED_SLOTS.map((s) => ({ kind: 'locked' as const, slot: s })),
+    ];
+    const thumbW = 64;
+    const useTwoRows = items.length > 13;
+    if (!useTwoRows) {
+      return [
+        {
+          y: GAME_HEIGHT - 108,
+          gap: this.rosterGap(items.length, thumbW),
+          items,
+        },
+      ];
+    }
+
+    const split = Math.ceil(items.length / 2);
+    const row1 = items.slice(0, split);
+    const row2 = items.slice(split);
+    return [
+      { y: GAME_HEIGHT - 152, gap: this.rosterGap(row1.length, thumbW), items: row1 },
+      { y: GAME_HEIGHT - 88, gap: this.rosterGap(row2.length, thumbW), items: row2 },
+    ];
   }
 
   private get selected(): FighterDef {
@@ -297,7 +324,7 @@ export class SelectScene extends Phaser.Scene {
 
   private drawHeader(): void {
     this.add
-      .text(GAME_WIDTH / 2, 24, 'BATTLEBOTS', {
+      .text(GAME_WIDTH / 2, 18, 'BATTLEBOTS', {
         fontFamily: HUD_FONT,
         fontSize: '26px',
         fontStyle: '700',
@@ -309,7 +336,7 @@ export class SelectScene extends Phaser.Scene {
     this.add
       .text(
         GAME_WIDTH / 2,
-        52,
+        50,
         this.step === 'player' ? 'CHOOSE YOUR FIGHTER' : 'CHOOSE OPPONENT',
         {
           fontFamily: HUD_FONT,
@@ -326,7 +353,7 @@ export class SelectScene extends Phaser.Scene {
       this.add
         .text(
           GAME_WIDTH / 2,
-          72,
+          76,
           `YOU: ${playerF?.shortName ?? this.playerPickId.toUpperCase()}`,
           {
             fontFamily: HUD_FONT,
@@ -344,9 +371,9 @@ export class SelectScene extends Phaser.Scene {
     this.featureRoot?.destroy(true);
     const f = this.loadedSelected;
     const cardW = 400;
-    const cardH = 268;
+    const cardH = 292;
     const cx = GAME_WIDTH / 2;
-    const cy = GAME_HEIGHT / 2 - 28;
+    const cy = GAME_HEIGHT / 2 - 48;
 
     const root = this.add.container(0, 0).setDepth(DEPTH.hud);
     this.featureRoot = root;
@@ -374,16 +401,16 @@ export class SelectScene extends Phaser.Scene {
     halo.fillCircle(cx, cy - 40, 96);
     root.add(halo);
 
-    const portrait = this.add.image(cx, cy - 36, f.portraitKey).setOrigin(0.5);
-    const maxH = 150;
-    const maxW = 280;
+    const portrait = this.add.image(cx, cy - 44, f.portraitKey).setOrigin(0.5);
+    const maxH = 138;
+    const maxW = 260;
     const fit = Math.min(maxH / portrait.height, maxW / portrait.width, 1.15);
     portrait.setScale(fit);
     root.add(portrait);
 
     root.add(
       this.add
-        .text(cx, cy + 68, f.name, {
+        .text(cx, cy + 56, f.name, {
           fontFamily: HUD_FONT,
           fontSize: '20px',
           fontStyle: '700',
@@ -394,7 +421,7 @@ export class SelectScene extends Phaser.Scene {
 
     root.add(
       this.add
-        .text(cx, cy + 90, f.weaponLabel, {
+        .text(cx, cy + 82, f.weaponLabel, {
           fontFamily: HUD_FONT,
           fontSize: '10px',
           fontStyle: '700',
@@ -405,21 +432,22 @@ export class SelectScene extends Phaser.Scene {
 
     root.add(
       this.add
-        .text(cx, cy + 108, f.strategyNotes, {
+        .text(cx, cy + 104, f.strategyNotes, {
           fontFamily: HUD_FONT,
           fontSize: '9px',
           color: '#c8d0dc',
           align: 'center',
-          wordWrap: { width: cardW - 48 },
+          wordWrap: { width: cardW - 56 },
+          lineSpacing: 4,
         })
-        .setOrigin(0.5),
+        .setOrigin(0.5, 0),
     );
 
     const recordLine = f.record ? `RECORD ${f.record}` : '';
     const stratLine = `STRATEGY: ${f.strategy.replace(/_/g, ' ').toUpperCase()}`;
     root.add(
       this.add
-        .text(cx, cy + 124, [recordLine, stratLine].filter(Boolean).join('  ·  '), {
+        .text(cx, cy + 154, [recordLine, stratLine].filter(Boolean).join('  ·  '), {
           fontFamily: HUD_FONT,
           fontSize: '8px',
           fontStyle: '700',
@@ -428,7 +456,7 @@ export class SelectScene extends Phaser.Scene {
         .setOrigin(0.5),
     );
 
-    const statsY = cy + cardH / 2 - 18;
+    const statsY = cy + cardH / 2 - 22;
     [
       `DMG ${f.stats.attackDamage}`,
       `SPD ${f.stats.moveSpeed}`,
@@ -481,103 +509,108 @@ export class SelectScene extends Phaser.Scene {
 
   private drawRosterRow(): void {
     this.thumbBorders = [];
-    const y = GAME_HEIGHT - 112;
-    const items = [
-      ...this.selectable.map((f) => ({ kind: 'fighter' as const, fighter: f })),
-      ...LOCKED_SLOTS.map((s) => ({ kind: 'locked' as const, slot: s })),
-    ];
-    const gap = this.rosterGap(this.selectable.length);
-    const startX = GAME_WIDTH / 2 - ((items.length - 1) * gap) / 2;
+    const thumbW = 64;
+    const thumbH = 48;
+    const halfW = thumbW / 2;
+    const halfH = thumbH / 2;
 
-    items.forEach((item, i) => {
-      const x = startX + i * gap;
-      const border = this.add.graphics().setDepth(DEPTH.hud);
-      this.thumbBorders.push(border);
+    for (const row of this.rosterRows()) {
+      const startX = GAME_WIDTH / 2 - ((row.items.length - 1) * row.gap) / 2;
 
-      if (item.kind === 'fighter') {
-        const f = item.fighter;
-        border.fillStyle(0x0a0e16, 0.92);
-        border.fillRoundedRect(x - 40, y - 30, 80, 60, 6);
+      row.items.forEach((item, i) => {
+        const x = startX + i * row.gap;
+        const y = row.y;
+        const border = this.add.graphics().setDepth(DEPTH.hud);
+        this.thumbBorders.push(border);
 
-        const thumbHalo = this.add.graphics().setDepth(DEPTH.hud);
-        thumbHalo.fillStyle(f.accent, 0.22);
-        thumbHalo.fillCircle(x, y - 6, 26);
-        thumbHalo.fillStyle(f.accent, 0.1);
-        thumbHalo.fillCircle(x, y - 6, 34);
+        if (item.kind === 'fighter') {
+          const f = item.fighter;
+          border.fillStyle(0x0a0e16, 0.92);
+          border.fillRoundedRect(x - halfW, y - halfH, thumbW, thumbH, 6);
 
-        this.add
-          .image(x, y - 4, f.hudKey)
-          .setScale(1.35)
-          .setDepth(DEPTH.hud);
+          const thumbHalo = this.add.graphics().setDepth(DEPTH.hud);
+          thumbHalo.fillStyle(f.accent, 0.22);
+          thumbHalo.fillCircle(x, y - 4, 22);
+          thumbHalo.fillStyle(f.accent, 0.1);
+          thumbHalo.fillCircle(x, y - 4, 28);
 
-        this.add
-          .text(x, y + 20, f.shortName.slice(0, 9), {
-            fontFamily: HUD_FONT,
-            fontSize: '8px',
-            fontStyle: '700',
-            color: f.accentHex,
-          })
-          .setOrigin(0.5)
-          .setDepth(DEPTH.hud);
+          this.add
+            .image(x, y - 2, f.hudKey)
+            .setScale(1.15)
+            .setDepth(DEPTH.hud);
 
-        const hit = this.add
-          .rectangle(x, y, 80, 60, 0x000000, 0.001)
-          .setInteractive({ useHandCursor: true })
-          .setDepth(DEPTH.hud + 1);
-        hit.on('pointerdown', () => {
-          this.selectedIndex = this.selectable.findIndex((x) => x.id === f.id);
-          this.rebuildFeatured();
-        });
-      } else {
-        border.fillStyle(0x0a0e16, 0.9);
-        border.fillRoundedRect(x - 40, y - 30, 80, 60, 6);
-        border.lineStyle(1, item.slot.accent, 0.3);
-        border.strokeRoundedRect(x - 40, y - 30, 80, 60, 6);
+          this.add
+            .text(x, y + halfH + 6, f.shortName.slice(0, 9), {
+              fontFamily: HUD_FONT,
+              fontSize: '8px',
+              fontStyle: '700',
+              color: f.accentHex,
+            })
+            .setOrigin(0.5, 0)
+            .setDepth(DEPTH.hud);
 
-        this.add
-          .text(x, y - 6, '???', {
-            fontFamily: HUD_FONT,
-            fontSize: '14px',
-            fontStyle: '700',
-            color: '#4a5160',
-          })
-          .setOrigin(0.5)
-          .setDepth(DEPTH.hud);
+          const hit = this.add
+            .rectangle(x, y, thumbW, thumbH, 0x000000, 0.001)
+            .setInteractive({ useHandCursor: true })
+            .setDepth(DEPTH.hud + 1);
+          hit.on('pointerdown', () => {
+            this.selectedIndex = this.selectable.findIndex((x) => x.id === f.id);
+            this.rebuildFeatured();
+          });
+        } else {
+          border.fillStyle(0x0a0e16, 0.9);
+          border.fillRoundedRect(x - halfW, y - halfH, thumbW, thumbH, 6);
+          border.lineStyle(1, item.slot.accent, 0.3);
+          border.strokeRoundedRect(x - halfW, y - halfH, thumbW, thumbH, 6);
 
-        this.add
-          .text(x, y + 16, item.slot.label, {
-            fontFamily: HUD_FONT,
-            fontSize: '7px',
-            color: '#5a6274',
-          })
-          .setOrigin(0.5)
-          .setDepth(DEPTH.hud);
-      }
-    });
+          this.add
+            .text(x, y - 4, '???', {
+              fontFamily: HUD_FONT,
+              fontSize: '14px',
+              fontStyle: '700',
+              color: '#4a5160',
+            })
+            .setOrigin(0.5)
+            .setDepth(DEPTH.hud);
+
+          this.add
+            .text(x, y + 12, item.slot.label, {
+              fontFamily: HUD_FONT,
+              fontSize: '7px',
+              color: '#5a6274',
+            })
+            .setOrigin(0.5)
+            .setDepth(DEPTH.hud);
+        }
+      });
+    }
 
     this.refreshThumbBorders();
   }
 
   private refreshThumbBorders(): void {
-    const y = GAME_HEIGHT - 112;
-    const items = [
-      ...this.selectable.map((f) => ({ kind: 'fighter' as const, fighter: f })),
-      ...LOCKED_SLOTS.map((s) => ({ kind: 'locked' as const, slot: s })),
-    ];
-    const gap = this.rosterGap(this.selectable.length);
-    const startX = GAME_WIDTH / 2 - ((items.length - 1) * gap) / 2;
+    const thumbW = 64;
+    const thumbH = 48;
+    const halfW = thumbW / 2;
+    const halfH = thumbH / 2;
+    let borderIdx = 0;
 
-    this.thumbBorders.forEach((border, i) => {
-      const x = startX + i * gap;
-      const item = items[i];
-      if (!item || item.kind !== 'fighter') return;
-      border.clear();
-      border.fillStyle(0x0a0e16, 0.92);
-      border.fillRoundedRect(x - 40, y - 30, 80, 60, 6);
-      const selected = item.fighter.id === this.selected.id;
-      border.lineStyle(2, selected ? item.fighter.accent : 0x2a3040, selected ? 1 : 0.5);
-      border.strokeRoundedRect(x - 40, y - 30, 80, 60, 6);
-    });
+    for (const row of this.rosterRows()) {
+      const startX = GAME_WIDTH / 2 - ((row.items.length - 1) * row.gap) / 2;
+
+      row.items.forEach((item, i) => {
+        const x = startX + i * row.gap;
+        const y = row.y;
+        const border = this.thumbBorders[borderIdx++];
+        if (!border || item.kind !== 'fighter') return;
+        border.clear();
+        border.fillStyle(0x0a0e16, 0.92);
+        border.fillRoundedRect(x - halfW, y - halfH, thumbW, thumbH, 6);
+        const selected = item.fighter.id === this.selected.id;
+        border.lineStyle(2, selected ? item.fighter.accent : 0x2a3040, selected ? 1 : 0.5);
+        border.strokeRoundedRect(x - halfW, y - halfH, thumbW, thumbH, 6);
+      });
+    }
   }
 
   private drawFooter(): void {
@@ -597,15 +630,40 @@ export class SelectScene extends Phaser.Scene {
   }
 
   private setupInput(): void {
+    this.teardownInput();
     const keyboard = this.input.keyboard;
     if (!keyboard) return;
-    keyboard.on('keydown-ENTER', () => this.confirm());
-    keyboard.on('keydown-SPACE', () => this.confirm());
-    keyboard.on('keydown-LEFT', () => this.shift(-1));
-    keyboard.on('keydown-RIGHT', () => this.shift(1));
-    keyboard.on('keydown-A', () => this.shift(-1));
-    keyboard.on('keydown-D', () => this.shift(1));
-    keyboard.on('keydown-BACKSPACE', () => this.goBack());
+
+    const handlers = {
+      confirm: () => this.confirm(),
+      shiftLeft: () => this.shift(-1),
+      shiftRight: () => this.shift(1),
+      goBack: () => this.goBack(),
+    };
+    this.inputHandlers = handlers;
+
+    keyboard.on('keydown-ENTER', handlers.confirm);
+    keyboard.on('keydown-SPACE', handlers.confirm);
+    keyboard.on('keydown-LEFT', handlers.shiftLeft);
+    keyboard.on('keydown-RIGHT', handlers.shiftRight);
+    keyboard.on('keydown-A', handlers.shiftLeft);
+    keyboard.on('keydown-D', handlers.shiftRight);
+    keyboard.on('keydown-BACKSPACE', handlers.goBack);
+  }
+
+  private teardownInput(): void {
+    const keyboard = this.input.keyboard;
+    const handlers = this.inputHandlers;
+    if (!keyboard || !handlers) return;
+
+    keyboard.off('keydown-ENTER', handlers.confirm);
+    keyboard.off('keydown-SPACE', handlers.confirm);
+    keyboard.off('keydown-LEFT', handlers.shiftLeft);
+    keyboard.off('keydown-RIGHT', handlers.shiftRight);
+    keyboard.off('keydown-A', handlers.shiftLeft);
+    keyboard.off('keydown-D', handlers.shiftRight);
+    keyboard.off('keydown-BACKSPACE', handlers.goBack);
+    this.inputHandlers = undefined;
   }
 
   private shift(dir: number): void {

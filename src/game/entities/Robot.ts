@@ -5,7 +5,11 @@ import {
   DEPTH,
   GAME_HEIGHT,
   GAME_WIDTH,
+  GRIND_DAMAGE,
+  GRIND_DURATION_MS,
+  GRIND_TICK_MS,
   KNOCKBACK_DURATION_MS,
+  STUN_DURATION_MS,
 } from '../constants';
 import type { MovementIntent, RobotId, RobotState, RobotStats } from '../types/game';
 import type { WeaponClass } from '../data/botProfile';
@@ -45,6 +49,9 @@ export class Robot extends Phaser.Physics.Arcade.Image {
       isAttacking: false,
       isDisabled: false,
       lastAttackTime: -Infinity,
+      stunnedUntil: 0,
+      grindUntil: 0,
+      lastGrindTick: 0,
     };
 
     scene.add.existing(this);
@@ -80,7 +87,16 @@ export class Robot extends Phaser.Physics.Arcade.Image {
     this.robotState.canAttack =
       matchActive &&
       !this.robotState.isDisabled &&
+      !this.isStunned(now) &&
       now - this.robotState.lastAttackTime >= this.stats.attackCooldown;
+  }
+
+  isStunned(now: number): boolean {
+    return now < this.robotState.stunnedUntil;
+  }
+
+  isGrinding(now: number): boolean {
+    return now < this.robotState.grindUntil;
   }
 
   applyMovement(deltaMs: number, now: number): void {
@@ -90,15 +106,28 @@ export class Robot extends Phaser.Physics.Arcade.Image {
       return;
     }
 
+    this.tickGrindDamage(now);
+
     const dt = deltaMs / 1000;
-    const rotateIntent = clamp(this.intent.rotate, -1, 1);
-    if (rotateIntent !== 0) {
-      this.setAngle(
-        this.angle + rotateIntent * this.stats.rotationSpeed * dt,
-      );
+    const stunned = this.isStunned(now);
+
+    if (!stunned) {
+      const rotateIntent = clamp(this.intent.rotate, -1, 1);
+      if (rotateIntent !== 0) {
+        this.setAngle(
+          this.angle + rotateIntent * this.stats.rotationSpeed * dt,
+        );
+      }
     }
 
     if (now < this.knockbackUntil) {
+      this.syncWeaponMarker();
+      this.updateAttackVisual(now);
+      return;
+    }
+
+    if (stunned) {
+      this.setVelocity(0, 0);
       this.syncWeaponMarker();
       this.updateAttackVisual(now);
       return;
@@ -149,6 +178,30 @@ export class Robot extends Phaser.Physics.Arcade.Image {
     const rad = degToRad(fromFacingDeg);
     this.setVelocity(Math.cos(rad) * force, Math.sin(rad) * force);
     this.knockbackUntil = now + KNOCKBACK_DURATION_MS;
+  }
+
+  applyStun(now: number, durationMs = STUN_DURATION_MS): void {
+    this.robotState.stunnedUntil = Math.max(
+      this.robotState.stunnedUntil,
+      now + durationMs,
+    );
+    this.intent = { forward: 0, rotate: 0, attack: false };
+  }
+
+  applyGrind(now: number): void {
+    this.robotState.grindUntil = now + GRIND_DURATION_MS;
+    this.robotState.lastGrindTick = now;
+  }
+
+  private tickGrindDamage(now: number): void {
+    if (!this.isGrinding(now)) {
+      return;
+    }
+    if (now - this.robotState.lastGrindTick < GRIND_TICK_MS) {
+      return;
+    }
+    this.robotState.lastGrindTick = now;
+    this.takeDamage(GRIND_DAMAGE);
   }
 
   beginAttackVisual(now: number): void {
